@@ -16,6 +16,8 @@
 		20FF78E5281F4C54001D062E /* YomiageUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FF78E4281F4C54001D062E /* YomiageUITestsLaunchTests.swift */; };
 		20FF78F3281F4C63001D062E /* ArticlesPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FF78F2281F4C63001D062E /* ArticlesPage.swift */; };
 		20FF78F6281F4D40001D062E /* Article.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FF78F5281F4D40001D062E /* Article.swift */; };
+		20FF78FA281F4E8A001D062E /* GoogleService-Info-dev.plist in Resources */ = {isa = PBXBuildFile; fileRef = 20FF78F8281F4E8A001D062E /* GoogleService-Info-dev.plist */; };
+		20FF78FB281F4E8A001D062E /* GoogleService-Info-prod.plist in Resources */ = {isa = PBXBuildFile; fileRef = 20FF78F9281F4E8A001D062E /* GoogleService-Info-prod.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,6 +50,8 @@
 		20FF78E4281F4C54001D062E /* YomiageUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YomiageUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		20FF78F2281F4C63001D062E /* ArticlesPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticlesPage.swift; sourceTree = "<group>"; };
 		20FF78F5281F4D40001D062E /* Article.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Article.swift; sourceTree = "<group>"; };
+		20FF78F8281F4E8A001D062E /* GoogleService-Info-dev.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info-dev.plist"; sourceTree = "<group>"; };
+		20FF78F9281F4E8A001D062E /* GoogleService-Info-prod.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info-prod.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,6 +102,7 @@
 		20FF78C6281F4C53001D062E /* Yomiage */ = {
 			isa = PBXGroup;
 			children = (
+				20FF78F7281F4E8A001D062E /* Firebase */,
 				20FF78F4281F4D3C001D062E /* Entity */,
 				20FF78F1281F4C5E001D062E /* Articles */,
 				20FF78C7281F4C53001D062E /* YomiageApp.swift */,
@@ -147,6 +152,15 @@
 				20FF78F5281F4D40001D062E /* Article.swift */,
 			);
 			path = Entity;
+			sourceTree = "<group>";
+		};
+		20FF78F7281F4E8A001D062E /* Firebase */ = {
+			isa = PBXGroup;
+			children = (
+				20FF78F8281F4E8A001D062E /* GoogleService-Info-dev.plist */,
+				20FF78F9281F4E8A001D062E /* GoogleService-Info-prod.plist */,
+			);
+			path = Firebase;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -253,7 +267,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				20FF78FB281F4E8A001D062E /* GoogleService-Info-prod.plist in Resources */,
 				20FF78CF281F4C53001D062E /* Preview Assets.xcassets in Resources */,
+				20FF78FA281F4E8A001D062E /* GoogleService-Info-dev.plist in Resources */,
 				20FF78CC281F4C53001D062E /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
