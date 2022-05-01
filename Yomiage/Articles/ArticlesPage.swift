@@ -20,7 +20,7 @@ struct ArticlesPage: View {
 struct ArticlesRow: View {
     var body: some View {
         HStack {
-            AsyncImage(url: <#T##URL?#>)
+            
             VStack {
 
             }

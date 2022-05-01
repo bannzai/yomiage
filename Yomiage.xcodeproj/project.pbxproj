@@ -15,6 +15,7 @@
 		20FF78E3281F4C54001D062E /* YomiageUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FF78E2281F4C54001D062E /* YomiageUITests.swift */; };
 		20FF78E5281F4C54001D062E /* YomiageUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FF78E4281F4C54001D062E /* YomiageUITestsLaunchTests.swift */; };
 		20FF78F3281F4C63001D062E /* ArticlesPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FF78F2281F4C63001D062E /* ArticlesPage.swift */; };
+		20FF78F6281F4D40001D062E /* Article.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FF78F5281F4D40001D062E /* Article.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -46,6 +47,7 @@
 		20FF78E2281F4C54001D062E /* YomiageUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YomiageUITests.swift; sourceTree = "<group>"; };
 		20FF78E4281F4C54001D062E /* YomiageUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YomiageUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		20FF78F2281F4C63001D062E /* ArticlesPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticlesPage.swift; sourceTree = "<group>"; };
+		20FF78F5281F4D40001D062E /* Article.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Article.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -96,6 +98,7 @@
 		20FF78C6281F4C53001D062E /* Yomiage */ = {
 			isa = PBXGroup;
 			children = (
+				20FF78F4281F4D3C001D062E /* Entity */,
 				20FF78F1281F4C5E001D062E /* Articles */,
 				20FF78C7281F4C53001D062E /* YomiageApp.swift */,
 				20FF78C9281F4C53001D062E /* ContentView.swift */,
@@ -136,6 +139,14 @@
 				20FF78F2281F4C63001D062E /* ArticlesPage.swift */,
 			);
 			path = Articles;
+			sourceTree = "<group>";
+		};
+		20FF78F4281F4D3C001D062E /* Entity */ = {
+			isa = PBXGroup;
+			children = (
+				20FF78F5281F4D40001D062E /* Article.swift */,
+			);
+			path = Entity;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -268,6 +279,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				20FF78F6281F4D40001D062E /* Article.swift in Sources */,
 				20FF78CA281F4C53001D062E /* ContentView.swift in Sources */,
 				20FF78F3281F4C63001D062E /* ArticlesPage.swift in Sources */,
 				20FF78C8281F4C53001D062E /* YomiageApp.swift in Sources */,
