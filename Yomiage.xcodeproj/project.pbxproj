@@ -1,0 +1,600 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 55;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		20FF78C8281F4C53001D062E /* YomiageApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FF78C7281F4C53001D062E /* YomiageApp.swift */; };
+		20FF78CA281F4C53001D062E /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FF78C9281F4C53001D062E /* ContentView.swift */; };
+		20FF78CC281F4C53001D062E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 20FF78CB281F4C53001D062E /* Assets.xcassets */; };
+		20FF78CF281F4C53001D062E /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 20FF78CE281F4C53001D062E /* Preview Assets.xcassets */; };
+		20FF78D9281F4C54001D062E /* YomiageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FF78D8281F4C54001D062E /* YomiageTests.swift */; };
+		20FF78E3281F4C54001D062E /* YomiageUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FF78E2281F4C54001D062E /* YomiageUITests.swift */; };
+		20FF78E5281F4C54001D062E /* YomiageUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FF78E4281F4C54001D062E /* YomiageUITestsLaunchTests.swift */; };
+		20FF78F3281F4C63001D062E /* ArticlesPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FF78F2281F4C63001D062E /* ArticlesPage.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		20FF78D5281F4C54001D062E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 20FF78BC281F4C53001D062E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 20FF78C3281F4C53001D062E;
+			remoteInfo = Yomiage;
+		};
+		20FF78DF281F4C54001D062E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 20FF78BC281F4C53001D062E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 20FF78C3281F4C53001D062E;
+			remoteInfo = Yomiage;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		20FF78C4281F4C53001D062E /* Yomiage.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Yomiage.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		20FF78C7281F4C53001D062E /* YomiageApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YomiageApp.swift; sourceTree = "<group>"; };
+		20FF78C9281F4C53001D062E /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		20FF78CB281F4C53001D062E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		20FF78CE281F4C53001D062E /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		20FF78D4281F4C54001D062E /* YomiageTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = YomiageTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		20FF78D8281F4C54001D062E /* YomiageTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YomiageTests.swift; sourceTree = "<group>"; };
+		20FF78DE281F4C54001D062E /* YomiageUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = YomiageUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		20FF78E2281F4C54001D062E /* YomiageUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YomiageUITests.swift; sourceTree = "<group>"; };
+		20FF78E4281F4C54001D062E /* YomiageUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YomiageUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		20FF78F2281F4C63001D062E /* ArticlesPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticlesPage.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		20FF78C1281F4C53001D062E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		20FF78D1281F4C54001D062E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		20FF78DB281F4C54001D062E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		20FF78BB281F4C53001D062E = {
+			isa = PBXGroup;
+			children = (
+				20FF78C6281F4C53001D062E /* Yomiage */,
+				20FF78D7281F4C54001D062E /* YomiageTests */,
+				20FF78E1281F4C54001D062E /* YomiageUITests */,
+				20FF78C5281F4C53001D062E /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		20FF78C5281F4C53001D062E /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				20FF78C4281F4C53001D062E /* Yomiage.app */,
+				20FF78D4281F4C54001D062E /* YomiageTests.xctest */,
+				20FF78DE281F4C54001D062E /* YomiageUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		20FF78C6281F4C53001D062E /* Yomiage */ = {
+			isa = PBXGroup;
+			children = (
+				20FF78F1281F4C5E001D062E /* Articles */,
+				20FF78C7281F4C53001D062E /* YomiageApp.swift */,
+				20FF78C9281F4C53001D062E /* ContentView.swift */,
+				20FF78CB281F4C53001D062E /* Assets.xcassets */,
+				20FF78CD281F4C53001D062E /* Preview Content */,
+			);
+			path = Yomiage;
+			sourceTree = "<group>";
+		};
+		20FF78CD281F4C53001D062E /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				20FF78CE281F4C53001D062E /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		20FF78D7281F4C54001D062E /* YomiageTests */ = {
+			isa = PBXGroup;
+			children = (
+				20FF78D8281F4C54001D062E /* YomiageTests.swift */,
+			);
+			path = YomiageTests;
+			sourceTree = "<group>";
+		};
+		20FF78E1281F4C54001D062E /* YomiageUITests */ = {
+			isa = PBXGroup;
+			children = (
+				20FF78E2281F4C54001D062E /* YomiageUITests.swift */,
+				20FF78E4281F4C54001D062E /* YomiageUITestsLaunchTests.swift */,
+			);
+			path = YomiageUITests;
+			sourceTree = "<group>";
+		};
+		20FF78F1281F4C5E001D062E /* Articles */ = {
+			isa = PBXGroup;
+			children = (
+				20FF78F2281F4C63001D062E /* ArticlesPage.swift */,
+			);
+			path = Articles;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		20FF78C3281F4C53001D062E /* Yomiage */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 20FF78E8281F4C54001D062E /* Build configuration list for PBXNativeTarget "Yomiage" */;
+			buildPhases = (
+				20FF78C0281F4C53001D062E /* Sources */,
+				20FF78C1281F4C53001D062E /* Frameworks */,
+				20FF78C2281F4C53001D062E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Yomiage;
+			productName = Yomiage;
+			productReference = 20FF78C4281F4C53001D062E /* Yomiage.app */;
+			productType = "com.apple.product-type.application";
+		};
+		20FF78D3281F4C54001D062E /* YomiageTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 20FF78EB281F4C54001D062E /* Build configuration list for PBXNativeTarget "YomiageTests" */;
+			buildPhases = (
+				20FF78D0281F4C54001D062E /* Sources */,
+				20FF78D1281F4C54001D062E /* Frameworks */,
+				20FF78D2281F4C54001D062E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				20FF78D6281F4C54001D062E /* PBXTargetDependency */,
+			);
+			name = YomiageTests;
+			productName = YomiageTests;
+			productReference = 20FF78D4281F4C54001D062E /* YomiageTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		20FF78DD281F4C54001D062E /* YomiageUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 20FF78EE281F4C54001D062E /* Build configuration list for PBXNativeTarget "YomiageUITests" */;
+			buildPhases = (
+				20FF78DA281F4C54001D062E /* Sources */,
+				20FF78DB281F4C54001D062E /* Frameworks */,
+				20FF78DC281F4C54001D062E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				20FF78E0281F4C54001D062E /* PBXTargetDependency */,
+			);
+			name = YomiageUITests;
+			productName = YomiageUITests;
+			productReference = 20FF78DE281F4C54001D062E /* YomiageUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		20FF78BC281F4C53001D062E /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1330;
+				LastUpgradeCheck = 1330;
+				TargetAttributes = {
+					20FF78C3281F4C53001D062E = {
+						CreatedOnToolsVersion = 13.3;
+					};
+					20FF78D3281F4C54001D062E = {
+						CreatedOnToolsVersion = 13.3;
+						TestTargetID = 20FF78C3281F4C53001D062E;
+					};
+					20FF78DD281F4C54001D062E = {
+						CreatedOnToolsVersion = 13.3;
+						TestTargetID = 20FF78C3281F4C53001D062E;
+					};
+				};
+			};
+			buildConfigurationList = 20FF78BF281F4C53001D062E /* Build configuration list for PBXProject "Yomiage" */;
+			compatibilityVersion = "Xcode 13.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 20FF78BB281F4C53001D062E;
+			productRefGroup = 20FF78C5281F4C53001D062E /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				20FF78C3281F4C53001D062E /* Yomiage */,
+				20FF78D3281F4C54001D062E /* YomiageTests */,
+				20FF78DD281F4C54001D062E /* YomiageUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		20FF78C2281F4C53001D062E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				20FF78CF281F4C53001D062E /* Preview Assets.xcassets in Resources */,
+				20FF78CC281F4C53001D062E /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		20FF78D2281F4C54001D062E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		20FF78DC281F4C54001D062E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		20FF78C0281F4C53001D062E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				20FF78CA281F4C53001D062E /* ContentView.swift in Sources */,
+				20FF78F3281F4C63001D062E /* ArticlesPage.swift in Sources */,
+				20FF78C8281F4C53001D062E /* YomiageApp.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		20FF78D0281F4C54001D062E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				20FF78D9281F4C54001D062E /* YomiageTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		20FF78DA281F4C54001D062E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				20FF78E5281F4C54001D062E /* YomiageUITestsLaunchTests.swift in Sources */,
+				20FF78E3281F4C54001D062E /* YomiageUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		20FF78D6281F4C54001D062E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 20FF78C3281F4C53001D062E /* Yomiage */;
+			targetProxy = 20FF78D5281F4C54001D062E /* PBXContainerItemProxy */;
+		};
+		20FF78E0281F4C54001D062E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 20FF78C3281F4C53001D062E /* Yomiage */;
+			targetProxy = 20FF78DF281F4C54001D062E /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		20FF78E6281F4C54001D062E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		20FF78E7281F4C54001D062E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		20FF78E9281F4C54001D062E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"Yomiage/Preview Content\"";
+				DEVELOPMENT_TEAM = TQPN82UBBY;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bannzai.yomiage.Yomiage;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		20FF78EA281F4C54001D062E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"Yomiage/Preview Content\"";
+				DEVELOPMENT_TEAM = TQPN82UBBY;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bannzai.yomiage.Yomiage;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		20FF78EC281F4C54001D062E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = TQPN82UBBY;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bannzai.yomiage.YomiageTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Yomiage.app/Yomiage";
+			};
+			name = Debug;
+		};
+		20FF78ED281F4C54001D062E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = TQPN82UBBY;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bannzai.yomiage.YomiageTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Yomiage.app/Yomiage";
+			};
+			name = Release;
+		};
+		20FF78EF281F4C54001D062E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = TQPN82UBBY;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bannzai.yomiage.YomiageUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = Yomiage;
+			};
+			name = Debug;
+		};
+		20FF78F0281F4C54001D062E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = TQPN82UBBY;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bannzai.yomiage.YomiageUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = Yomiage;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		20FF78BF281F4C53001D062E /* Build configuration list for PBXProject "Yomiage" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				20FF78E6281F4C54001D062E /* Debug */,
+				20FF78E7281F4C54001D062E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		20FF78E8281F4C54001D062E /* Build configuration list for PBXNativeTarget "Yomiage" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				20FF78E9281F4C54001D062E /* Debug */,
+				20FF78EA281F4C54001D062E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		20FF78EB281F4C54001D062E /* Build configuration list for PBXNativeTarget "YomiageTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				20FF78EC281F4C54001D062E /* Debug */,
+				20FF78ED281F4C54001D062E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		20FF78EE281F4C54001D062E /* Build configuration list for PBXNativeTarget "YomiageUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				20FF78EF281F4C54001D062E /* Debug */,
+				20FF78F0281F4C54001D062E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 20FF78BC281F4C53001D062E /* Project object */;
+}
