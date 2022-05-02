@@ -3,7 +3,6 @@ import SwiftUI
 struct Sheet<Content>: UIViewRepresentable where Content: View {
   @Binding var isPresented: Bool
 
-  var onDismiss: (() -> Void)? = nil
   let detents: [UISheetPresentationController.Detent]
   @ViewBuilder let content: Content
 
@@ -12,12 +11,7 @@ struct Sheet<Content>: UIViewRepresentable where Content: View {
   }
 
   func updateUIView(_ uiView: UIView, context: Context) {
-    let hostingController = HostingController(rootView: content)
-    hostingController.onDisappear = {
-      isPresented = false
-      onDismiss?()
-    }
-
+    let hostingController = UIHostingController(rootView: content)
     if let sheetController = hostingController.sheetPresentationController {
       sheetController.detents = detents
       sheetController.prefersGrabberVisible = true
@@ -35,32 +29,8 @@ struct Sheet<Content>: UIViewRepresentable where Content: View {
   }
 
   func makeCoordinator() -> Coordinator {
-    Coordinator(isPresented: $isPresented, onDismiss: onDismiss)
+    Coordinator()
   }
 
-  class Coordinator: NSObject, UISheetPresentationControllerDelegate {
-    @Binding var isPresented: Bool
-    let onDismiss: (() -> Void)?
-
-    init(isPresented: Binding<Bool>, onDismiss: (() -> Void)? = nil) {
-      self._isPresented = isPresented
-      self.onDismiss = onDismiss
-    }
-
-    func presentationControllerDidDismiss(_ presentationController: UIPresentationController) {
-      isPresented = false
-      onDismiss?()
-    }
-  }
-}
-
-
-// Workaround Handle @Environment(\.dismiss)
-private class HostingController<Content: View>: UIHostingController<Content> {
-  var onDisappear: (() -> Void)!
-
-  override func viewWillDisappear(_ animated: Bool) {
-    super.viewWillDisappear(animated)
-    onDisappear()
-  }
+  class Coordinator: NSObject, UISheetPresentationControllerDelegate { }
 }
