@@ -25,9 +25,12 @@
 		20FF7907281F70A5001D062E /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = 20FF7906281F70A5001D062E /* FirebaseCrashlytics */; };
 		20FF7909281F70A5001D062E /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 20FF7908281F70A5001D062E /* FirebaseFirestore */; };
 		20FF790C281F7472001D062E /* FirebaseFirestoreSwift-Beta in Frameworks */ = {isa = PBXBuildFile; productRef = 20FF790B281F7472001D062E /* FirebaseFirestoreSwift-Beta */; };
-		20FF7910281F75FD001D062E /* ArticlesState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FF790F281F75FD001D062E /* ArticlesState.swift */; };
 		20FF7913281F7686001D062E /* UserDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FF7912281F7686001D062E /* UserDatabase.swift */; };
 		20FF7919281F77CF001D062E /* ArticleDatastore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FF7918281F77CF001D062E /* ArticleDatastore.swift */; };
+		20FF791C281F868A001D062E /* StreamView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FF791B281F868A001D062E /* StreamView.swift */; };
+		20FF791E281F878A001D062E /* UniversalErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FF791D281F878A001D062E /* UniversalErrorView.swift */; };
+		20FF7920281F8847001D062E /* Button.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FF791F281F8847001D062E /* Button.swift */; };
+		20FF7923281F8950001D062E /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FF7922281F8950001D062E /* Color.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -63,9 +66,12 @@
 		20FF78F8281F4E8A001D062E /* GoogleService-Info-dev.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info-dev.plist"; sourceTree = "<group>"; };
 		20FF78F9281F4E8A001D062E /* GoogleService-Info-prod.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info-prod.plist"; sourceTree = "<group>"; };
 		20FF78FC281F4F0B001D062E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		20FF790F281F75FD001D062E /* ArticlesState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticlesState.swift; sourceTree = "<group>"; };
 		20FF7912281F7686001D062E /* UserDatabase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDatabase.swift; sourceTree = "<group>"; };
 		20FF7918281F77CF001D062E /* ArticleDatastore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleDatastore.swift; sourceTree = "<group>"; };
+		20FF791B281F868A001D062E /* StreamView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreamView.swift; sourceTree = "<group>"; };
+		20FF791D281F878A001D062E /* UniversalErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UniversalErrorView.swift; sourceTree = "<group>"; };
+		20FF791F281F8847001D062E /* Button.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Button.swift; sourceTree = "<group>"; };
+		20FF7922281F8950001D062E /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -123,6 +129,8 @@
 		20FF78C6281F4C53001D062E /* Yomiage */ = {
 			isa = PBXGroup;
 			children = (
+				20FF7921281F8948001D062E /* Style */,
+				20FF791A281F8682001D062E /* Component */,
 				20FF7914281F77B7001D062E /* Datastore */,
 				20FF78F7281F4E8A001D062E /* Firebase */,
 				20FF78F4281F4D3C001D062E /* Entity */,
@@ -165,7 +173,6 @@
 			isa = PBXGroup;
 			children = (
 				20FF78F2281F4C63001D062E /* ArticlesPage.swift */,
-				20FF790F281F75FD001D062E /* ArticlesState.swift */,
 			);
 			path = Articles;
 			sourceTree = "<group>";
@@ -201,6 +208,24 @@
 				20FF7918281F77CF001D062E /* ArticleDatastore.swift */,
 			);
 			path = Datastore;
+			sourceTree = "<group>";
+		};
+		20FF791A281F8682001D062E /* Component */ = {
+			isa = PBXGroup;
+			children = (
+				20FF791B281F868A001D062E /* StreamView.swift */,
+				20FF791D281F878A001D062E /* UniversalErrorView.swift */,
+			);
+			path = Component;
+			sourceTree = "<group>";
+		};
+		20FF7921281F8948001D062E /* Style */ = {
+			isa = PBXGroup;
+			children = (
+				20FF791F281F8847001D062E /* Button.swift */,
+				20FF7922281F8950001D062E /* Color.swift */,
+			);
+			path = Style;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -348,11 +373,14 @@
 			files = (
 				20FF78F6281F4D40001D062E /* Article.swift in Sources */,
 				20FF78CA281F4C53001D062E /* ContentView.swift in Sources */,
-				20FF7910281F75FD001D062E /* ArticlesState.swift in Sources */,
+				20FF7923281F8950001D062E /* Color.swift in Sources */,
+				20FF791C281F868A001D062E /* StreamView.swift in Sources */,
 				20FF78F3281F4C63001D062E /* ArticlesPage.swift in Sources */,
 				20FF7919281F77CF001D062E /* ArticleDatastore.swift in Sources */,
+				20FF7920281F8847001D062E /* Button.swift in Sources */,
 				20FF78FD281F4F0B001D062E /* AppDelegate.swift in Sources */,
 				20FF7913281F7686001D062E /* UserDatabase.swift in Sources */,
+				20FF791E281F878A001D062E /* UniversalErrorView.swift in Sources */,
 				20FF78C8281F4C53001D062E /* YomiageApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
