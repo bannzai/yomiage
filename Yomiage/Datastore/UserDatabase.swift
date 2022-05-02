@@ -6,7 +6,7 @@ import FirebaseAuth
 
 private let firestore = Firestore.firestore()
 
-class UserDatabase {
+final class UserDatabase {
     private var userID: String!
     private init() { }
     static let shared = UserDatabase()
