@@ -1,14 +1,9 @@
-//
-//  YomiageApp.swift
-//  Yomiage
-//
-//  Created by 廣瀬雄大 on 2022/05/02.
-//
-
 import SwiftUI
 
 @main
 struct YomiageApp: App {
+    @UIApplicationDelegateAdaptor(AppDelegate.self) private var delegate
+
     var body: some Scene {
         WindowGroup {
             ContentView()
