@@ -5,6 +5,10 @@ struct ArticleDatastore {
     func articlesStream() -> AsyncThrowingStream<[Article], Error> {
         UserDatabase.shared.articlesReference().stream()
     }
+
+    func create(article: Article) async throws {
+        try await UserDatabase.shared.articlesReference().create(entity: article)
+    }
 }
 
 struct ArticleDatastoreEnvironmentKey: EnvironmentKey {
