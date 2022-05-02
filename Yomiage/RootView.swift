@@ -9,24 +9,29 @@ struct RootView: View {
     var body: some View {
         NavigationView {
             if let signInError = signInError {
-                UniversalErrorView(error: signInError, reload: signIn)
+                UniversalErrorView(error: signInError, reload: logIn)
             } else {
                 switch screenStateNotifier.state {
                 case .waiting:
                     ProgressView()
-                        .onAppear(perform: signIn)
+                        .onAppear(perform: logIn)
                 case .main:
                     ArticlesPage()
                 }
             }
         }
         .onAppear(perform: screenStateNotifier.launch)
+        .onReceive(screenStateNotifier.$state) { state in
+            if case let .main(user) = state {
+                UserDatabase.shared.setUserID(user.uid)
+            }
+        }
     }
 
-    private func signIn() {
+    private func logIn() {
         Task { @MainActor in
             do {
-                _ = try await auth.signIn()
+                _ = try await auth.signInOrCachedUser()
             } catch {
                 signInError = error
             }
