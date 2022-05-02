@@ -31,6 +31,7 @@
 		20FF791E281F878A001D062E /* UniversalErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FF791D281F878A001D062E /* UniversalErrorView.swift */; };
 		20FF7920281F8847001D062E /* Button.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FF791F281F8847001D062E /* Button.swift */; };
 		20FF7923281F8950001D062E /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FF7922281F8950001D062E /* Color.swift */; };
+		20FF7929281FAB02001D062E /* Sheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FF7928281FAB02001D062E /* Sheet.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -72,6 +73,7 @@
 		20FF791D281F878A001D062E /* UniversalErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UniversalErrorView.swift; sourceTree = "<group>"; };
 		20FF791F281F8847001D062E /* Button.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Button.swift; sourceTree = "<group>"; };
 		20FF7922281F8950001D062E /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
+		20FF7928281FAB02001D062E /* Sheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sheet.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -215,6 +217,7 @@
 			children = (
 				20FF791B281F868A001D062E /* StreamView.swift */,
 				20FF791D281F878A001D062E /* UniversalErrorView.swift */,
+				20FF7928281FAB02001D062E /* Sheet.swift */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -374,6 +377,7 @@
 				20FF78F6281F4D40001D062E /* Article.swift in Sources */,
 				20FF78CA281F4C53001D062E /* ContentView.swift in Sources */,
 				20FF7923281F8950001D062E /* Color.swift in Sources */,
+				20FF7929281FAB02001D062E /* Sheet.swift in Sources */,
 				20FF791C281F868A001D062E /* StreamView.swift in Sources */,
 				20FF78F3281F4C63001D062E /* ArticlesPage.swift in Sources */,
 				20FF7919281F77CF001D062E /* ArticleDatastore.swift in Sources */,
