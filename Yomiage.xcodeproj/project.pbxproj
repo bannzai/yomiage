@@ -37,6 +37,7 @@
 		20FF7932281FB4CB001D062E /* AddArticleHTMLLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FF7931281FB4CB001D062E /* AddArticleHTMLLoader.swift */; };
 		20FF7934281FB7EC001D062E /* Screen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FF7933281FB7EC001D062E /* Screen.swift */; };
 		20FF7938281FB869001D062E /* Auth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FF7937281FB869001D062E /* Auth.swift */; };
+		20FF793F281FC321001D062E /* Kanna in Frameworks */ = {isa = PBXBuildFile; productRef = 20FF793E281FC321001D062E /* Kanna */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -95,6 +96,7 @@
 				20FF7907281F70A5001D062E /* FirebaseCrashlytics in Frameworks */,
 				20FF7905281F70A5001D062E /* FirebaseAuth in Frameworks */,
 				20FF790C281F7472001D062E /* FirebaseFirestoreSwift-Beta in Frameworks */,
+				20FF793F281FC321001D062E /* Kanna in Frameworks */,
 				20FF7909281F70A5001D062E /* FirebaseFirestore in Frameworks */,
 				20FF7901281F70A5001D062E /* FirebaseAnalytics in Frameworks */,
 			);
@@ -309,6 +311,7 @@
 				20FF7906281F70A5001D062E /* FirebaseCrashlytics */,
 				20FF7908281F70A5001D062E /* FirebaseFirestore */,
 				20FF790B281F7472001D062E /* FirebaseFirestoreSwift-Beta */,
+				20FF793E281FC321001D062E /* Kanna */,
 			);
 			productName = Yomiage;
 			productReference = 20FF78C4281F4C53001D062E /* Yomiage.app */;
@@ -384,6 +387,7 @@
 			mainGroup = 20FF78BB281F4C53001D062E;
 			packageReferences = (
 				20FF78FF281F70A5001D062E /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				20FF793D281FC321001D062E /* XCRemoteSwiftPackageReference "Kanna" */,
 			);
 			productRefGroup = 20FF78C5281F4C53001D062E /* Products */;
 			projectDirPath = "";
@@ -780,6 +784,14 @@
 				minimumVersion = 8.15.0;
 			};
 		};
+		20FF793D281FC321001D062E /* XCRemoteSwiftPackageReference "Kanna" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/tid-kijyun/Kanna";
+			requirement = {
+				kind = upToNextMinorVersion;
+				minimumVersion = 5.2.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -812,6 +824,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 20FF78FF281F70A5001D062E /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = "FirebaseFirestoreSwift-Beta";
+		};
+		20FF793E281FC321001D062E /* Kanna */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 20FF793D281FC321001D062E /* XCRemoteSwiftPackageReference "Kanna" */;
+			productName = Kanna;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
