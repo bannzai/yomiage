@@ -38,6 +38,7 @@
 		20FF7934281FB7EC001D062E /* Screen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FF7933281FB7EC001D062E /* Screen.swift */; };
 		20FF7938281FB869001D062E /* Auth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FF7937281FB869001D062E /* Auth.swift */; };
 		20FF793F281FC321001D062E /* Kanna in Frameworks */ = {isa = PBXBuildFile; productRef = 20FF793E281FC321001D062E /* Kanna */; };
+		20FF7941281FC369001D062E /* LoadHTMLWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FF7940281FC369001D062E /* LoadHTMLWebView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -85,6 +86,7 @@
 		20FF7931281FB4CB001D062E /* AddArticleHTMLLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddArticleHTMLLoader.swift; sourceTree = "<group>"; };
 		20FF7933281FB7EC001D062E /* Screen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Screen.swift; sourceTree = "<group>"; };
 		20FF7937281FB869001D062E /* Auth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Auth.swift; sourceTree = "<group>"; };
+		20FF7940281FC369001D062E /* LoadHTMLWebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadHTMLWebView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -233,6 +235,7 @@
 				20FF791B281F868A001D062E /* StreamView.swift */,
 				20FF791D281F878A001D062E /* UniversalErrorView.swift */,
 				20FF7928281FAB02001D062E /* Sheet.swift */,
+				20FF7940281FC369001D062E /* LoadHTMLWebView.swift */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -447,6 +450,7 @@
 				20FF78FD281F4F0B001D062E /* AppDelegate.swift in Sources */,
 				20FF7913281F7686001D062E /* UserDatabase.swift in Sources */,
 				20FF7932281FB4CB001D062E /* AddArticleHTMLLoader.swift in Sources */,
+				20FF7941281FC369001D062E /* LoadHTMLWebView.swift in Sources */,
 				20FF791E281F878A001D062E /* UniversalErrorView.swift in Sources */,
 				20FF78C8281F4C53001D062E /* YomiageApp.swift in Sources */,
 				20FF792C281FAD25001D062E /* SheetPresentation.swift in Sources */,
