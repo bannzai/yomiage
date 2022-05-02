@@ -82,11 +82,11 @@ struct NoteArticle: View {
               ProgressView()
             }
           } else {
-            Rectangle()
-              .background(Color.gray)
+            Image(systemName: "photo")
           }
         }
         .frame(width: 60, height: 60)
+        .background(Color(.systemGray5))
         .cornerRadius(8)
 
         VStack(alignment: .leading, spacing: 10) {
