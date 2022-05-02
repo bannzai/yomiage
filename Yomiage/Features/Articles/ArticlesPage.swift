@@ -77,6 +77,7 @@ struct NoteArticle: View {
             AsyncImage(url: url) { image in
               image
                 .resizable()
+                .scaledToFill()
             } placeholder: {
               ProgressView()
             }
