@@ -13,7 +13,12 @@ struct Sheet<Content>: UIViewRepresentable where Content: View {
 
   func updateUIView(_ uiView: UIView, context: Context) {
     let viewControllerToPresent = UIViewController()
-    let hostingController = UIHostingController(rootView: content)
+    let hostingController = HostingController(rootView: content)
+
+    hostingController.onDisappear = {
+      isPresented = false
+      onDismiss?()
+    }
 
     viewControllerToPresent.addChild(hostingController)
     viewControllerToPresent.view.addSubview(hostingController.view)
@@ -58,12 +63,18 @@ struct Sheet<Content>: UIViewRepresentable where Content: View {
 
     func presentationControllerDidDismiss(_ presentationController: UIPresentationController) {
       isPresented = false
-
-      if let onDismiss = onDismiss {
-        onDismiss()
-      }
+      onDismiss?()
     }
   }
 }
 
 
+// Workaround Handle @Environment(\.dismiss)
+private class HostingController<Content: View>: UIHostingController<Content> {
+  var onDisappear: (() -> Void)!
+
+  override func viewWillDisappear(_ animated: Bool) {
+    super.viewWillDisappear(animated)
+    onDisappear()
+  }
+}
