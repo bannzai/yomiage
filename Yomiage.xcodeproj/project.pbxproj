@@ -39,6 +39,9 @@
 		20FF7938281FB869001D062E /* Auth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FF7937281FB869001D062E /* Auth.swift */; };
 		20FF793F281FC321001D062E /* Kanna in Frameworks */ = {isa = PBXBuildFile; productRef = 20FF793E281FC321001D062E /* Kanna */; };
 		20FF7941281FC369001D062E /* LoadHTMLWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FF7940281FC369001D062E /* LoadHTMLWebView.swift */; };
+		20FF7944281FF967001D062E /* String+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FF7943281FF967001D062E /* String+.swift */; };
+		20FF7946281FFCE1001D062E /* HUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FF7945281FFCE1001D062E /* HUD.swift */; };
+		20FF7948281FFF15001D062E /* ErrorAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FF7947281FFF15001D062E /* ErrorAlert.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -87,6 +90,9 @@
 		20FF7933281FB7EC001D062E /* Screen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Screen.swift; sourceTree = "<group>"; };
 		20FF7937281FB869001D062E /* Auth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Auth.swift; sourceTree = "<group>"; };
 		20FF7940281FC369001D062E /* LoadHTMLWebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadHTMLWebView.swift; sourceTree = "<group>"; };
+		20FF7943281FF967001D062E /* String+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+.swift"; sourceTree = "<group>"; };
+		20FF7945281FFCE1001D062E /* HUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HUD.swift; sourceTree = "<group>"; };
+		20FF7947281FFF15001D062E /* ErrorAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorAlert.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -130,7 +136,9 @@
 				20FF78C5281F4C53001D062E /* Products */,
 				20FF790A281F7472001D062E /* Frameworks */,
 			);
+			indentWidth = 2;
 			sourceTree = "<group>";
+			tabWidth = 2;
 		};
 		20FF78C5281F4C53001D062E /* Products */ = {
 			isa = PBXGroup;
@@ -145,6 +153,7 @@
 		20FF78C6281F4C53001D062E /* Yomiage */ = {
 			isa = PBXGroup;
 			children = (
+				20FF7942281FF95F001D062E /* StdLib */,
 				20FF7935281FB84F001D062E /* Services */,
 				20FF792D281FAF1B001D062E /* Features */,
 				20FF792A281FAD15001D062E /* Modifier */,
@@ -236,6 +245,7 @@
 				20FF791D281F878A001D062E /* UniversalErrorView.swift */,
 				20FF7928281FAB02001D062E /* Sheet.swift */,
 				20FF7940281FC369001D062E /* LoadHTMLWebView.swift */,
+				20FF7945281FFCE1001D062E /* HUD.swift */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -253,6 +263,7 @@
 			isa = PBXGroup;
 			children = (
 				20FF792B281FAD25001D062E /* SheetPresentation.swift */,
+				20FF7947281FFF15001D062E /* ErrorAlert.swift */,
 			);
 			path = Modifier;
 			sourceTree = "<group>";
@@ -289,6 +300,14 @@
 				20FF7937281FB869001D062E /* Auth.swift */,
 			);
 			path = Auth;
+			sourceTree = "<group>";
+		};
+		20FF7942281FF95F001D062E /* StdLib */ = {
+			isa = PBXGroup;
+			children = (
+				20FF7943281FF967001D062E /* String+.swift */,
+			);
+			path = StdLib;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -437,16 +456,19 @@
 			buildActionMask = 2147483647;
 			files = (
 				20FF78F6281F4D40001D062E /* Article.swift in Sources */,
+				20FF7946281FFCE1001D062E /* HUD.swift in Sources */,
 				20FF78CA281F4C53001D062E /* RootView.swift in Sources */,
 				20FF7923281F8950001D062E /* Color.swift in Sources */,
 				20FF7930281FAF2F001D062E /* AddArticleSheet.swift in Sources */,
 				20FF7929281FAB02001D062E /* Sheet.swift in Sources */,
+				20FF7944281FF967001D062E /* String+.swift in Sources */,
 				20FF791C281F868A001D062E /* StreamView.swift in Sources */,
 				20FF78F3281F4C63001D062E /* ArticlesPage.swift in Sources */,
 				20FF7938281FB869001D062E /* Auth.swift in Sources */,
 				20FF7919281F77CF001D062E /* ArticleDatastore.swift in Sources */,
 				20FF7934281FB7EC001D062E /* Screen.swift in Sources */,
 				20FF7920281F8847001D062E /* Button.swift in Sources */,
+				20FF7948281FFF15001D062E /* ErrorAlert.swift in Sources */,
 				20FF78FD281F4F0B001D062E /* AppDelegate.swift in Sources */,
 				20FF7913281F7686001D062E /* UserDatabase.swift in Sources */,
 				20FF7932281FB4CB001D062E /* AddArticleHTMLLoader.swift in Sources */,
