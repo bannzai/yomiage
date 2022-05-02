@@ -24,7 +24,10 @@ struct ArticlesPage: View {
           ForEach(articles) { article in
             switch article.typedKind {
             case .note:
-              NoteArticle(article: article, noteArticle: article.note)
+              VStack(alignment: .leading, spacing: 0) {
+                NoteArticle(article: article, noteArticle: article.note)
+                Divider()
+              }
             case .medium:
               // TODO:
               EmptyView()
@@ -68,25 +71,31 @@ struct NoteArticle: View {
   var body: some View {
     if let noteArticle = noteArticle {
       HStack {
-        if let eyeCatchImageURL = noteArticle.eyeCatchImageURL,
-           let url = URL(string: eyeCatchImageURL) {
-          AsyncImage(url: url) { image in
-            image
-              .resizable()
-              .frame(width: 60, height: 60)
-          } placeholder: {
-            ProgressView()
-              .frame(width: 60, height: 60)
+        Group {
+          if let eyeCatchImageURL = noteArticle.eyeCatchImageURL,
+             let url = URL(string: eyeCatchImageURL) {
+            AsyncImage(url: url) { image in
+              image
+                .resizable()
+            } placeholder: {
+              ProgressView()
+            }
+          } else {
+            Rectangle()
+              .background(Color.gray)
           }
         }
+        .frame(width: 60, height: 60)
+        .cornerRadius(8)
 
-        VStack {
+        VStack(alignment: .leading, spacing: 10) {
           Text(noteArticle.title)
             .font(.system(.headline))
           Text(noteArticle.author)
             .font(.system(.caption))
         }
       }
+      .padding()
     }
   }
 }
