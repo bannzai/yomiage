@@ -12,37 +12,23 @@ struct Sheet<Content>: UIViewRepresentable where Content: View {
   }
 
   func updateUIView(_ uiView: UIView, context: Context) {
-    let viewControllerToPresent = UIViewController()
     let hostingController = HostingController(rootView: content)
-
     hostingController.onDisappear = {
       isPresented = false
       onDismiss?()
     }
 
-    viewControllerToPresent.addChild(hostingController)
-    viewControllerToPresent.view.addSubview(hostingController.view)
-
-    hostingController.view.translatesAutoresizingMaskIntoConstraints = false
-    NSLayoutConstraint.activate([
-      hostingController.view.leftAnchor.constraint(equalTo: viewControllerToPresent.view.leftAnchor),
-      hostingController.view.topAnchor.constraint(equalTo: viewControllerToPresent.view.topAnchor),
-      hostingController.view.rightAnchor.constraint(equalTo: viewControllerToPresent.view.rightAnchor),
-      hostingController.view.bottomAnchor.constraint(equalTo: viewControllerToPresent.view.bottomAnchor),
-    ])
-    hostingController.didMove(toParent: viewControllerToPresent)
-
-    if let sheetController = viewControllerToPresent.sheetPresentationController {
+    if let sheetController = hostingController.sheetPresentationController {
       sheetController.detents = detents
       sheetController.prefersGrabberVisible = true
       sheetController.prefersScrollingExpandsWhenScrolledToEdge = false
       sheetController.largestUndimmedDetentIdentifier = .medium
     }
 
-    viewControllerToPresent.presentationController?.delegate = context.coordinator
+    hostingController.presentationController?.delegate = context.coordinator
 
     if isPresented {
-      uiView.window?.rootViewController?.present(viewControllerToPresent, animated: true)
+      uiView.window?.rootViewController?.present(hostingController, animated: true)
     } else {
       uiView.window?.rootViewController?.dismiss(animated: true)
     }
