@@ -54,7 +54,7 @@ struct ArticlesPage: View {
         }
       }
     })
-    .sheet(isPresented: $addArticleSheetIsPresented ) {
+    .sheet(isPresented: $addArticleSheetIsPresented, detents: [.medium()]) {
       AddArticleSheet()
     }
   }
