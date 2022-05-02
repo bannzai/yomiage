@@ -7,7 +7,6 @@ import FirebaseAuth
 private let firestore = Firestore.firestore()
 
 class UserDatabase {
-
     private var userID: String!
     private init() { }
     static let shared = UserDatabase()
@@ -23,8 +22,6 @@ class UserDatabase {
     func articlesReference() -> CollectionReference {
         firestore.collection(.articles(userID: userID))
     }
-
-
 }
 
 extension CollectionReference {
