@@ -133,13 +133,13 @@
 		20FF78C6281F4C53001D062E /* Yomiage */ = {
 			isa = PBXGroup;
 			children = (
+				20FF792D281FAF1B001D062E /* Features */,
 				20FF792A281FAD15001D062E /* Modifier */,
 				20FF7921281F8948001D062E /* Style */,
 				20FF791A281F8682001D062E /* Component */,
 				20FF7914281F77B7001D062E /* Datastore */,
 				20FF78F7281F4E8A001D062E /* Firebase */,
 				20FF78F4281F4D3C001D062E /* Entity */,
-				20FF78F1281F4C5E001D062E /* Articles */,
 				20FF78C7281F4C53001D062E /* YomiageApp.swift */,
 				20FF78C9281F4C53001D062E /* ContentView.swift */,
 				20FF78CB281F4C53001D062E /* Assets.xcassets */,
@@ -240,6 +240,14 @@
 				20FF792B281FAD25001D062E /* SheetPresentation.swift */,
 			);
 			path = Modifier;
+			sourceTree = "<group>";
+		};
+		20FF792D281FAF1B001D062E /* Features */ = {
+			isa = PBXGroup;
+			children = (
+				20FF78F1281F4C5E001D062E /* Articles */,
+			);
+			path = Features;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
