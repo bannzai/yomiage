@@ -14,8 +14,15 @@ struct AddArticleSheet: View {
         LoadHTMLWebView(url: url, loader: loader)
       }
 
-      VStack {
-        TextField("https://", text: $text)
+      VStack(spacing: 0) {
+        VStack(spacing: 0) {
+          TextField("https://", text: $text)
+          VSpacer(10)
+          Divider()
+            .foregroundColor(.black)
+        }
+
+        Spacer().frame(height: 16)
 
         Button {
           if let url = url {
@@ -23,12 +30,14 @@ struct AddArticleSheet: View {
           }
         } label: {
           Text("追加する")
+            .padding(.vertical, 12)
+            .frame(maxWidth: .infinity)
         }
         .buttonStyle(.primary)
         .disabled(url == nil || loader.target != nil)
       }
+      .padding(.horizontal, 20)
       .frame(alignment: .top)
-      .padding(.vertical, 20)
 
       if loader.target != nil {
         HUD()

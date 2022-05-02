@@ -42,6 +42,7 @@
 		20FF7944281FF967001D062E /* String+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FF7943281FF967001D062E /* String+.swift */; };
 		20FF7946281FFCE1001D062E /* HUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FF7945281FFCE1001D062E /* HUD.swift */; };
 		20FF7948281FFF15001D062E /* ErrorAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FF7947281FFF15001D062E /* ErrorAlert.swift */; };
+		20FF794A282094D0001D062E /* Spacer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FF7949282094D0001D062E /* Spacer.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -93,6 +94,7 @@
 		20FF7943281FF967001D062E /* String+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+.swift"; sourceTree = "<group>"; };
 		20FF7945281FFCE1001D062E /* HUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HUD.swift; sourceTree = "<group>"; };
 		20FF7947281FFF15001D062E /* ErrorAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorAlert.swift; sourceTree = "<group>"; };
+		20FF7949282094D0001D062E /* Spacer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Spacer.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -246,6 +248,7 @@
 				20FF7928281FAB02001D062E /* Sheet.swift */,
 				20FF7940281FC369001D062E /* LoadHTMLWebView.swift */,
 				20FF7945281FFCE1001D062E /* HUD.swift */,
+				20FF7949282094D0001D062E /* Spacer.swift */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -460,6 +463,7 @@
 				20FF78CA281F4C53001D062E /* RootView.swift in Sources */,
 				20FF7923281F8950001D062E /* Color.swift in Sources */,
 				20FF7930281FAF2F001D062E /* AddArticleSheet.swift in Sources */,
+				20FF794A282094D0001D062E /* Spacer.swift in Sources */,
 				20FF7929281FAB02001D062E /* Sheet.swift in Sources */,
 				20FF7944281FF967001D062E /* String+.swift in Sources */,
 				20FF791C281F868A001D062E /* StreamView.swift in Sources */,

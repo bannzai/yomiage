@@ -4,8 +4,7 @@ struct PrimaryButtonStyle: ButtonStyle {
   @Environment(\.isEnabled) var isEnabled
 
   func makeBody(configuration: Configuration) -> some View {
-    configuration.label.padding(.horizontal, 20)
-      .padding(.vertical, 16)
+    configuration.label
       .background(
         RoundedRectangle(cornerRadius: 8, style: .continuous)
           .fill(isEnabled ? Color.primary : Color(.systemGray3))
