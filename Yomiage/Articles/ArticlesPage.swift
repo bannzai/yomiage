@@ -51,7 +51,9 @@ struct NoteArticle: View {
 
                 VStack {
                     Text(noteArticle.title)
+                        .font(.system(.headline))
                     Text(noteArticle.author)
+                        .font(.system(.caption))
                 }
             }
         }
