@@ -22,7 +22,7 @@ struct AddArticleSheet: View {
             .foregroundColor(.black)
         }
 
-        Spacer().frame(height: 16)
+        VSpacer(16)
 
         Button {
           if let url = url {
