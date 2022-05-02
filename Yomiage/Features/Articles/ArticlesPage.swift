@@ -2,6 +2,7 @@ import SwiftUI
 
 struct ArticlesPage: View {
     @Environment(\.articleDatastore) var articleDatastore
+    @State private var addArticleSheetIsPresented = false
 
     var body: some View {
         StreamView(stream: articleDatastore.articlesStream()) { articles in
@@ -25,6 +26,21 @@ struct ArticlesPage: View {
             UniversalErrorView(error: error, reload: reload)
         } loading: {
             ProgressView()
+        }
+        .toolbar(content: {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Button {
+                    addArticleSheetIsPresented = true
+                } label: {
+                    Image(systemName: "plus")
+                        .imageScale(.large)
+                        .foregroundColor(Color(.label))
+                        .frame(width: 28, height: 28)
+                }
+            }
+        })
+        .sheet(isPresented: $addArticleSheetIsPresented, detents: [.medium()]) {
+            AddArticleSheet()
         }
     }
 }
