@@ -1,18 +1,25 @@
 import SwiftUI
 
 struct ArticlesPage: View {
+    @Environment(\.articleDatastore) var articleDatastore
+
     var body: some View {
-        List {
-            Group {
+        StreamView(stream: articleDatastore.articlesStream()) { articles in
+            List {
+                Group {
+                    VStack {
 
-                VStack {
-
+                    }
                 }
+                .listRowInsets(EdgeInsets())
+                .listRowSeparator(.hidden)
             }
-            .listRowInsets(EdgeInsets())
-            .listRowSeparator(.hidden)
+            .listStyle(.plain)
+        } errorContent: { error, reload in
+            UniversalErrorView(error: error, reload: reload)
+        } loading: {
+            ProgressView()
         }
-        .listStyle(.plain)
     }
 }
 
