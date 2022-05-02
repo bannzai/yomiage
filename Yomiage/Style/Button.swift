@@ -11,6 +11,7 @@ struct PrimaryButtonStyle: ButtonStyle {
           .fill(isEnabled ? Color.primary : Color(.systemGray3))
       )
       .opacity(configuration.isPressed ? 0.7 : 1.0)
+      .foregroundColor(.white)
   }
 }
 
