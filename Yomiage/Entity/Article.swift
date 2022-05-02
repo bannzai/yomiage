@@ -2,7 +2,7 @@ import Foundation
 import FirebaseFirestore
 import FirebaseFirestoreSwift
 
-struct Article: Decodable {
+struct Article: Decodable, Identifiable {
     @DocumentID var id: String?
 
     let kind: String

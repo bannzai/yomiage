@@ -6,9 +6,15 @@ struct ArticlesPage: View {
     var body: some View {
         StreamView(stream: articleDatastore.articlesStream()) { articles in
             List {
-                Group {
-                    VStack {
-
+                ForEach(articles) { article in
+                    switch article.typedKind {
+                    case .note:
+                        NoteArticle(article: article, noteArticle: article.note)
+                    case .medium:
+                        // TODO:
+                        EmptyView()
+                    case nil:
+                        EmptyView()
                     }
                 }
                 .listRowInsets(EdgeInsets())
@@ -24,12 +30,29 @@ struct ArticlesPage: View {
 }
 
 
-struct ArticlesRow: View {
-    var body: some View {
-        HStack {
-            
-            VStack {
+struct NoteArticle: View {
+    let article: Article
+    let noteArticle: Article.Note?
 
+    var body: some View {
+        if let noteArticle = noteArticle {
+            HStack {
+                if let eyeCatchImageURL = noteArticle.eyeCatchImageURL,
+                   let url = URL(string: eyeCatchImageURL) {
+                    AsyncImage(url: url) { image in
+                        image
+                            .resizable()
+                            .frame(width: 60, height: 60)
+                    } placeholder: {
+                        ProgressView()
+                            .frame(width: 60, height: 60)
+                    }
+                }
+
+                VStack {
+                    Text(noteArticle.title)
+                    Text(noteArticle.author)
+                }
             }
         }
     }
