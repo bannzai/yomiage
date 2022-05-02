@@ -4,6 +4,10 @@ import FirebaseAuth
 final class ScreenStateNotifier: ObservableObject {
     @Published var state: State = .waiting
 
+    deinit {
+        authStreamTask?.cancel()
+    }
+
     @Environment(\.auth) private var auth
     private var authStreamTask: Task<Void, Never>?
     func launch() {

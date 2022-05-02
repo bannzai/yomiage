@@ -20,6 +20,7 @@ struct RootView: View {
                 }
             }
         }
+        .onAppear(perform: screenStateNotifier.launch)
     }
 
     private func signIn() {
