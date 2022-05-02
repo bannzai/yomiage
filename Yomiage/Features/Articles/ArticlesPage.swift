@@ -6,22 +6,27 @@ struct ArticlesPage: View {
 
     var body: some View {
         StreamView(stream: articleDatastore.articlesStream()) { articles in
-            List {
-                ForEach(articles) { article in
-                    switch article.typedKind {
-                    case .note:
-                        NoteArticle(article: article, noteArticle: article.note)
-                    case .medium:
-                        // TODO:
-                        EmptyView()
-                    case nil:
-                        EmptyView()
+            if articles.isEmpty {
+                // TODO: 
+                EmptyView()
+            } else {
+                List {
+                    ForEach(articles) { article in
+                        switch article.typedKind {
+                        case .note:
+                            NoteArticle(article: article, noteArticle: article.note)
+                        case .medium:
+                            // TODO:
+                            EmptyView()
+                        case nil:
+                            EmptyView()
+                        }
                     }
+                    .listRowInsets(EdgeInsets())
+                    .listRowSeparator(.hidden)
                 }
-                .listRowInsets(EdgeInsets())
-                .listRowSeparator(.hidden)
+                .listStyle(.plain)
             }
-            .listStyle(.plain)
         } errorContent: { error, reload in
             UniversalErrorView(error: error, reload: reload)
         } loading: {
