@@ -45,6 +45,7 @@ struct ArticlesPage: View {
     } loading: {
       ProgressView()
     }
+    .navigationTitle("記事一覧")
     .toolbar(content: {
       ToolbarItem(placement: .navigationBarTrailing) {
         Button {
