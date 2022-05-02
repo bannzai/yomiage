@@ -25,8 +25,12 @@ public struct Auth {
     }
 
     // MARK: - SignIn
-    public func signIn() async throws -> User {
-        try await withCheckedThrowingContinuation { continuation in
+    public func signInOrCachedUser() async throws -> User {
+        if let user = client.currentUser {
+            return user
+        }
+
+        return try await withCheckedThrowingContinuation { continuation in
             if let user = client.currentUser {
                 authLogger.debug("[DEBUG] SignIn: user is already exists")
                 continuation.resume(returning: user)
