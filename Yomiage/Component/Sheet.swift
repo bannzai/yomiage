@@ -1,37 +1,29 @@
 import SwiftUI
 
-struct Sheet<Content>: UIViewRepresentable where Content: View {
+struct Sheet<Content>: UIViewControllerRepresentable where Content: View {
   @Binding var isPresented: Bool
 
   var onDismiss: (() -> Void)? = nil
-  let detents: [UISheetPresentationController.Detent]
+  var detents: [UISheetPresentationController.Detent] = [.medium()]
   @ViewBuilder let content: Content
 
-  func makeUIView(context: Context) -> UIView {
-    .init()
-  }
-
-  func updateUIView(_ uiView: UIView, context: Context) {
+  func makeUIViewController(context: Context) -> some UIViewController {
     let hostingController = HostingController(rootView: content)
-    hostingController.onDisappear = {
-      isPresented = false
-      onDismiss?()
-    }
-
-    if let sheetController = hostingController.sheetPresentationController {
-      sheetController.detents = detents
+//    hostingController.onDisappear = {
+//      isPresented = false
+//      onDismiss?()
+//    }
+    return hostingController
+  }
+  func updateUIViewController(_ uiViewController: UIViewControllerType, context: Context) {
+    if let sheetController = uiViewController.sheetPresentationController {
+      sheetController.detents = [.medium()]
       sheetController.prefersGrabberVisible = true
       sheetController.prefersScrollingExpandsWhenScrolledToEdge = false
       sheetController.largestUndimmedDetentIdentifier = .medium
     }
 
-    hostingController.presentationController?.delegate = context.coordinator
-
-    if isPresented {
-      uiView.window?.rootViewController?.present(hostingController, animated: true)
-    } else {
-      uiView.window?.rootViewController?.dismiss(animated: true)
-    }
+    uiViewController.presentationController?.delegate = context.coordinator
   }
 
   func makeCoordinator() -> Coordinator {
