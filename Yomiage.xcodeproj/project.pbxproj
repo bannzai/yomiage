@@ -32,6 +32,7 @@
 		20FF7920281F8847001D062E /* Button.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FF791F281F8847001D062E /* Button.swift */; };
 		20FF7923281F8950001D062E /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FF7922281F8950001D062E /* Color.swift */; };
 		20FF7929281FAB02001D062E /* Sheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FF7928281FAB02001D062E /* Sheet.swift */; };
+		20FF792C281FAD25001D062E /* SheetPresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FF792B281FAD25001D062E /* SheetPresentation.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -74,6 +75,7 @@
 		20FF791F281F8847001D062E /* Button.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Button.swift; sourceTree = "<group>"; };
 		20FF7922281F8950001D062E /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		20FF7928281FAB02001D062E /* Sheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sheet.swift; sourceTree = "<group>"; };
+		20FF792B281FAD25001D062E /* SheetPresentation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetPresentation.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -131,6 +133,7 @@
 		20FF78C6281F4C53001D062E /* Yomiage */ = {
 			isa = PBXGroup;
 			children = (
+				20FF792A281FAD15001D062E /* Modifier */,
 				20FF7921281F8948001D062E /* Style */,
 				20FF791A281F8682001D062E /* Component */,
 				20FF7914281F77B7001D062E /* Datastore */,
@@ -229,6 +232,14 @@
 				20FF7922281F8950001D062E /* Color.swift */,
 			);
 			path = Style;
+			sourceTree = "<group>";
+		};
+		20FF792A281FAD15001D062E /* Modifier */ = {
+			isa = PBXGroup;
+			children = (
+				20FF792B281FAD25001D062E /* SheetPresentation.swift */,
+			);
+			path = Modifier;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -386,6 +397,7 @@
 				20FF7913281F7686001D062E /* UserDatabase.swift in Sources */,
 				20FF791E281F878A001D062E /* UniversalErrorView.swift in Sources */,
 				20FF78C8281F4C53001D062E /* YomiageApp.swift in Sources */,
+				20FF792C281FAD25001D062E /* SheetPresentation.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
