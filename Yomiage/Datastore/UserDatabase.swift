@@ -48,6 +48,22 @@ extension CollectionReference {
             }
         }
     }
+
+    func create<T: Encodable>(entity: T) async throws {
+        return try await withCheckedThrowingContinuation { continuation in
+            do {
+                _ = try addDocument(from: entity, completion: { error in
+                    if let error = error {
+                        continuation.resume(throwing: error)
+                    } else {
+                        continuation.resume(returning: ())
+                    }
+                })
+            } catch {
+                continuation.resume(throwing: error)
+            }
+        }
+    }
 }
 
 extension DocumentReference {
