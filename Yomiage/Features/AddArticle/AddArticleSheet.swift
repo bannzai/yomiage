@@ -30,8 +30,6 @@ struct AddArticleSheet: View {
           }
         } label: {
           Text("追加する")
-            .padding(.vertical, 12)
-            .frame(maxWidth: .infinity)
         }
         .buttonStyle(.primary)
         .disabled(url == nil || loader.target != nil)
