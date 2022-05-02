@@ -24,6 +24,7 @@
 		20FF7905281F70A5001D062E /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 20FF7904281F70A5001D062E /* FirebaseAuth */; };
 		20FF7907281F70A5001D062E /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = 20FF7906281F70A5001D062E /* FirebaseCrashlytics */; };
 		20FF7909281F70A5001D062E /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 20FF7908281F70A5001D062E /* FirebaseFirestore */; };
+		20FF790C281F7472001D062E /* FirebaseFirestoreSwift-Beta in Frameworks */ = {isa = PBXBuildFile; productRef = 20FF790B281F7472001D062E /* FirebaseFirestoreSwift-Beta */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -69,6 +70,7 @@
 				20FF7903281F70A5001D062E /* FirebaseAnalyticsSwift-Beta in Frameworks */,
 				20FF7907281F70A5001D062E /* FirebaseCrashlytics in Frameworks */,
 				20FF7905281F70A5001D062E /* FirebaseAuth in Frameworks */,
+				20FF790C281F7472001D062E /* FirebaseFirestoreSwift-Beta in Frameworks */,
 				20FF7909281F70A5001D062E /* FirebaseFirestore in Frameworks */,
 				20FF7901281F70A5001D062E /* FirebaseAnalytics in Frameworks */,
 			);
@@ -98,6 +100,7 @@
 				20FF78D7281F4C54001D062E /* YomiageTests */,
 				20FF78E1281F4C54001D062E /* YomiageUITests */,
 				20FF78C5281F4C53001D062E /* Products */,
+				20FF790A281F7472001D062E /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -176,6 +179,13 @@
 			path = Firebase;
 			sourceTree = "<group>";
 		};
+		20FF790A281F7472001D062E /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -198,6 +208,7 @@
 				20FF7904281F70A5001D062E /* FirebaseAuth */,
 				20FF7906281F70A5001D062E /* FirebaseCrashlytics */,
 				20FF7908281F70A5001D062E /* FirebaseFirestore */,
+				20FF790B281F7472001D062E /* FirebaseFirestoreSwift-Beta */,
 			);
 			productName = Yomiage;
 			productReference = 20FF78C4281F4C53001D062E /* Yomiage.app */;
@@ -684,6 +695,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 20FF78FF281F70A5001D062E /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseFirestore;
+		};
+		20FF790B281F7472001D062E /* FirebaseFirestoreSwift-Beta */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 20FF78FF281F70A5001D062E /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = "FirebaseFirestoreSwift-Beta";
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
