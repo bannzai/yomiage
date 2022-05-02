@@ -6,8 +6,8 @@ struct Article: Codable, Identifiable {
     @DocumentID var id: String?
 
     let kind: String
-    let note: Note?
-    let medium: Medium?
+    var note: Note?
+    var medium: Medium?
 
     // MARK: - Kind
     var typedKind: Kind? { .init(rawValue: kind) }
