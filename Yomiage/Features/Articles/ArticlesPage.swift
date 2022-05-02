@@ -7,8 +7,18 @@ struct ArticlesPage: View {
   var body: some View {
     StreamView(stream: articleDatastore.articlesStream()) { articles in
       if articles.isEmpty {
-        // TODO:
-        EmptyView()
+        VStack(spacing: 0) {
+          Text("記事を追加しましょう")
+            .font(.system(.subheadline))
+          Spacer()
+            .frame(height: 20)
+          Button {
+            addArticleSheetIsPresented = true
+          } label: {
+            Text("追加")
+          }
+          .buttonStyle(.bordered)
+        }
       } else {
         List {
           ForEach(articles) { article in
