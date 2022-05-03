@@ -58,6 +58,8 @@ final class AddArticleHTMLLoader: ObservableObject, LoadHTMLLoader {
               createdDate: .init()
             )
           )
+        } else {
+          throw "ページが読み込めませんでした。URLをご確認ください"
         }
       case .medium:
         fatalError()
@@ -84,10 +86,10 @@ fileprivate struct WebViewLoadHTMLError: LocalizedError {
   let error: Error?
 
   var errorDescription: String? {
-    "再度読み込みをしてください"
+    error?.localizedDescription
   }
   var failureReason: String? {
-    error?.localizedDescription ?? "読み込みに失敗しました"
+    (error as? LocalizedError)?.failureReason ?? "読み込みに失敗しました。再度読み込みをしてください"
   }
   let helpAnchor: String? = nil
   let recoverySuggestion: String? = nil
