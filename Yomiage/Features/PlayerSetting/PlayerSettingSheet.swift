@@ -5,10 +5,10 @@ struct PlayerSettingSheet: View {
   @EnvironmentObject var player: Player
 
   var body: some View {
-    VStack(spacing: 40) {
+    MediumSheetLayout {
       Text("設定")
         .font(.headline)
-
+    } content: {
       VStack(spacing: 24) {
         VStack(alignment: .leading, spacing: 8) {
           Text("音量").font(.system(size: 16))
@@ -22,12 +22,9 @@ struct PlayerSettingSheet: View {
           Text("声の高さ").font(.system(size: 16))
           Slider(value: $player.pitch, in: Range.pitch)
         }
-
-        Spacer()
       }
       .padding(.horizontal, 20)
     }
-    .padding(.top, 30)
   }
 
   enum Range {

@@ -14,33 +14,33 @@ struct AddArticleSheet: View {
         LoadHTMLWebView(url: url, loader: loader)
       }
 
-      VStack(spacing: 40) {
-        Text("記事を追加")
-          .font(.headline)
-
-        VStack(spacing: 16) {
-          VStack(spacing: 0) {
-            TextField("https://", text: $text)
-            VSpacer(10)
-            Divider()
-              .foregroundColor(.black)
-          }
-
-          Button {
-            if let url = url {
-              loader.load(url: url)
+      MediumSheetLayout(
+        title: {
+          Text("記事を追加")
+            .font(.headline)
+        },
+        content: {
+          VStack(spacing: 16) {
+            VStack(spacing: 0) {
+              TextField("https://", text: $text)
+              VSpacer(10)
+              Divider()
+                .foregroundColor(.black)
             }
-          } label: {
-            Text("追加する")
-          }
-          .buttonStyle(.primary)
-          .disabled(url == nil || loader.target != nil)
-        }
-        .padding(.horizontal, 20)
 
-        Spacer()
-      }
-      .padding(.top, 30)
+            Button {
+              if let url = url {
+                loader.load(url: url)
+              }
+            } label: {
+              Text("追加する")
+            }
+            .buttonStyle(.primary)
+            .disabled(url == nil || loader.target != nil)
+          }
+          .padding(.horizontal, 20)
+        }
+      )
 
       if loader.target != nil {
         HUD()
