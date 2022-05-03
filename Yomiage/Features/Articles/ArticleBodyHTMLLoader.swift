@@ -13,11 +13,13 @@ final class ArticleBodyHTMLLoader: ObservableObject {
 
 extension ArticleBodyHTMLLoader: LoadHTMLLoader {
   func javaScript() -> String? {
-    guard article != nil else {
-      return ""
+    guard let article = article else {
+      return nil
     }
 
-    return """
+    switch article.typedKind {
+    case .note:
+      return """
 const bodyDocument = document.getElementsByClassName('note-common-styles__textnote-body')[0];
 const body = Array.from(bodyDocument.children).reduce((previousValue, element) => {
   if (['h1', 'h2', 'h3', 'h4'].includes(element.localName)) {
@@ -30,6 +32,12 @@ const body = Array.from(bodyDocument.children).reduce((previousValue, element) =
 },'');
 body;
 """
+    case .medium:
+      // TODO:
+      return nil
+    case nil:
+      return nil
+    }
   }
   
   func handlEevaluateJavaScript(arguments: (Any?, Error?)) {
