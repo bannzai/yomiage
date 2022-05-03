@@ -6,7 +6,6 @@ struct ArticlesPage: View {
 
   @State private var addArticleSheetIsPresented = false
   @State private var playerSettingSheetIsPresented = false
-  @StateObject private var loader = ArticleBodyHTMLLoader()
 
   var body: some View {
     StreamView(stream: articleDatastore.articlesStream()) { articles in
@@ -26,10 +25,6 @@ struct ArticlesPage: View {
         }
       } else {
         ZStack {
-          if let article = loader.article?.note, let url = URL(string: article.pageURL) {
-            LoadHTMLWebView(url: url, loader: loader)
-          }
-
           ScrollView(.vertical) {
             VStack(spacing: 0) {
               ForEach(articles) { article in
@@ -37,7 +32,6 @@ struct ArticlesPage: View {
                 case .note:
                   VStack(alignment: .leading, spacing: 0) {
                     NoteArticle(article: article, noteArticle: article.note)
-                      .environmentObject(loader)
                     Divider()
                   }
                 case .medium:
@@ -92,52 +86,66 @@ struct ArticlesPage: View {
 
 
 struct NoteArticle: View {
-  @EnvironmentObject private var loader: ArticleBodyHTMLLoader
+  @EnvironmentObject private var player: Player
+  @StateObject private var loader = ArticleBodyHTMLLoader()
 
   let article: Article
   let noteArticle: Article.Note?
 
   var body: some View {
     if let noteArticle = noteArticle {
-      HStack {
-        Group {
-          if let eyeCatchImageURL = noteArticle.eyeCatchImageURL,
-             let url = URL(string: eyeCatchImageURL) {
-            AsyncImage(url: url) { image in
-              image
-                .resizable()
-                .scaledToFill()
-            } placeholder: {
-              ProgressView()
-            }
-          } else {
-            Image(systemName: "photo")
-          }
-        }
-        .frame(width: 60, height: 60)
-        .background(Color(.systemGray5))
-        .cornerRadius(8)
-
-        VStack(alignment: .leading, spacing: 10) {
-          Text(noteArticle.title)
-            .font(.system(.headline))
-          Text(noteArticle.author)
-            .font(.system(.caption))
+      ZStack {
+        if let article = loader.article?.note, let url = URL(string: article.pageURL) {
+          LoadHTMLWebView(url: url, loader: loader)
         }
 
         HStack {
-          Button {
-            loader.load(article: article)
-          } label: {
-            Image(systemName: "play.fill")
-              .frame(width: 28, height: 28)
-              .foregroundColor(.black)
-              .padding()
+          Group {
+            if let eyeCatchImageURL = noteArticle.eyeCatchImageURL,
+               let url = URL(string: eyeCatchImageURL) {
+              AsyncImage(url: url) { image in
+                image
+                  .resizable()
+                  .scaledToFill()
+              } placeholder: {
+                ProgressView()
+              }
+            } else {
+              Image(systemName: "photo")
+            }
+          }
+          .frame(width: 60, height: 60)
+          .background(Color(.systemGray5))
+          .cornerRadius(8)
+
+          VStack(alignment: .leading, spacing: 10) {
+            Text(noteArticle.title)
+              .font(.system(.headline))
+            Text(noteArticle.author)
+              .font(.system(.caption))
+          }
+
+          HStack {
+            Button {
+              loader.load(article: article)
+            } label: {
+              Image(systemName: "play.fill")
+                .frame(width: 28, height: 28)
+                .foregroundColor(.black)
+                .padding()
+            }
           }
         }
       }
       .padding()
       .errorAlert(error: $loader.localizedError)
+      .onReceive(loader.loadedBody) { body in
+        guard let body = body else {
+          return
+        }
+
+        player.speak(text: body)
+      }
     }
   }
 }
