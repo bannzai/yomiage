@@ -49,6 +49,7 @@
 		20FF79562820FEE2001D062E /* MediumSheetLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FF79552820FEE2001D062E /* MediumSheetLayout.swift */; };
 		20FF795828213C17001D062E /* ArticleBodyHTMLLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FF795728213C17001D062E /* ArticleBodyHTMLLoader.swift */; };
 		20FF795B2821E5B3001D062E /* ArticleWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FF795A2821E5B3001D062E /* ArticleWebView.swift */; };
+		20FF795D2821EE88001D062E /* NoteArticle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FF795C2821EE88001D062E /* NoteArticle.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -107,6 +108,7 @@
 		20FF79552820FEE2001D062E /* MediumSheetLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediumSheetLayout.swift; sourceTree = "<group>"; };
 		20FF795728213C17001D062E /* ArticleBodyHTMLLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleBodyHTMLLoader.swift; sourceTree = "<group>"; };
 		20FF795A2821E5B3001D062E /* ArticleWebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleWebView.swift; sourceTree = "<group>"; };
+		20FF795C2821EE88001D062E /* NoteArticle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteArticle.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -217,6 +219,7 @@
 			isa = PBXGroup;
 			children = (
 				20FF78F2281F4C63001D062E /* ArticlesPage.swift */,
+				20FF795C2821EE88001D062E /* NoteArticle.swift */,
 				20FF795A2821E5B3001D062E /* ArticleWebView.swift */,
 				20FF795728213C17001D062E /* ArticleBodyHTMLLoader.swift */,
 			);
@@ -499,6 +502,7 @@
 				20FF795828213C17001D062E /* ArticleBodyHTMLLoader.swift in Sources */,
 				20FF794F2820DB28001D062E /* PlayerSettingSheet.swift in Sources */,
 				20FF79512820DB75001D062E /* AppStorage+.swift in Sources */,
+				20FF795D2821EE88001D062E /* NoteArticle.swift in Sources */,
 				20FF7923281F8950001D062E /* Color.swift in Sources */,
 				20FF7930281FAF2F001D062E /* AddArticleSheet.swift in Sources */,
 				20FF794A282094D0001D062E /* Spacer.swift in Sources */,
