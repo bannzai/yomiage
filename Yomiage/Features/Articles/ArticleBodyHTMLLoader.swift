@@ -18,15 +18,15 @@ extension ArticleBodyHTMLLoader: LoadHTMLLoader {
     }
 
     return """
-const bodyDocument = window.document.getElementsByClassName('note-common-styles__textnote-body')[0];
+const bodyDocument = document.getElementsByClassName('note-common-styles__textnote-body')[0];
 const body = Array.from(bodyDocument.children).reduce((previousValue, element) => {
   if (['h1', 'h2', 'h3', 'h4'].includes(element.localName)) {
-    return previousValue + '\n' + element.textContent + '\n\n';
+    return previousValue + '\\n' + element.textContent + '\\n' + '\\n';
   } else if (['p', 'ul'].includes(element.localName)) {
-    return previousValue + '\n' + element.textContent + '\n';
+    return previousValue + '\\n' + element.textContent + '\\n';
   } else {
     return previousValue + element.textContent;
-   }
+  }
 },'');
 body;
 """
@@ -52,10 +52,10 @@ fileprivate struct WebViewLoadHTMLError: LocalizedError {
   let error: Error?
 
   var errorDescription: String? {
-    error?.localizedDescription
+    "読み込みに失敗しました"
   }
   var failureReason: String? {
-    (error as? LocalizedError)?.failureReason ?? "読み込みに失敗しました。再度読み込みをしてください"
+    (error as? LocalizedError)?.failureReason ?? "通信環境をお確かめの上再度実行してください"
   }
   let helpAnchor: String? = nil
   let recoverySuggestion: String? = nil

@@ -94,10 +94,10 @@ fileprivate struct WebViewLoadHTMLError: LocalizedError {
   let error: Error?
 
   var errorDescription: String? {
-    error?.localizedDescription
+    "読み込みに失敗しました"
   }
   var failureReason: String? {
-    (error as? LocalizedError)?.failureReason ?? "読み込みに失敗しました。再度読み込みをしてください"
+    (error as? LocalizedError)?.failureReason ?? "URLと通信環境をお確かめの上、再度実行をしてください"
   }
   let helpAnchor: String? = nil
   let recoverySuggestion: String? = nil
