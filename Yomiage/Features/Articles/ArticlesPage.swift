@@ -47,6 +47,16 @@ struct ArticlesPage: View {
             Button {
               addArticleSheetIsPresented = true
             } label: {
+              Image(systemName: "gearshape")
+                .imageScale(.large)
+                .foregroundColor(Color(.label))
+                .frame(width: 28, height: 28)
+            }
+          }
+          ToolbarItem(placement: .navigationBarTrailing) {
+            Button {
+              addArticleSheetIsPresented = true
+            } label: {
               Image(systemName: "plus")
                 .imageScale(.large)
                 .foregroundColor(Color(.label))
