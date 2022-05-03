@@ -22,7 +22,7 @@ final class AddArticleHTMLLoader: ObservableObject {
 }
 
 extension AddArticleHTMLLoader: LoadHTMLLoader {
-  func javascript() -> String? {
+  func javaScript() -> String? {
 """
 window.document.getElementsByTagName('html')[0].outerHTML;
 """

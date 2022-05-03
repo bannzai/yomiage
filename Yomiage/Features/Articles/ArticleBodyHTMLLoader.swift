@@ -12,7 +12,7 @@ final class ArticleBodyHTMLLoader: ObservableObject {
 }
 
 extension ArticleBodyHTMLLoader: LoadHTMLLoader {
-  func javascript() -> String? {
+  func javaScript() -> String? {
     guard article != nil else {
       return ""
     }
