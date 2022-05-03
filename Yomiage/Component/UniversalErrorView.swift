@@ -19,7 +19,6 @@ struct ReloadOnErrorButton: View {
       Text("問題が発生しました")
       Button("再読み込みをする", action: reload)
         .buttonStyle(.primary)
-        .frame(maxWidth: .infinity)
 
       Text("詳細: \(error.localizedDescription)")
     }

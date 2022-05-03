@@ -9,15 +9,16 @@ struct ArticlesPage: View {
       if articles.isEmpty {
         VStack(spacing: 0) {
           Text("記事を追加しましょう")
-            .font(.system(.subheadline))
-          Spacer()
-            .frame(height: 20)
+            .font(.system(.headline))
+          VSpacer(20)
           Button {
             addArticleSheetIsPresented = true
           } label: {
             Text("追加")
           }
-          .buttonStyle(.bordered)
+          .buttonStyle(.primary)
+          .frame(width: 200)
+          .navigationBarHidden(true)
         }
       } else {
         List {
@@ -39,25 +40,26 @@ struct ArticlesPage: View {
           .listRowSeparator(.hidden)
         }
         .listStyle(.plain)
+        .navigationBarHidden(false)
+        .navigationTitle("記事一覧")
+        .toolbar(content: {
+          ToolbarItem(placement: .navigationBarTrailing) {
+            Button {
+              addArticleSheetIsPresented = true
+            } label: {
+              Image(systemName: "plus")
+                .imageScale(.large)
+                .foregroundColor(Color(.label))
+                .frame(width: 28, height: 28)
+            }
+          }
+        })
       }
     } errorContent: { error, reload in
       UniversalErrorView(error: error, reload: reload)
     } loading: {
       ProgressView()
     }
-    .navigationTitle("記事一覧")
-    .toolbar(content: {
-      ToolbarItem(placement: .navigationBarTrailing) {
-        Button {
-          addArticleSheetIsPresented = true
-        } label: {
-          Image(systemName: "plus")
-            .imageScale(.large)
-            .foregroundColor(Color(.label))
-            .frame(width: 28, height: 28)
-        }
-      }
-    })
     .sheet(isPresented: $addArticleSheetIsPresented, detents: [.medium()]) {
       AddArticleSheet()
     }
