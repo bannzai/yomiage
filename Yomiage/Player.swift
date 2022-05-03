@@ -7,6 +7,7 @@ final class Player: NSObject, ObservableObject {
   @Published var rate = UserDefaults.standard.float(forKey: UserDefaultsKeys.playerRate)
   @Published var pitch = UserDefaults.standard.float(forKey: UserDefaultsKeys.playerPitch)
 
+  @Published private(set) var playingArticle: Article?
   private var progress: Progress?
 
   let synthesizer = AVSpeechSynthesizer()
@@ -32,6 +33,19 @@ final class Player: NSObject, ObservableObject {
     synthesizer.delegate = self
   }
 
+  func speak(article: Article, text: String) {
+    playingArticle = article
+    speak(text: text)
+  }
+
+  func stop() {
+    if synthesizer.isSpeaking {
+      synthesizer.stopSpeaking(at: .immediate)
+    }
+  }
+}
+
+private extension Player {
   func speak(text: String) {
     let utterance = AVSpeechUtterance(string: text)
     utterance.volume = volume
@@ -40,11 +54,9 @@ final class Player: NSObject, ObservableObject {
 
     synthesizer.speak(utterance)
   }
-}
 
-private extension Player {
   func reset() {
-    // NOTE: Avoid flush value after synthesizer.stopSpeaking -> speechSynthesizer(:didCancel).
+    // NOTE: Keep vlaue for avoid flushing after synthesizer.stopSpeaking -> speechSynthesizer(:didCancel).
     let _remainingText = progress?.remainingText
 
     // NOTE: call synthesizer.speak is not speaking and is broken synthesizer when synthesizer.isSpeaking
@@ -81,11 +93,11 @@ extension Player {
 
 extension Player: AVSpeechSynthesizerDelegate {
   func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didFinish utterance: AVSpeechUtterance) {
-    print(#function)
+    playingArticle = nil
     progress = nil
   }
   func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didCancel utterance: AVSpeechUtterance) {
-    print(#function)
+    playingArticle = nil
     progress = nil
   }
 
