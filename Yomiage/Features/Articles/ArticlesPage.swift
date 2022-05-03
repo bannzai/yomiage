@@ -6,6 +6,7 @@ struct ArticlesPage: View {
 
   @State private var addArticleSheetIsPresented = false
   @State private var playerSettingSheetIsPresented = false
+  @StateObject private var loader = ArticleBodyHTMLLoader()
 
   var body: some View {
     StreamView(stream: articleDatastore.articlesStream()) { articles in
@@ -24,25 +25,31 @@ struct ArticlesPage: View {
           .navigationBarHidden(true)
         }
       } else {
-        List {
-          ForEach(articles) { article in
-            switch article.typedKind {
-            case .note:
-              VStack(alignment: .leading, spacing: 0) {
-                NoteArticle(article: article, noteArticle: article.note)
-                Divider()
+        ZStack {
+          if let article = loader.article?.note, let url = URL(string: article.pageURL) {
+            LoadHTMLWebView(url: url, loader: loader)
+          }
+
+          ScrollView(.vertical) {
+            VStack(spacing: 0) {
+              ForEach(articles) { article in
+                switch article.typedKind {
+                case .note:
+                  VStack(alignment: .leading, spacing: 0) {
+                    NoteArticle(article: article, noteArticle: article.note)
+                      .environmentObject(loader)
+                    Divider()
+                  }
+                case .medium:
+                  // TODO:
+                  EmptyView()
+                case nil:
+                  EmptyView()
+                }
               }
-            case .medium:
-              // TODO:
-              EmptyView()
-            case nil:
-              EmptyView()
             }
           }
-          .listRowInsets(EdgeInsets())
-          .listRowSeparator(.hidden)
         }
-        .listStyle(.plain)
         .navigationBarHidden(false)
         .navigationTitle("記事一覧")
         .toolbar(content: {
@@ -85,6 +92,8 @@ struct ArticlesPage: View {
 
 
 struct NoteArticle: View {
+  @EnvironmentObject private var loader: ArticleBodyHTMLLoader
+
   let article: Article
   let noteArticle: Article.Note?
 
@@ -115,8 +124,20 @@ struct NoteArticle: View {
           Text(noteArticle.author)
             .font(.system(.caption))
         }
+
+        HStack {
+          Button {
+            loader.load(article: article)
+          } label: {
+            Image(systemName: "play.fill")
+              .frame(width: 28, height: 28)
+              .foregroundColor(.black)
+              .padding()
+          }
+        }
       }
       .padding()
+      .errorAlert(error: $loader.localizedError)
     }
   }
 }
