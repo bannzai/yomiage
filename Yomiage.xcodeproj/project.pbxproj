@@ -43,6 +43,9 @@
 		20FF7946281FFCE1001D062E /* HUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FF7945281FFCE1001D062E /* HUD.swift */; };
 		20FF7948281FFF15001D062E /* ErrorAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FF7947281FFF15001D062E /* ErrorAlert.swift */; };
 		20FF794A282094D0001D062E /* Spacer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FF7949282094D0001D062E /* Spacer.swift */; };
+		20FF794F2820DB28001D062E /* PlayerSettingSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FF794E2820DB28001D062E /* PlayerSettingSheet.swift */; };
+		20FF79512820DB75001D062E /* AppStorage+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FF79502820DB75001D062E /* AppStorage+.swift */; };
+		20FF79532820DCD7001D062E /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FF79522820DCD7001D062E /* Player.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -95,6 +98,9 @@
 		20FF7945281FFCE1001D062E /* HUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HUD.swift; sourceTree = "<group>"; };
 		20FF7947281FFF15001D062E /* ErrorAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorAlert.swift; sourceTree = "<group>"; };
 		20FF7949282094D0001D062E /* Spacer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Spacer.swift; sourceTree = "<group>"; };
+		20FF794E2820DB28001D062E /* PlayerSettingSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerSettingSheet.swift; sourceTree = "<group>"; };
+		20FF79502820DB75001D062E /* AppStorage+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppStorage+.swift"; sourceTree = "<group>"; };
+		20FF79522820DCD7001D062E /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -167,6 +173,7 @@
 				20FF78C7281F4C53001D062E /* YomiageApp.swift */,
 				20FF78C9281F4C53001D062E /* RootView.swift */,
 				20FF7933281FB7EC001D062E /* Screen.swift */,
+				20FF79522820DCD7001D062E /* Player.swift */,
 				20FF78CB281F4C53001D062E /* Assets.xcassets */,
 				20FF78CD281F4C53001D062E /* Preview Content */,
 				20FF78FC281F4F0B001D062E /* AppDelegate.swift */,
@@ -274,6 +281,7 @@
 		20FF792D281FAF1B001D062E /* Features */ = {
 			isa = PBXGroup;
 			children = (
+				20FF794B2820DB12001D062E /* PlayerSetting */,
 				20FF792E281FAF28001D062E /* AddArticle */,
 				20FF78F1281F4C5E001D062E /* Articles */,
 			);
@@ -308,9 +316,18 @@
 		20FF7942281FF95F001D062E /* StdLib */ = {
 			isa = PBXGroup;
 			children = (
+				20FF79502820DB75001D062E /* AppStorage+.swift */,
 				20FF7943281FF967001D062E /* String+.swift */,
 			);
 			path = StdLib;
+			sourceTree = "<group>";
+		};
+		20FF794B2820DB12001D062E /* PlayerSetting */ = {
+			isa = PBXGroup;
+			children = (
+				20FF794E2820DB28001D062E /* PlayerSettingSheet.swift */,
+			);
+			path = PlayerSetting;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -461,6 +478,8 @@
 				20FF78F6281F4D40001D062E /* Article.swift in Sources */,
 				20FF7946281FFCE1001D062E /* HUD.swift in Sources */,
 				20FF78CA281F4C53001D062E /* RootView.swift in Sources */,
+				20FF794F2820DB28001D062E /* PlayerSettingSheet.swift in Sources */,
+				20FF79512820DB75001D062E /* AppStorage+.swift in Sources */,
 				20FF7923281F8950001D062E /* Color.swift in Sources */,
 				20FF7930281FAF2F001D062E /* AddArticleSheet.swift in Sources */,
 				20FF794A282094D0001D062E /* Spacer.swift in Sources */,
@@ -474,6 +493,7 @@
 				20FF7920281F8847001D062E /* Button.swift in Sources */,
 				20FF7948281FFF15001D062E /* ErrorAlert.swift in Sources */,
 				20FF78FD281F4F0B001D062E /* AppDelegate.swift in Sources */,
+				20FF79532820DCD7001D062E /* Player.swift in Sources */,
 				20FF7913281F7686001D062E /* UserDatabase.swift in Sources */,
 				20FF7932281FB4CB001D062E /* AddArticleHTMLLoader.swift in Sources */,
 				20FF7941281FC369001D062E /* LoadHTMLWebView.swift in Sources */,
