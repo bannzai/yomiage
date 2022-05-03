@@ -1,3 +1,4 @@
+import Combine
 import SwiftUI
 
 final class Player: ObservableObject {
@@ -24,5 +25,25 @@ final class Player: ObservableObject {
   @Published var rate = UserDefaults.standard.double(forKey: UserDefaultsKeys.playerRate)
     // 0.0 ~ 2.0
   @Published var pitch = UserDefaults.standard.double(forKey: UserDefaultsKeys.playerPitch)
+
+  var canceller: Set<AnyCancellable> = []
+
+  init() {
+    bind()
+  }
+}
+
+private extension Player {
+  func bind() {
+    $volume.sink { volume in
+      UserDefaults.standard.set(volume, forKey: UserDefaultsKeys.playerVolume)
+    }.store(in: &canceller)
+    $rate.sink { volume in
+      UserDefaults.standard.set(volume, forKey: UserDefaultsKeys.playerRate)
+    }.store(in: &canceller)
+    $pitch.sink { volume in
+      UserDefaults.standard.set(volume, forKey: UserDefaultsKeys.playerPitch)
+    }.store(in: &canceller)
+  }
 }
 
