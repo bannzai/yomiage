@@ -12,7 +12,7 @@ final class Player: ObservableObject {
 
   init() {
     bind()
-    setup()
+    configure()
   }
 }
 
@@ -29,11 +29,11 @@ private extension Player {
     }.store(in: &canceller)
 
     objectWillChange.sink { [weak self] in
-      self?.setup()
+      self?.configure()
     }.store(in: &canceller)
   }
 
-  func setup() {
+  func configure() {
     let utterance = AVSpeechUtterance()
     utterance.volume = volume
     utterance.rate = rate
