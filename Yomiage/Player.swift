@@ -47,9 +47,12 @@ private extension Player {
     // NOTE: Avoid flush value after synthesizer.stopSpeaking -> speechSynthesizer(:didCancel).
     let _remainingText = progress?.remainingText
 
-    if synthesizer.isSpeaking {
-      synthesizer.stopSpeaking(at: .immediate)
+    // NOTE: call synthesizer.speak is not speaking and is broken synthesizer when synthesizer.isSpeaking
+    guard synthesizer.isSpeaking else {
+      return
     }
+    synthesizer.stopSpeaking(at: .word)
+
     if let remainingText = _remainingText {
       speak(text: remainingText)
     }
@@ -78,9 +81,11 @@ extension Player {
 
 extension Player: AVSpeechSynthesizerDelegate {
   func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didFinish utterance: AVSpeechUtterance) {
+    print(#function)
     progress = nil
   }
   func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didCancel utterance: AVSpeechUtterance) {
+    print(#function)
     progress = nil
   }
 
@@ -91,6 +96,7 @@ extension Player: AVSpeechSynthesizerDelegate {
     let speechText: String
   }
   func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, willSpeakRangeOfSpeechString characterRange: NSRange, utterance: AVSpeechUtterance) {
+    print(#function)
     guard let range = Range(characterRange, in: utterance.speechString) else {
       return
     }

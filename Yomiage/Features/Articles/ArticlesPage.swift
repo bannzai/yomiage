@@ -126,6 +126,8 @@ struct NoteArticle: View {
           }
 
           HStack {
+            Spacer()
+            
             Button {
               loader.load(article: article)
             } label: {
