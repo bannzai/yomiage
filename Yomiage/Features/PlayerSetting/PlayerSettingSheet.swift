@@ -22,9 +22,12 @@ struct PlayerSettingSheet: View {
           Text("声の高さ").font(.system(size: 16))
           Slider(value: $player.pitch, in: Range.pitch)
         }
+
+        Spacer()
       }
       .padding(.horizontal, 20)
     }
+    .padding(.top, 30)
   }
 
   enum Range {
