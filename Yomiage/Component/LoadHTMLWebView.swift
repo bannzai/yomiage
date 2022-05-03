@@ -2,6 +2,7 @@ import SwiftUI
 import WebKit
 
 protocol LoadHTMLLoader {
+  func javascript() -> String?
   func handlEevaluateJavaScript(arguments: (Any?, Error?))
 }
 
@@ -37,8 +38,10 @@ final class WebViewCoordinator<Loader: LoadHTMLLoader & ObservableObject>: NSObj
   }
 
   func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-    webView.evaluateJavaScript("window.document.getElementsByTagName('html')[0].outerHTML;", completionHandler: { [weak self] value, error in
-      self?.loader.handlEevaluateJavaScript(arguments: (value, error))
-    })
+    if let javascript = loader.javascript() {
+      webView.evaluateJavaScript(javascript, completionHandler: { [weak self] value, error in
+        self?.loader.handlEevaluateJavaScript(arguments: (value, error))
+      })
+    }
   }
 }

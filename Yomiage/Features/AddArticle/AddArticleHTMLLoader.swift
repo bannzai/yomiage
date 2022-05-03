@@ -1,7 +1,7 @@
 import SwiftUI
 import Kanna
 
-final class AddArticleHTMLLoader: ObservableObject, LoadHTMLLoader {
+final class AddArticleHTMLLoader: ObservableObject {
   @Environment(\.articleDatastore) private var articleDatastore
 
   typealias Target = (url: URL, kind: Article.Kind)
@@ -18,6 +18,14 @@ final class AddArticleHTMLLoader: ObservableObject, LoadHTMLLoader {
     case _:
       localizedError = HostMismatchError()
     }
+  }
+}
+
+extension AddArticleHTMLLoader: LoadHTMLLoader {
+  func javascript() -> String? {
+"""
+window.document.getElementsByTagName('html')[0].outerHTML;
+"""
   }
 
   func handlEevaluateJavaScript(arguments: (Any?, Error?)) {
@@ -68,8 +76,8 @@ final class AddArticleHTMLLoader: ObservableObject, LoadHTMLLoader {
       localizedError = WebViewLoadHTMLError(error: error)
     }
   }
-}
 
+}
 
 fileprivate struct HostMismatchError: LocalizedError {
   var errorDescription: String? {
