@@ -124,10 +124,11 @@ struct NoteArticle: View {
             Text(noteArticle.author)
               .font(.system(.caption))
           }
+          .frame(maxWidth: .infinity)
 
-          HStack {
-            Spacer()
+          Spacer()
 
+          HStack(spacing: 12) {
             if loader.loadingArticle != nil {
               ProgressView()
                 .frame(width: 28, height: 28)
@@ -151,6 +152,15 @@ struct NoteArticle: View {
                   .foregroundColor(.black)
                   .padding()
               }
+            }
+
+            NavigationLink {
+              ArticleWebViewPage(article: article)
+            } label: {
+              Image(systemName: "safari")
+                .frame(width: 28, height: 28)
+                .foregroundColor(.black)
+                .padding()
             }
           }
         }

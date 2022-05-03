@@ -53,9 +53,16 @@ window.document.getElementsByTagName('html')[0].outerHTML;
       case .note:
         if let title = doc.at_xpath(#"//*[@id="__layout"]/div/div[1]/div[2]/main/div[1]/article/div[1]/div/div/h1"#)?.text?.trimmed,
            let author = doc.at_xpath(#"//*[@id="__layout"]/div/div[1]/div[2]/main/div[1]/article/div[1]/div/div/div[2]/div/div[1]/div/a"#)?.text?.trimmed {
-          // NOTE: Actual HTML: #"//*[@id="__layout"]/div/div[1]/div[2]/main/div[1]/article/div[1]/div/div/figure/a/img"#
-          // However, via Kanna, the last <a> tag is missing
-          let eyeCatchImageURL = doc.at_xpath(#"//*[@id="__layout"]/div/div[1]/div[2]/main/div[1]/article/div[1]/div/div/figure/img"#)?["src"]
+          let eyeCatchImageURL: String? = {
+            if let first = doc.at_xpath(#"//*[@id="__layout"]/div/div[1]/div[2]/main/div[1]/article/div[1]/div/div/figure/a/img"#)?["src"] {
+              return first
+            }
+
+            // NOTE: Actual HTML: #"//*[@id="__layout"]/div/div[1]/div[2]/main/div[1]/article/div[1]/div/div/figure/a/img"#
+            // However, via Kanna, the last <a> tag is missing
+            return doc.at_xpath(#"//*[@id="__layout"]/div/div[1]/div[2]/main/div[1]/article/div[1]/div/div/figure/img"#)?["src"]
+          }()
+
           loadedArticle = .init(
             kind: Article.Kind.note.rawValue,
             note: .init(
