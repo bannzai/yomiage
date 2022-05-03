@@ -95,7 +95,7 @@ struct NoteArticle: View {
   var body: some View {
     if let noteArticle = noteArticle {
       ZStack {
-        if let article = loader.article?.note, let url = URL(string: article.pageURL) {
+        if let article = loader.loadingArticle?.note, let url = URL(string: article.pageURL) {
           LoadHTMLWebView(url: url, loader: loader)
         }
 
@@ -127,14 +127,30 @@ struct NoteArticle: View {
 
           HStack {
             Spacer()
-            
-            Button {
-              loader.load(article: article)
-            } label: {
-              Image(systemName: "play.fill")
+
+            if loader.loadingArticle != nil {
+              ProgressView()
                 .frame(width: 28, height: 28)
                 .foregroundColor(.black)
                 .padding()
+            } else if player.playingArticle == article {
+              Button {
+                player.stop()
+              } label: {
+                Image(systemName: "stop.fill")
+                  .frame(width: 28, height: 28)
+                  .foregroundColor(.black)
+                  .padding()
+              }
+            } else {
+              Button {
+                loader.load(article: article)
+              } label: {
+                Image(systemName: "play.fill")
+                  .frame(width: 28, height: 28)
+                  .foregroundColor(.black)
+                  .padding()
+              }
             }
           }
         }
@@ -146,7 +162,7 @@ struct NoteArticle: View {
           return
         }
 
-        player.speak(text: body)
+        player.speak(article: article, text: body)
       }
     }
   }
