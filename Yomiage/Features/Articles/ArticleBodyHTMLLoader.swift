@@ -2,18 +2,18 @@ import SwiftUI
 import Kanna
 
 final class ArticleBodyHTMLLoader: ObservableObject {
-  @Published private(set) var article: Article?
+  @Published private(set) var loadingArticle: Article?
   @Published var localizedError: Error?
   @Published private(set) var loadedBody: String?
 
   func load(article: Article) {
-    self.article = article
+    loadingArticle = article
   }
 }
 
 extension ArticleBodyHTMLLoader: LoadHTMLLoader {
   func javaScript() -> String? {
-    guard let article = article else {
+    guard let article = loadingArticle else {
       return nil
     }
 
@@ -42,7 +42,7 @@ body;
   
   func handlEevaluateJavaScript(arguments: (Any?, Error?)) {
     defer {
-      self.article = nil
+      self.loadingArticle = nil
     }
 
     print("arguments: \(arguments)")
