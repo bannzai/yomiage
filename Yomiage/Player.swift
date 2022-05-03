@@ -44,7 +44,7 @@ final class Player: NSObject, ObservableObject {
 
 private extension Player {
   func reset() {
-    // NOTE: Avoid flush value after synthesizer.stopSpeaking -> speechSynthesizer(:didFinish).
+    // NOTE: Avoid flush value after synthesizer.stopSpeaking -> speechSynthesizer(:didCancel).
     let _remainingText = progress?.remainingText
 
     if synthesizer.isSpeaking {
@@ -78,6 +78,9 @@ extension Player {
 
 extension Player: AVSpeechSynthesizerDelegate {
   func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didFinish utterance: AVSpeechUtterance) {
+    progress = nil
+  }
+  func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didCancel utterance: AVSpeechUtterance) {
     progress = nil
   }
 
