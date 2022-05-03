@@ -1,35 +1,21 @@
 import Combine
 import SwiftUI
+import AVFoundation
 
 final class Player: ObservableObject {
-  struct DefaultValues {
-    let key: String
-    let value: Double
-
-    static var volume = DefaultValues(key: UserDefaultsKeys.playerVolume, value: 0.5)
-    static var rate = DefaultValues(key: UserDefaultsKeys.playerRate, value: 0.53)
-    static var pitch = DefaultValues(key: UserDefaultsKeys.playerPitch, value: 1.0)
-
-    static func setup() {
-      [volume, rate, pitch].forEach {
-        if !UserDefaults.standard.dictionaryRepresentation().keys.contains($0.key) {
-          UserDefaults.standard.set($0.value, forKey: $0.key)
-        }
-      }
-    }
-  }
-
     // 0.0 ~ 1.0
-  @Published var volume = UserDefaults.standard.double(forKey: UserDefaultsKeys.playerVolume)
+  @Published var volume = UserDefaults.standard.float(forKey: UserDefaultsKeys.playerVolume)
     // 0.0 ~ 1.0
-  @Published var rate = UserDefaults.standard.double(forKey: UserDefaultsKeys.playerRate)
+  @Published var rate = UserDefaults.standard.float(forKey: UserDefaultsKeys.playerRate)
     // 0.0 ~ 2.0
-  @Published var pitch = UserDefaults.standard.double(forKey: UserDefaultsKeys.playerPitch)
+  @Published var pitch = UserDefaults.standard.float(forKey: UserDefaultsKeys.playerPitch)
 
+  let synthesizer = AVSpeechSynthesizer()
   var canceller: Set<AnyCancellable> = []
 
   init() {
     bind()
+    setup()
   }
 }
 
@@ -38,12 +24,45 @@ private extension Player {
     $volume.sink { volume in
       UserDefaults.standard.set(volume, forKey: UserDefaultsKeys.playerVolume)
     }.store(in: &canceller)
-    $rate.sink { volume in
-      UserDefaults.standard.set(volume, forKey: UserDefaultsKeys.playerRate)
+    $rate.sink { rate in
+      UserDefaults.standard.set(rate, forKey: UserDefaultsKeys.playerRate)
     }.store(in: &canceller)
-    $pitch.sink { volume in
-      UserDefaults.standard.set(volume, forKey: UserDefaultsKeys.playerPitch)
+    $pitch.sink { pitch in
+      UserDefaults.standard.set(pitch, forKey: UserDefaultsKeys.playerPitch)
     }.store(in: &canceller)
+
+    objectWillChange.sink { [weak self] in
+      self?.setup()
+    }.store(in: &canceller)
+  }
+
+  func setup() {
+    let utterance = AVSpeechUtterance()
+    utterance.volume = volume
+    utterance.rate = rate
+    utterance.pitchMultiplier = pitch
+
+    synthesizer.speak(utterance)
+  }
+}
+
+extension Player {
+  enum DefaultValues {
+    static var volume: Float = 0.5
+    static var rate: Float = 0.53
+    static var pitch: Float = 1.0
+
+    static func setup() {
+      if !UserDefaults.standard.dictionaryRepresentation().keys.contains(UserDefaultsKeys.playerVolume) {
+        UserDefaults.standard.set(volume, forKey: UserDefaultsKeys.playerVolume)
+      }
+      if !UserDefaults.standard.dictionaryRepresentation().keys.contains(UserDefaultsKeys.playerRate) {
+        UserDefaults.standard.set(rate, forKey: UserDefaultsKeys.playerRate)
+      }
+      if !UserDefaults.standard.dictionaryRepresentation().keys.contains(UserDefaultsKeys.playerPitch) {
+        UserDefaults.standard.set(pitch, forKey: UserDefaultsKeys.playerPitch)
+      }
+    }
   }
 }
 
