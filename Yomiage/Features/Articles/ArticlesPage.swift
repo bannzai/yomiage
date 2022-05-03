@@ -2,7 +2,10 @@ import SwiftUI
 
 struct ArticlesPage: View {
   @Environment(\.articleDatastore) var articleDatastore
+  @EnvironmentObject var player: Player
+
   @State private var addArticleSheetIsPresented = false
+  @State private var playerSettingSheetIsPresented = false
 
   var body: some View {
     StreamView(stream: articleDatastore.articlesStream()) { articles in
@@ -45,7 +48,7 @@ struct ArticlesPage: View {
         .toolbar(content: {
           ToolbarItem(placement: .navigationBarTrailing) {
             Button {
-              addArticleSheetIsPresented = true
+              playerSettingSheetIsPresented = true
             } label: {
               Image(systemName: "gearshape")
                 .imageScale(.large)
@@ -69,6 +72,10 @@ struct ArticlesPage: View {
       UniversalErrorView(error: error, reload: reload)
     } loading: {
       ProgressView()
+    }
+    .sheet(isPresented: $playerSettingSheetIsPresented, detents: [.medium()]) {
+      PlayerSettingSheet()
+        .environmentObject(player)
     }
     .sheet(isPresented: $addArticleSheetIsPresented, detents: [.medium()]) {
       AddArticleSheet()

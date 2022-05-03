@@ -2,7 +2,9 @@ import SwiftUI
 
 struct RootView: View {
   @Environment(\.auth) private var auth
+
   @StateObject var screenStateNotifier = ScreenStateNotifier()
+  @StateObject var player = Player()
 
   @State private var signInError: Error?
 
@@ -17,6 +19,7 @@ struct RootView: View {
             .onAppear(perform: logIn)
         case .main:
           ArticlesPage()
+            .environmentObject(player)
         }
       }
     }

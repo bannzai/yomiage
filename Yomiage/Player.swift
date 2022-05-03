@@ -3,11 +3,8 @@ import SwiftUI
 import AVFoundation
 
 final class Player: ObservableObject {
-    // 0.0 ~ 1.0
   @Published var volume = UserDefaults.standard.float(forKey: UserDefaultsKeys.playerVolume)
-    // 0.0 ~ 1.0
   @Published var rate = UserDefaults.standard.float(forKey: UserDefaultsKeys.playerRate)
-    // 0.0 ~ 2.0
   @Published var pitch = UserDefaults.standard.float(forKey: UserDefaultsKeys.playerPitch)
 
   let synthesizer = AVSpeechSynthesizer()
@@ -48,9 +45,9 @@ private extension Player {
 
 extension Player {
   enum DefaultValues {
-    static var volume: Float = 0.5
-    static var rate: Float = 0.53
-    static var pitch: Float = 1.0
+    static let volume: Float = 0.5
+    static let rate: Float = 0.53
+    static let pitch: Float = 1.0
 
     static func setup() {
       if !UserDefaults.standard.dictionaryRepresentation().keys.contains(UserDefaultsKeys.playerVolume) {
