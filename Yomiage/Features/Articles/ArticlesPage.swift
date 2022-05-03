@@ -139,7 +139,7 @@ struct NoteArticle: View {
       }
       .padding()
       .errorAlert(error: $loader.localizedError)
-      .onReceive(loader.loadedBody) { body in
+      .onReceive(loader.$loadedBody) { body in
         guard let body = body else {
           return
         }

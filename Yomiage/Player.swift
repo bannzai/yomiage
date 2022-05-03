@@ -7,7 +7,6 @@ final class Player: NSObject, ObservableObject {
   @Published var rate = UserDefaults.standard.float(forKey: UserDefaultsKeys.playerRate)
   @Published var pitch = UserDefaults.standard.float(forKey: UserDefaultsKeys.playerPitch)
 
-  private var speakingText: String?
   private var progress: Progress?
 
   let synthesizer = AVSpeechSynthesizer()
@@ -39,18 +38,21 @@ final class Player: NSObject, ObservableObject {
     utterance.rate = rate
     utterance.pitchMultiplier = pitch
 
-    speakingText = text
-
     synthesizer.speak(utterance)
   }
 }
 
 private extension Player {
   func reset() {
-//    if synthesizer.isSpeaking {
-//      synthesizer.stopSpeaking(at: <#T##AVSpeechBoundary#>)
-//    }
-//    speak(text: String)
+    // NOTE: Avoid flush value after synthesizer.stopSpeaking -> speechSynthesizer(:didFinish).
+    let _remainingText = progress?.remainingText
+
+    if synthesizer.isSpeaking {
+      synthesizer.stopSpeaking(at: .immediate)
+    }
+    if let remainingText = _remainingText {
+      speak(text: remainingText)
+    }
   }
 }
 
@@ -75,17 +77,28 @@ extension Player {
 }
 
 extension Player: AVSpeechSynthesizerDelegate {
+  func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didFinish utterance: AVSpeechUtterance) {
+    progress = nil
+  }
+
   private struct Progress {
-    var range: Range<String.Index>
-    var lastWord: String
-    var speechString: String
+    let range: Range<String.Index>
+    let lastWord: String
+    let remainingText: String
+    let speechText: String
   }
   func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, willSpeakRangeOfSpeechString characterRange: NSRange, utterance: AVSpeechUtterance) {
     guard let range = Range(characterRange, in: utterance.speechString) else {
       return
     }
 
-    let lastWord = utterance.speechString[range]
-    progress = .init(range: range, lastWord: String(lastWord), speechString: utterance.speechString)
+    let lastWord = String(utterance.speechString[range])
+    let remainingText = String(utterance.speechString.suffix(from: range.upperBound))
+    progress = .init(
+      range: range,
+      lastWord: lastWord,
+      remainingText: remainingText,
+      speechText: utterance.speechString
+    )
   }
 }
