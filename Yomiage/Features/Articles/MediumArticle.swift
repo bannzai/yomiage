@@ -41,7 +41,7 @@ struct MediumArticle: View {
             if loader.loadingArticle != nil {
               ProgressView()
                 .frame(width: 14, height: 14)
-                .foregroundColor(.black)
+                .foregroundColor(.label)
                 .padding()
             } else if player.playingArticle == article {
               Button {
@@ -49,7 +49,7 @@ struct MediumArticle: View {
               } label: {
                 Image(systemName: "stop.fill")
                   .frame(width: 14, height: 14)
-                  .foregroundColor(.black)
+                  .foregroundColor(.label)
                   .padding()
               }
             } else {
@@ -58,7 +58,7 @@ struct MediumArticle: View {
               } label: {
                 Image(systemName: "play.fill")
                   .frame(width: 14, height: 14)
-                  .foregroundColor(.black)
+                  .foregroundColor(.label)
                   .padding()
               }
             }
@@ -69,7 +69,7 @@ struct MediumArticle: View {
             } label: {
               Image(systemName: "safari")
                 .frame(width: 14, height: 14)
-                .foregroundColor(.black)
+                .foregroundColor(.label)
                 .padding()
             }
           }
@@ -81,7 +81,7 @@ struct MediumArticle: View {
             return
           }
 
-          player.speak(article: article, text: body)
+          player.speak(article: article, title: mediumArticle.title, text: body)
         }
       }
     }

@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		20884DFD28223419008388AE /* ArticleRowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20884DFC28223419008388AE /* ArticleRowLayout.swift */; };
 		20884DFF28223644008388AE /* MediumArticle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20884DFE28223644008388AE /* MediumArticle.swift */; };
+		20EAD3C4282295F100B15D8E /* UISlider+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20EAD3C3282295F100B15D8E /* UISlider+.swift */; };
 		20FF78C8281F4C53001D062E /* YomiageApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FF78C7281F4C53001D062E /* YomiageApp.swift */; };
 		20FF78CA281F4C53001D062E /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FF78C9281F4C53001D062E /* RootView.swift */; };
 		20FF78CC281F4C53001D062E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 20FF78CB281F4C53001D062E /* Assets.xcassets */; };
@@ -75,6 +76,8 @@
 /* Begin PBXFileReference section */
 		20884DFC28223419008388AE /* ArticleRowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleRowLayout.swift; sourceTree = "<group>"; };
 		20884DFE28223644008388AE /* MediumArticle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediumArticle.swift; sourceTree = "<group>"; };
+		20884E002822578A008388AE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		20EAD3C3282295F100B15D8E /* UISlider+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UISlider+.swift"; sourceTree = "<group>"; };
 		20FF78C4281F4C53001D062E /* Yomiage.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Yomiage.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		20FF78C7281F4C53001D062E /* YomiageApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YomiageApp.swift; sourceTree = "<group>"; };
 		20FF78C9281F4C53001D062E /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
@@ -175,6 +178,7 @@
 		20FF78C6281F4C53001D062E /* Yomiage */ = {
 			isa = PBXGroup;
 			children = (
+				20884E002822578A008388AE /* Info.plist */,
 				20FF79542820FED4001D062E /* Layout */,
 				20FF7942281FF95F001D062E /* StdLib */,
 				20FF7935281FB84F001D062E /* Services */,
@@ -339,6 +343,7 @@
 				20FF79502820DB75001D062E /* AppStorage+.swift */,
 				20FF7943281FF967001D062E /* String+.swift */,
 				20FF795E28220344001D062E /* UINavigationBar+.swift */,
+				20EAD3C3282295F100B15D8E /* UISlider+.swift */,
 			);
 			path = StdLib;
 			sourceTree = "<group>";
@@ -527,6 +532,7 @@
 				20FF7920281F8847001D062E /* Button.swift in Sources */,
 				20884DFD28223419008388AE /* ArticleRowLayout.swift in Sources */,
 				20FF7948281FFF15001D062E /* ErrorAlert.swift in Sources */,
+				20EAD3C4282295F100B15D8E /* UISlider+.swift in Sources */,
 				20FF78FD281F4F0B001D062E /* AppDelegate.swift in Sources */,
 				20FF79532820DCD7001D062E /* Player.swift in Sources */,
 				20FF7913281F7686001D062E /* UserDatabase.swift in Sources */,
@@ -697,6 +703,7 @@
 				DEVELOPMENT_TEAM = TQPN82UBBY;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Yomiage/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -726,6 +733,7 @@
 				DEVELOPMENT_TEAM = TQPN82UBBY;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Yomiage/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
