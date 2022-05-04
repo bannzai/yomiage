@@ -1,6 +1,7 @@
 import Combine
 import SwiftUI
 import AVFoundation
+import MediaPlayer
 
 final class Player: NSObject, ObservableObject {
   @Published var volume = UserDefaults.standard.float(forKey: UserDefaultsKeys.playerVolume)
@@ -52,6 +53,31 @@ final class Player: NSObject, ObservableObject {
     }
 
     playingArticle = nil
+  }
+
+  func setupRemoteTransportControls() {
+    MPRemoteCommandCenter.shared().playCommand.addTarget { event in
+      if self.synthesizer.isSpeaking {
+        return .commandFailed
+      }
+      if !self.synthesizer.isPaused {
+        return .commandFailed
+      }
+
+      self.synthesizer.continueSpeaking()
+      return .success
+    }
+    MPRemoteCommandCenter.shared().pauseCommand.addTarget { event in
+      if !self.synthesizer.isSpeaking {
+        return .commandFailed
+      }
+      if self.synthesizer.isPaused {
+        return .commandFailed
+      }
+
+      self.synthesizer.pauseSpeaking(at: .immediate)
+      return .success
+    }
   }
 }
 
