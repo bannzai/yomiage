@@ -24,22 +24,22 @@ struct ArticlesPage: View {
           .navigationBarHidden(true)
         }
       } else {
-        ZStack {
-          ScrollView(.vertical) {
-            VStack(spacing: 0) {
-              ForEach(articles) { article in
-                switch article.typedKind {
-                case .note:
-                  VStack(alignment: .leading, spacing: 0) {
-                    NoteArticle(article: article, noteArticle: article.note)
-                    Divider()
-                  }
-                case .medium:
-                  // TODO:
-                  EmptyView()
-                case nil:
-                  EmptyView()
+        ScrollView(.vertical) {
+          VStack(spacing: 0) {
+            ForEach(articles) { article in
+              switch article.typedKind {
+              case .note:
+                VStack(alignment: .leading, spacing: 0) {
+                  NoteArticle(article: article, noteArticle: article.note)
+                  Divider()
                 }
+              case .medium:
+                VStack(alignment: .leading, spacing: 0) {
+                  MediumArticle(article: article, mediumArticle: article.medium)
+                  Divider()
+                }
+              case nil:
+                EmptyView()
               }
             }
           }
