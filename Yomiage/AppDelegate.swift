@@ -11,6 +11,7 @@ final class AppDelegate: NSObject, UIApplicationDelegate {
 
     // Setup Appearance
     UINavigationBar.setupAppearance()
+    UISlider.setupAppearance()
 
     return true
   }
