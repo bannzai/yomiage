@@ -53,7 +53,7 @@ struct ArticlesPage: View {
             } label: {
               Image(systemName: "gearshape")
                 .imageScale(.large)
-                .foregroundColor(Color(.label))
+                .foregroundColor(.label)
                 .frame(width: 28, height: 28)
             }
           }
@@ -63,7 +63,7 @@ struct ArticlesPage: View {
             } label: {
               Image(systemName: "plus")
                 .imageScale(.large)
-                .foregroundColor(Color(.label))
+                .foregroundColor(.label)
                 .frame(width: 28, height: 28)
             }
           }

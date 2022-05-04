@@ -25,7 +25,7 @@ struct AddArticleSheet: View {
               TextField("https://", text: $text)
               VSpacer(10)
               Divider()
-                .foregroundColor(.black)
+                .foregroundColor(.label)
             }
 
             Button {
