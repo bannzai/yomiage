@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		20884DFD28223419008388AE /* ArticleRowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20884DFC28223419008388AE /* ArticleRowLayout.swift */; };
 		20FF78C8281F4C53001D062E /* YomiageApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FF78C7281F4C53001D062E /* YomiageApp.swift */; };
 		20FF78CA281F4C53001D062E /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FF78C9281F4C53001D062E /* RootView.swift */; };
 		20FF78CC281F4C53001D062E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 20FF78CB281F4C53001D062E /* Assets.xcassets */; };
@@ -71,6 +72,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		20884DFC28223419008388AE /* ArticleRowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleRowLayout.swift; sourceTree = "<group>"; };
 		20FF78C4281F4C53001D062E /* Yomiage.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Yomiage.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		20FF78C7281F4C53001D062E /* YomiageApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YomiageApp.swift; sourceTree = "<group>"; };
 		20FF78C9281F4C53001D062E /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
@@ -222,6 +224,7 @@
 			children = (
 				20FF78F2281F4C63001D062E /* ArticlesPage.swift */,
 				20FF795C2821EE88001D062E /* NoteArticle.swift */,
+				20884DFC28223419008388AE /* ArticleRowLayout.swift */,
 				20FF795A2821E5B3001D062E /* ArticleWebView.swift */,
 				20FF795728213C17001D062E /* ArticleBodyHTMLLoader.swift */,
 			);
@@ -518,6 +521,7 @@
 				20FF7919281F77CF001D062E /* ArticleDatastore.swift in Sources */,
 				20FF7934281FB7EC001D062E /* Screen.swift in Sources */,
 				20FF7920281F8847001D062E /* Button.swift in Sources */,
+				20884DFD28223419008388AE /* ArticleRowLayout.swift in Sources */,
 				20FF7948281FFF15001D062E /* ErrorAlert.swift in Sources */,
 				20FF78FD281F4F0B001D062E /* AppDelegate.swift in Sources */,
 				20FF79532820DCD7001D062E /* Player.swift in Sources */,

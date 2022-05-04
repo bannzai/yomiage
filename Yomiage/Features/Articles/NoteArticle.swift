@@ -14,35 +14,30 @@ struct NoteArticle: View {
           LoadHTMLWebView(url: url, loader: loader)
         }
 
-        HStack {
-          Group {
-            if let eyeCatchImageURL = noteArticle.eyeCatchImageURL,
-               let url = URL(string: eyeCatchImageURL) {
-              AsyncImage(url: url) { image in
-                image
-                  .resizable()
-                  .scaledToFill()
-              } placeholder: {
-                ProgressView()
+        ArticleRowLayout(
+          thumbnailImage: {
+            Group {
+              if let eyeCatchImageURL = noteArticle.eyeCatchImageURL,
+                 let url = URL(string: eyeCatchImageURL) {
+                AsyncImage(url: url) { image in
+                  image
+                    .resizable()
+                    .scaledToFill()
+                } placeholder: {
+                  ProgressView()
+                }
+              } else {
+                Image(systemName: "photo")
               }
-            } else {
-              Image(systemName: "photo")
             }
-          }
-          .frame(width: 60, height: 60)
-          .background(Color(.systemGray5))
-          .cornerRadius(8)
-
-          VStack(alignment: .leading, spacing: 10) {
+          },
+          title: {
             Text(noteArticle.title)
-              .font(.system(.headline))
+          },
+          author: {
             Text(noteArticle.author)
-              .font(.system(.caption))
-          }
-
-          Spacer()
-
-          HStack(spacing: 4) {
+          },
+          playButton: {
             if loader.loadingArticle != nil {
               ProgressView()
                 .frame(width: 14, height: 14)
@@ -67,7 +62,8 @@ struct NoteArticle: View {
                   .padding()
               }
             }
-
+          },
+          webViewButton: {
             NavigationLink {
               ArticleWebViewPage(article: article)
             } label: {
@@ -77,7 +73,7 @@ struct NoteArticle: View {
                 .padding()
             }
           }
-        }
+        )
         .padding()
         .errorAlert(error: $loader.localizedError)
         .onReceive(loader.$loadedBody) { body in
