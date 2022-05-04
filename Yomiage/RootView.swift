@@ -19,6 +19,7 @@ struct RootView: View {
             .onAppear(perform: logIn)
         case .main:
           ArticlesPage()
+            .onAppear(perform: player.setupRemoteTransportControls)
             .environmentObject(player)
         }
       }
