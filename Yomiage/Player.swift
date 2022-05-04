@@ -42,8 +42,14 @@ final class Player: NSObject, ObservableObject {
     synthesizer.delegate = self
   }
 
-  func speak(article: Article, text: String) {
+  func speak(article: Article, title: String, text: String) {
     playingArticle = article
+
+    MPNowPlayingInfoCenter.default().nowPlayingInfo = [
+      MPMediaItemPropertyTitle: title,
+      MPNowPlayingInfoPropertyPlaybackRate: rate
+    ]
+
     speak(text: text)
   }
 

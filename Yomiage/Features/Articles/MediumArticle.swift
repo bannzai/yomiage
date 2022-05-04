@@ -81,7 +81,7 @@ struct MediumArticle: View {
             return
           }
 
-          player.speak(article: article, text: body)
+          player.speak(article: article, title: mediumArticle.title, text: body)
         }
       }
     }
