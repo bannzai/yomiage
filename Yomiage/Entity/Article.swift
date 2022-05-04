@@ -6,8 +6,10 @@ struct Article: Codable, Equatable, Identifiable {
   @DocumentID var id: String?
 
   let kind: String
+  let pageURL: String
   var note: Note?
   var medium: Medium?
+  let createdDate: Timestamp
 
   // MARK: - Kind
   var typedKind: Kind? { .init(rawValue: kind) }
@@ -19,7 +21,6 @@ struct Article: Codable, Equatable, Identifiable {
   // MARK: - Each Kind Structure
   struct Note: Codable, Equatable {
     let title: String
-    let pageURL: String
     let author: String
     let eyeCatchImageURL: String?
     let createdDate: Timestamp
@@ -27,7 +28,6 @@ struct Article: Codable, Equatable, Identifiable {
 
   struct Medium: Codable, Equatable {
     let title: String
-    let pageURL: String
     let author: String
     let eyeCatchImageURL: String?
     let createdDate: Timestamp
