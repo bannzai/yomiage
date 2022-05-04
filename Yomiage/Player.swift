@@ -21,27 +21,21 @@ final class Player: NSObject, ObservableObject {
       .sink { [weak self] volume in
         UserDefaults.standard.set(volume, forKey: UserDefaultsKeys.playerVolume)
 
-        DispatchQueue.main.async {
-          self?.reset()
-        }
+        self?.reset()
       }.store(in: &canceller)
     $rate
       .debounce(for: 0.5, scheduler: DispatchQueue.main)
       .sink { [weak self] rate in
         UserDefaults.standard.set(rate, forKey: UserDefaultsKeys.playerRate)
 
-        DispatchQueue.main.async {
-          self?.reset()
-        }
+        self?.reset()
       }.store(in: &canceller)
     $pitch
       .debounce(for: 0.5, scheduler: DispatchQueue.main)
       .sink { [weak self] pitch in
         UserDefaults.standard.set(pitch, forKey: UserDefaultsKeys.playerPitch)
 
-        DispatchQueue.main.async {
-          self?.reset()
-        }
+        self?.reset()
       }.store(in: &canceller)
 
     synthesizer.delegate = self
@@ -72,17 +66,20 @@ private extension Player {
   }
 
   func reset() {
-    // NOTE: Keep vlaue for avoid flushing after synthesizer.stopSpeaking -> speechSynthesizer(:didCancel).
-    let _remainingText = progress?.remainingText
+    // NOTE: After update @Published property(volume,rate,pitch), other @Published property cannot be updated. So should run to the next run loop.
+    DispatchQueue.main.async {
+      // NOTE: Keep vlaue for avoid flushing after synthesizer.stopSpeaking -> speechSynthesizer(:didCancel).
+      let _remainingText = self.progress?.remainingText
 
-    // NOTE: call synthesizer.speak is not speaking and is broken synthesizer when synthesizer.isSpeaking
-    guard synthesizer.isSpeaking else {
-      return
-    }
-    synthesizer.stopSpeaking(at: .word)
+      // NOTE: call synthesizer.speak is not speaking and is broken synthesizer when synthesizer.isSpeaking
+      guard self.synthesizer.isSpeaking else {
+        return
+      }
+      self.synthesizer.stopSpeaking(at: .word)
 
-    if let remainingText = _remainingText {
-      speak(text: remainingText)
+      if let remainingText = _remainingText {
+        self.speak(text: remainingText)
+      }
     }
   }
 }
