@@ -1,5 +1,11 @@
 import UIKit
 
+extension UINavigationBar {
+  static func setupAppearance() {
+    UINavigationBar.appearance().tintColor = .black
+  }
+}
+
 extension UINavigationController {
   open override func viewWillLayoutSubviews() {
     super.viewWillLayoutSubviews()
