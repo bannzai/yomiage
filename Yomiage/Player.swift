@@ -57,9 +57,6 @@ final class Player: NSObject, ObservableObject {
 
   func setupRemoteTransportControls() {
     MPRemoteCommandCenter.shared().playCommand.addTarget { event in
-      if self.synthesizer.isSpeaking {
-        return .commandFailed
-      }
       if !self.synthesizer.isPaused {
         return .commandFailed
       }
@@ -68,9 +65,6 @@ final class Player: NSObject, ObservableObject {
       return .success
     }
     MPRemoteCommandCenter.shared().pauseCommand.addTarget { event in
-      if !self.synthesizer.isSpeaking {
-        return .commandFailed
-      }
       if self.synthesizer.isPaused {
         return .commandFailed
       }
