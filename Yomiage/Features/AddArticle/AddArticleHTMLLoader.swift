@@ -51,8 +51,8 @@ window.document.getElementsByTagName('html')[0].outerHTML;
       let doc = try HTML(html: html, encoding: .utf8)
       switch target.kind {
       case .note:
-        if let title = doc.at_xpath(#"//*[@id="__layout"]/div/div[1]/div[2]/main/div[1]/article/div[1]/div/div/h1"#)?.text?.trimmed,
-           let author = doc.at_xpath(#"//*[@id="__layout"]/div/div[1]/div[2]/main/div[1]/article/div[1]/div/div/div[2]/div/div[1]/div/a"#)?.text?.trimmed {
+        if let title = doc.at_xpath(#"//*[@id="__layout"]/div/div[1]/div[2]/main/div[1]/article/div[1]/div/div/h1"#)?.text,
+           let author = doc.at_xpath(#"//*[@id="__layout"]/div/div[1]/div[2]/main/div[1]/article/div[1]/div/div/div[2]/div/div[1]/div/a"#)?.text {
           let eyeCatchImageURL: String? = {
             if let first = doc.at_xpath(#"//*[@id="__layout"]/div/div[1]/div[2]/main/div[1]/article/div[1]/div/div/figure/a/img"#)?["src"] {
               return first
@@ -77,7 +77,23 @@ window.document.getElementsByTagName('html')[0].outerHTML;
           throw "ページが読み込めませんでした。URLをご確認ください"
         }
       case .medium:
-        fatalError()
+        if let title = doc.at_xpath(#"/html/body/div/div/div[3]/div/div/main/div/div[3]/div[1]/div/article/div/div[2]/section/div/div[2]/div[1]/h1"#)?.text,
+           let author = doc.at_xpath(#"//*[@id="root"]/div/div[3]/div/div/main/div/div[3]/div[1]/div/article/div/div[2]/header/div[1]/div[1]/div[2]/div[1]/div/div[1]/div/a"#)?.text {
+          let eyeCatchImageURL: String? = doc.at_xpath(#"//*[@id="root"]/div/div[3]/div/div/main/div/div[3]/div[1]/div/article/div/div[2]/section/div/div[2]/figure[1]/div/div/img"#)?["src"]
+
+          loadedArticle = .init(
+            kind: Article.Kind.medium.rawValue,
+            medium: .init(
+              title: title,
+              pageURL: target.url.absoluteString,
+              author: author,
+              eyeCatchImageURL: eyeCatchImageURL,
+              createdDate: .init()
+            )
+          )
+        } else {
+          throw "ページが読み込めませんでした。URLをご確認ください"
+        }
       }
     } catch {
       localizedError = WebViewLoadHTMLError(error: error)

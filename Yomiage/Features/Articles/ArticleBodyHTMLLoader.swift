@@ -33,8 +33,19 @@ const body = Array.from(bodyDocument.children).reduce((previousValue, element) =
 body;
 """
     case .medium:
-      // TODO:
-      return nil
+      return """
+const bodyDocument = document.querySelector("article").querySelector("section");
+const body = Array.from(bodyDocument.children).reduce((previousValue, element) => {
+  if (['h1', 'h2', 'h3', 'h4'].includes(element.localName)) {
+    return previousValue + '\\n' + element.textContent + '\\n' + '\\n';
+  } else if (['p', 'ul'].includes(element.localName)) {
+    return previousValue + '\\n' + element.textContent + '\\n';
+  } else {
+    return previousValue + element.textContent;
+  }
+},'');
+body;
+"""
     case nil:
       return nil
     }
