@@ -50,6 +50,7 @@
 		20FF795828213C17001D062E /* ArticleBodyHTMLLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FF795728213C17001D062E /* ArticleBodyHTMLLoader.swift */; };
 		20FF795B2821E5B3001D062E /* ArticleWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FF795A2821E5B3001D062E /* ArticleWebView.swift */; };
 		20FF795D2821EE88001D062E /* NoteArticle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FF795C2821EE88001D062E /* NoteArticle.swift */; };
+		20FF795F28220344001D062E /* UINavigationBar+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FF795E28220344001D062E /* UINavigationBar+.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -109,6 +110,7 @@
 		20FF795728213C17001D062E /* ArticleBodyHTMLLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleBodyHTMLLoader.swift; sourceTree = "<group>"; };
 		20FF795A2821E5B3001D062E /* ArticleWebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleWebView.swift; sourceTree = "<group>"; };
 		20FF795C2821EE88001D062E /* NoteArticle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteArticle.swift; sourceTree = "<group>"; };
+		20FF795E28220344001D062E /* UINavigationBar+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UINavigationBar+.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -330,6 +332,7 @@
 			children = (
 				20FF79502820DB75001D062E /* AppStorage+.swift */,
 				20FF7943281FF967001D062E /* String+.swift */,
+				20FF795E28220344001D062E /* UINavigationBar+.swift */,
 			);
 			path = StdLib;
 			sourceTree = "<group>";
@@ -498,6 +501,7 @@
 				20FF78F6281F4D40001D062E /* Article.swift in Sources */,
 				20FF7946281FFCE1001D062E /* HUD.swift in Sources */,
 				20FF795B2821E5B3001D062E /* ArticleWebView.swift in Sources */,
+				20FF795F28220344001D062E /* UINavigationBar+.swift in Sources */,
 				20FF78CA281F4C53001D062E /* RootView.swift in Sources */,
 				20FF795828213C17001D062E /* ArticleBodyHTMLLoader.swift in Sources */,
 				20FF794F2820DB28001D062E /* PlayerSettingSheet.swift in Sources */,
