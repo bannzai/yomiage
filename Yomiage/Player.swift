@@ -16,19 +16,33 @@ final class Player: NSObject, ObservableObject {
   override init() {
     super.init()
 
-    $volume.sink { volume in
-      UserDefaults.standard.set(volume, forKey: UserDefaultsKeys.playerVolume)
-    }.store(in: &canceller)
-    $rate.sink { rate in
-      UserDefaults.standard.set(rate, forKey: UserDefaultsKeys.playerRate)
-    }.store(in: &canceller)
-    $pitch.sink { pitch in
-      UserDefaults.standard.set(pitch, forKey: UserDefaultsKeys.playerPitch)
-    }.store(in: &canceller)
+    $volume
+      .debounce(for: 0.5, scheduler: DispatchQueue.main)
+      .sink { [weak self] volume in
+        UserDefaults.standard.set(volume, forKey: UserDefaultsKeys.playerVolume)
 
-    objectWillChange.sink { [weak self] in
-      self?.reset()
-    }.store(in: &canceller)
+        DispatchQueue.main.async {
+          self?.reset()
+        }
+      }.store(in: &canceller)
+    $rate
+      .debounce(for: 0.5, scheduler: DispatchQueue.main)
+      .sink { [weak self] rate in
+        UserDefaults.standard.set(rate, forKey: UserDefaultsKeys.playerRate)
+
+        DispatchQueue.main.async {
+          self?.reset()
+        }
+      }.store(in: &canceller)
+    $pitch
+      .debounce(for: 0.5, scheduler: DispatchQueue.main)
+      .sink { [weak self] pitch in
+        UserDefaults.standard.set(pitch, forKey: UserDefaultsKeys.playerPitch)
+
+        DispatchQueue.main.async {
+          self?.reset()
+        }
+      }.store(in: &canceller)
 
     synthesizer.delegate = self
   }
@@ -42,6 +56,8 @@ final class Player: NSObject, ObservableObject {
     if synthesizer.isSpeaking {
       synthesizer.stopSpeaking(at: .immediate)
     }
+
+    playingArticle = nil
   }
 }
 
@@ -93,11 +109,11 @@ extension Player {
 
 extension Player: AVSpeechSynthesizerDelegate {
   func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didFinish utterance: AVSpeechUtterance) {
-    playingArticle = nil
+    print(#function)
     progress = nil
   }
   func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didCancel utterance: AVSpeechUtterance) {
-    playingArticle = nil
+    print(#function)
     progress = nil
   }
 
