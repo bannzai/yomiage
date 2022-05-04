@@ -53,7 +53,7 @@ struct NoteArticle: View {
                 player.stop()
               } label: {
                 Image(systemName: "stop.fill")
-                .frame(width: 14, height: 14)
+                  .frame(width: 14, height: 14)
                   .foregroundColor(.black)
                   .padding()
               }
@@ -62,7 +62,7 @@ struct NoteArticle: View {
                 loader.load(article: article)
               } label: {
                 Image(systemName: "play.fill")
-                .frame(width: 14, height: 14)
+                  .frame(width: 14, height: 14)
                   .foregroundColor(.black)
                   .padding()
               }
@@ -86,7 +86,7 @@ struct NoteArticle: View {
           }
 
           player.speak(article: article, text: body)
-      }
+        }
       }
     }
   }
