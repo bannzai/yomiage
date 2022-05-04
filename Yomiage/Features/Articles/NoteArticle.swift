@@ -10,7 +10,7 @@ struct NoteArticle: View {
   var body: some View {
     if let noteArticle = noteArticle {
       ZStack {
-        if let article = loader.loadingArticle?.note, let url = URL(string: article.pageURL) {
+        if let article = loader.loadingArticle, let url = URL(string: article.pageURL) {
           LoadHTMLWebView(url: url, loader: loader)
         }
 

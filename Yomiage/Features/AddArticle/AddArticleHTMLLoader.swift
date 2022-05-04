@@ -65,13 +65,14 @@ window.document.getElementsByTagName('html')[0].outerHTML;
 
           loadedArticle = .init(
             kind: Article.Kind.note.rawValue,
+            pageURL: target.url.absoluteString,
             note: .init(
               title: title,
-              pageURL: target.url.absoluteString,
               author: author,
               eyeCatchImageURL: eyeCatchImageURL,
               createdDate: .init()
-            )
+            ),
+            createdDate: .init()
           )
         } else {
           throw "ページが読み込めませんでした。URLをご確認ください"
@@ -83,13 +84,14 @@ window.document.getElementsByTagName('html')[0].outerHTML;
 
           loadedArticle = .init(
             kind: Article.Kind.medium.rawValue,
+            pageURL: target.url.absoluteString,
             medium: .init(
               title: title,
-              pageURL: target.url.absoluteString,
               author: author,
               eyeCatchImageURL: eyeCatchImageURL,
               createdDate: .init()
-            )
+            ),
+            createdDate: .init()
           )
         } else {
           throw "ページが読み込めませんでした。URLをご確認ください"
