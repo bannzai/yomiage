@@ -136,6 +136,7 @@ extension Player: AVSpeechSynthesizerDelegate {
 
     progress = nil
     playingArticle = nil
+    MPNowPlayingInfoCenter.default().nowPlayingInfo = nil
   }
   func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didCancel utterance: AVSpeechUtterance) {
     print(#function)
