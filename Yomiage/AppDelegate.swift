@@ -21,7 +21,7 @@ final class AppDelegate: NSObject, UIApplicationDelegate {
 private extension AppDelegate {
   func setupFirebase() {
     let firebaseFileName: String
-#if DEBUG
+#if DEV
     firebaseFileName = "GoogleService-Info-dev"
 #else
     firebaseFileName = "GoogleService-Info-prod"
