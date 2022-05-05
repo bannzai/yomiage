@@ -2,18 +2,13 @@ import SwiftUI
 
 struct MediumArticle: View {
   @EnvironmentObject private var player: Player
-  @StateObject private var loader = ArticleBodyHTMLLoader()
 
   let article: Article
   let mediumArticle: Article.Medium?
 
   var body: some View {
-    if let mediumArticle = mediumArticle {
+    if let mediumArticle = mediumArticle, let url = URL(string: article.pageURL) {
       ZStack {
-        if let article = loader.loadingArticle, let url = URL(string: article.pageURL) {
-          LoadHTMLWebView(url: url, loader: loader)
-        }
-
         ArticleRowLayout(
           thumbnailImage: {
             Group {
@@ -38,12 +33,7 @@ struct MediumArticle: View {
             Text(mediumArticle.author)
           },
           playButton: {
-            if loader.loadingArticle != nil {
-              ProgressView()
-                .frame(width: 14, height: 14)
-                .foregroundColor(.label)
-                .padding()
-            } else if player.playingArticle == article {
+            if player.playingArticle == article {
               Button {
                 player.stop()
               } label: {
@@ -53,10 +43,16 @@ struct MediumArticle: View {
                   .padding()
               }
             } else {
-              Button {
-                loader.load(article: article)
+              AsyncButton {
+                await player.play(article: article, url: url, kind: .medium)
+                player.configurePlayingCenter(title: mediumArticle.title)
               } label: {
                 Image(systemName: "play.fill")
+                  .frame(width: 14, height: 14)
+                  .foregroundColor(.label)
+                  .padding()
+              } progress: {
+                ProgressView()
                   .frame(width: 14, height: 14)
                   .foregroundColor(.label)
                   .padding()
@@ -64,7 +60,7 @@ struct MediumArticle: View {
             }
           },
           webViewButton: {
-            NavigationLink {
+            NavigationLinkButton {
               ArticleWebViewPage(article: article)
             } label: {
               Image(systemName: "safari")
@@ -75,14 +71,7 @@ struct MediumArticle: View {
           }
         )
         .padding()
-        .errorAlert(error: $loader.localizedError)
-        .onReceive(loader.$loadedBody) { body in
-          guard let body = body else {
-            return
-          }
-
-          player.speak(article: article, title: mediumArticle.title, text: body)
-        }
+        .errorAlert(error: $player.error)
       }
     }
   }

@@ -6,6 +6,7 @@ struct ArticlesPage: View {
 
   @State private var addArticleSheetIsPresented = false
   @State private var playerSettingSheetIsPresented = false
+  @State private var error: Error?
 
   var body: some View {
     StreamView(stream: articleDatastore.articlesStream()) { articles in
@@ -24,26 +25,39 @@ struct ArticlesPage: View {
           .navigationBarHidden(true)
         }
       } else {
-        ScrollView(.vertical) {
-          VStack(spacing: 0) {
-            ForEach(articles) { article in
-              switch article.typedKind {
-              case .note:
-                VStack(alignment: .leading, spacing: 0) {
-                  NoteArticle(article: article, noteArticle: article.note)
-                  Divider()
-                }
-              case .medium:
-                VStack(alignment: .leading, spacing: 0) {
-                  MediumArticle(article: article, mediumArticle: article.medium)
-                  Divider()
-                }
-              case nil:
-                EmptyView()
+        List {
+          ForEach(articles) { article in
+            switch article.typedKind {
+            case .note:
+              VStack(alignment: .leading, spacing: 0) {
+                NoteArticle(article: article, noteArticle: article.note)
+                Divider()
               }
+            case .medium:
+              VStack(alignment: .leading, spacing: 0) {
+                MediumArticle(article: article, mediumArticle: article.medium)
+                Divider()
+              }
+            case nil:
+              EmptyView()
             }
           }
+          .onDelete(perform: { indexSet in
+            indexSet.forEach { index in
+              Task { @MainActor in
+                do {
+                  try await articleDatastore.delete(article: articles[index])
+                } catch {
+                  self.error = error
+                }
+              }
+            }
+          })
+          .listRowInsets(EdgeInsets())
+          .listRowSeparator(.hidden)
+          .buttonStyle(.plain)
         }
+        .listStyle(.plain)
         .navigationBarHidden(false)
         .navigationTitle("一覧")
         .toolbar(content: {
@@ -68,6 +82,11 @@ struct ArticlesPage: View {
             }
           }
         })
+        .onAppear {
+          articles.forEach { article in
+            player.allArticle.insert(article)
+          }
+        }
       }
     } errorContent: { error, reload in
       UniversalErrorView(error: error, reload: reload)
@@ -81,5 +100,6 @@ struct ArticlesPage: View {
     .sheet(isPresented: $addArticleSheetIsPresented, detents: [.medium()]) {
       AddArticleSheet()
     }
+    .errorAlert(error: $error)
   }
 }

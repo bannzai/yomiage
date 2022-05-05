@@ -9,10 +9,13 @@ final class Player: NSObject, ObservableObject {
   @Published var pitch = UserDefaults.standard.float(forKey: UserDefaultsKeys.playerPitch)
 
   @Published private(set) var playingArticle: Article?
-  private var progress: Progress?
 
-  let synthesizer = AVSpeechSynthesizer()
-  var canceller: Set<AnyCancellable> = []
+  var allArticle: Set<Article> = []
+  @Published var error: Error?
+
+  private let synthesizer = AVSpeechSynthesizer()
+  private var canceller: Set<AnyCancellable> = []
+  private var progress: Progress?
 
   override init() {
     super.init()
@@ -42,15 +45,28 @@ final class Player: NSObject, ObservableObject {
     synthesizer.delegate = self
   }
 
-  func speak(article: Article, title: String, text: String) {
-    playingArticle = article
+  func play(article: Article, url: URL, kind: Article.Kind) async {
+    do {
+      let body: String
+      switch kind {
+      case .note:
+        body = try await loadNoteBody(url: url)
+      case .medium:
+        body = try await loadMediumBody(url: url)
+      }
 
+      playingArticle = article
+      speak(text: body)
+    } catch {
+      self.error = error
+    }
+  }
+
+  func configurePlayingCenter(title: String) {
     MPNowPlayingInfoCenter.default().nowPlayingInfo = [
       MPMediaItemPropertyTitle: title,
       MPNowPlayingInfoPropertyPlaybackRate: rate
     ]
-
-    speak(text: text)
   }
 
   func stop() {
@@ -79,10 +95,9 @@ final class Player: NSObject, ObservableObject {
       return .success
     }
   }
-}
 
-private extension Player {
-  func speak(text: String) {
+  // MARK: - Private
+  private func speak(text: String) {
     let utterance = AVSpeechUtterance(string: text)
     utterance.volume = volume
     utterance.rate = rate
@@ -91,7 +106,7 @@ private extension Player {
     synthesizer.speak(utterance)
   }
 
-  func reset() {
+  private func reset() {
     // NOTE: After update @Published property(volume,rate,pitch), other @Published property cannot be updated. So should run to the next run loop.
     DispatchQueue.main.async {
       // NOTE: Keep vlaue for avoid flushing after synthesizer.stopSpeaking -> speechSynthesizer(:didCancel).
@@ -133,10 +148,14 @@ extension Player {
 extension Player: AVSpeechSynthesizerDelegate {
   func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didFinish utterance: AVSpeechUtterance) {
     print(#function)
+
     progress = nil
+    playingArticle = nil
+    MPNowPlayingInfoCenter.default().nowPlayingInfo = nil
   }
   func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didCancel utterance: AVSpeechUtterance) {
     print(#function)
+
     progress = nil
   }
 
@@ -148,6 +167,7 @@ extension Player: AVSpeechSynthesizerDelegate {
   }
   func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, willSpeakRangeOfSpeechString characterRange: NSRange, utterance: AVSpeechUtterance) {
     print(#function)
+
     guard let range = Range(characterRange, in: utterance.speechString) else {
       return
     }

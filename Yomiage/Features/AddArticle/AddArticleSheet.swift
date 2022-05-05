@@ -10,10 +10,6 @@ struct AddArticleSheet: View {
 
   var body: some View {
     ZStack {
-      if let url = loader.target?.url {
-        LoadHTMLWebView(url: url, loader: loader)
-      }
-
       MediumSheetLayout(
         title: {
           Text("記事を追加")
@@ -28,23 +24,21 @@ struct AddArticleSheet: View {
                 .foregroundColor(.label)
             }
 
-            Button {
+            AsyncButton {
               if let url = url {
-                loader.load(url: url)
+                await loader.load(url: url)
               }
             } label: {
               Text("追加する")
+            } progress: {
+              ProgressView()
             }
             .buttonStyle(.primary)
-            .disabled(url == nil || loader.target != nil)
+            .disabled(url == nil || loader.isLoading)
           }
           .padding(.horizontal, 20)
         }
       )
-
-      if loader.target != nil {
-        HUD()
-      }
     }
     .onReceive(loader.$loadedArticle) { article in
       if let article = article {
