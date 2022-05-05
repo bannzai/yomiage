@@ -24,7 +24,7 @@ final class UserDatabase {
   }
 }
 
-extension CollectionReference {
+extension Query {
   func stream<T: Decodable>() -> AsyncThrowingStream<[T], Error> {
     .init { continuation in
       let registration = addSnapshotListener { snapshot, error in
@@ -48,7 +48,9 @@ extension CollectionReference {
       }
     }
   }
+}
 
+extension CollectionReference {
   func addDocument<T: Encodable>(entity: T) async throws {
     return try await withCheckedThrowingContinuation { continuation in
       do {
