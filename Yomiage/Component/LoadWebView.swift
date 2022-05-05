@@ -2,7 +2,7 @@ import SwiftUI
 import WebKit
 import Combine
 
-func loadHTML(url: URL) async throws -> String {
+@MainActor func loadHTML(url: URL) async throws -> String {
   let javaScript =
 """
 window.document.getElementsByTagName('html')[0].outerHTML;
@@ -14,7 +14,7 @@ window.document.getElementsByTagName('html')[0].outerHTML;
   )
 }
 
-func loadNoteBody(url: URL) async throws -> String {
+@MainActor func loadNoteBody(url: URL) async throws -> String {
   let javaScript = """
 const bodyDocument = document.getElementsByClassName('note-common-styles__textnote-body')[0];
 const body = Array.from(bodyDocument.children).reduce((previousValue, element) => {
@@ -35,7 +35,7 @@ body;
   )
 }
 
-func loadMediumBody(url: URL) async throws -> String {
+@MainActor func loadMediumBody(url: URL) async throws -> String {
   let javaScript = """
 const bodyDocument = document.querySelector("article").querySelector("section");
 const body = Array.from(bodyDocument.children).reduce((previousValue, element) => {
@@ -124,19 +124,17 @@ private func load(url: URL, javaScript: String, evaluted: @escaping (Result<Stri
   )
 }
 
-private func load(url: URL, javaScript: String) async throws -> String {
+// NOTE: WKWebView should instantiate and call WKWebView#load on main thread
+@MainActor private func load(url: URL, javaScript: String) async throws -> String {
   try await withCheckedThrowingContinuation { continuation in
-    // NOTE: WKWebView should instantiate and call WKWebView#load on main thread
-    Task { @MainActor in
-      load(
-        url: url,
-        javaScript: javaScript) { result in
-          do {
-            continuation.resume(returning: try result.get())
-          } catch {
-            continuation.resume(throwing: error)
-          }
+    load(
+      url: url,
+      javaScript: javaScript) { result in
+        do {
+          continuation.resume(returning: try result.get())
+        } catch {
+          continuation.resume(throwing: error)
         }
-    }
+      }
   }
 }
