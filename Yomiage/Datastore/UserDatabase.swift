@@ -49,7 +49,7 @@ extension CollectionReference {
     }
   }
 
-  func create<T: Encodable>(entity: T) async throws {
+  func addDocument<T: Encodable>(entity: T) async throws {
     return try await withCheckedThrowingContinuation { continuation in
       do {
         _ = try addDocument(from: entity, completion: { error in

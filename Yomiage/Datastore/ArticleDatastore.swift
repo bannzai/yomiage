@@ -7,7 +7,7 @@ struct ArticleDatastore {
   }
 
   func create(article: Article) async throws {
-    try await UserDatabase.shared.articlesReference().create(entity: article)
+    try await UserDatabase.shared.articlesReference().addDocument(entity: article)
   }
 }
 
