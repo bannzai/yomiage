@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		203A88C32823FF3A00B4C12C /* AsyncButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203A88C22823FF3A00B4C12C /* AsyncButton.swift */; };
 		20884DFD28223419008388AE /* ArticleRowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20884DFC28223419008388AE /* ArticleRowLayout.swift */; };
 		20884DFF28223644008388AE /* MediumArticle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20884DFE28223644008388AE /* MediumArticle.swift */; };
 		20E7069728238CEB00DF824F /* NavigationLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20E7069628238CEB00DF824F /* NavigationLink.swift */; };
@@ -74,6 +75,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		203A88C22823FF3A00B4C12C /* AsyncButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncButton.swift; sourceTree = "<group>"; };
 		20884DFC28223419008388AE /* ArticleRowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleRowLayout.swift; sourceTree = "<group>"; };
 		20884DFE28223644008388AE /* MediumArticle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediumArticle.swift; sourceTree = "<group>"; };
 		20884E002822578A008388AE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
@@ -282,6 +284,7 @@
 			children = (
 				20FF791B281F868A001D062E /* StreamView.swift */,
 				20FF791D281F878A001D062E /* UniversalErrorView.swift */,
+				203A88C22823FF3A00B4C12C /* AsyncButton.swift */,
 				20E7069628238CEB00DF824F /* NavigationLink.swift */,
 				20FF7928281FAB02001D062E /* Sheet.swift */,
 				20FF7940281FC369001D062E /* LoadWebView.swift */,
@@ -519,6 +522,7 @@
 			files = (
 				20FF78F6281F4D40001D062E /* Article.swift in Sources */,
 				20FF7946281FFCE1001D062E /* HUD.swift in Sources */,
+				203A88C32823FF3A00B4C12C /* AsyncButton.swift in Sources */,
 				20FF795B2821E5B3001D062E /* ArticleWebView.swift in Sources */,
 				20E7069728238CEB00DF824F /* NavigationLink.swift in Sources */,
 				20FF795F28220344001D062E /* UINavigationBar+.swift in Sources */,

@@ -8,25 +8,17 @@ final class AddArticleHTMLLoader: ObservableObject {
   @Published private(set) var localizedError: LocalizedError?
   @Published private(set) var loadedArticle: Article?
 
-  private var webView: LoadHTMLWebView?
-  func load(url: URL) {
-    isLoading = true
-
-    webView = LoadHTMLWebView(url: url) { [weak self] result in
-      defer {
-        self?.isLoading = false
-        self?.webView = nil
-      }
-
-      switch result {
-      case .success(let html):
-        do {
-          self?.loadedArticle = try self?.proceedReadArticle(html: html, loadingURL: url)
-        } catch {
-          self?.localizedError = WebViewLoadHTMLError(error: error)
-        }
-      case .failure(let error):
-        self?.localizedError = error
+  func load(url: URL) async {
+    do {
+      isLoading = true
+      let html = try await loadHTML(url: url)
+      loadedArticle = try proceedReadArticle(html: html, loadingURL: url)
+      isLoading = false
+    } catch {
+      if let localizedError = error as? LocalizedError {
+        self.localizedError = localizedError
+      } else {
+        self.localizedError = WebViewLoadHTMLError(error: error)
       }
     }
   }

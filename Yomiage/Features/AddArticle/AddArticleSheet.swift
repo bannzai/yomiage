@@ -24,9 +24,9 @@ struct AddArticleSheet: View {
                 .foregroundColor(.label)
             }
 
-            Button {
+            AsyncButton {
               if let url = url {
-                loader.load(url: url)
+                await loader.load(url: url)
               }
             } label: {
               Text("追加する")

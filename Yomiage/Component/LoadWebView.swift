@@ -111,9 +111,8 @@ body;
   )
 }
 
-var mediumBodyJavaScript: String {
-  func loadMediumBody(url: URL) async throws -> String {
-    let javaScript = """
+func loadMediumBody(url: URL) async throws -> String {
+  let javaScript = """
 const bodyDocument = document.querySelector("article").querySelector("section");
 const body = Array.from(bodyDocument.children).reduce((previousValue, element) => {
   if (['h1', 'h2', 'h3', 'h4'].includes(element.localName)) {
@@ -127,8 +126,8 @@ const body = Array.from(bodyDocument.children).reduce((previousValue, element) =
 body;
 """
 
-    return try await load(
-      url: url,
-      javaScript: javaScript
-    )
-  }
+  return try await load(
+    url: url,
+    javaScript: javaScript
+  )
+}

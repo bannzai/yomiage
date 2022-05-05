@@ -12,7 +12,7 @@ final class Player: NSObject, ObservableObject {
   @Published private(set) var playingArticle: Article?
 
   var allArticle: Set<Article> = []
-  @Published var localizedError: Error?
+  @Published var error: Error?
 
   private let synthesizer = AVSpeechSynthesizer()
   private var canceller: Set<AnyCancellable> = []
@@ -47,54 +47,32 @@ final class Player: NSObject, ObservableObject {
     synthesizer.delegate = self
   }
 
-  func load(article: Article, url: URL) {
-    loadingArticle = article
+  func play(article: Article, url: URL, kind: Article.Kind) async {
+    do {
+      loadingArticle = article
 
-    webView = NoteArticleBodyLoadHTMLWebView(url: url, evaluatedJavaScript: { [weak self] result in
-      defer {
-        self?.webView = nil
-        self?.loadingArticle = nil
+      let body: String
+      switch kind {
+      case .note:
+        body = try await loadNoteBody(url: url)
+      case .medium:
+        body = try await loadMediumBody(url: url)
       }
 
-      switch result {
-      case let .success(body):
-        self?.cachedFullText[article] = body
-        self?.playingArticle = article
-        self?.speak(text: text)
-      case let .failure(error):
-        self?.localizedError = error
-      }
-    })
+      cachedFullText[article] = body
+      loadingArticle = nil
+      playingArticle = article
+      speak(text: body)
+    } catch {
+      self.error = error
+    }
   }
 
-  func load(article: Article, url: URL, mediumArticle: Article.Medium) {
-    loadingArticle = article
-
-    webView = NoteArticleBodyLoadHTMLWebView(url: url, evaluatedJavaScript: { [weak self] result in
-      defer {
-        self?.webView = nil
-        self?.loadingArticle = nil
-      }
-
-      switch result {
-      case let .success(body):
-        self?.cachedFullText[article] = body
-        self?.play(article: article, title: mediumArticle.title, text: body)
-      case let .failure(error):
-        self?.localizedError = error
-      }
-    })
-  }
-
-  func play(article: Article, title: String, text: String) {
-    playingArticle = article
-
+  func configurePlayingCenter(title: String) {
     MPNowPlayingInfoCenter.default().nowPlayingInfo = [
       MPMediaItemPropertyTitle: title,
       MPNowPlayingInfoPropertyPlaybackRate: rate
     ]
-
-    speak(text: text)
   }
 
   func stop() {
