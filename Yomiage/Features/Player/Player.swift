@@ -96,32 +96,6 @@ final class Player: NSObject, ObservableObject {
       self.synthesizer.pauseSpeaking(at: .immediate)
       return .success
     }
-    MPRemoteCommandCenter.shared().nextTrackCommand.addTarget { event in
-      guard
-        let playingArticle = self.playingArticle,
-        let nextArticleIndex = self.allArticle.firstIndex(of: playingArticle) else {
-        return .commandFailed
-      }
-
-      let nextArticle = self.allArticle[nextArticleIndex]
-      if let nextBody = self.cachedFullText[nextArticle] {
-        self.speak(text: nextBody)
-        return .success
-      } else {
-        if let url = URL(string: nextArticle.pageURL), let kind = nextArticle.typedKind {
-          Task { @MainActor in
-            await self.play(article: nextArticle, url: url, kind: kind)
-
-            if let title = nextArticle.note?.title ?? nextArticle.medium?.title {
-              self.configurePlayingCenter(title: title)
-            }
-          }
-          return .success
-        } else {
-          return .commandFailed
-        }
-      }
-    }
   }
 
   // MARK: - Private
