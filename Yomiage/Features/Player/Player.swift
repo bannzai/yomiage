@@ -15,7 +15,6 @@ final class Player: NSObject, ObservableObject {
 
   private let synthesizer = AVSpeechSynthesizer()
   private var canceller: Set<AnyCancellable> = []
-  private var cachedFullText: [Article: String] = [:]
   private var progress: Progress?
 
   override init() {
@@ -56,7 +55,6 @@ final class Player: NSObject, ObservableObject {
         body = try await loadMediumBody(url: url)
       }
 
-      cachedFullText[article] = body
       playingArticle = article
       speak(text: body)
     } catch {
