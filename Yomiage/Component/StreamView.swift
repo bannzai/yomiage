@@ -13,8 +13,6 @@ struct StreamView<Data, Loading: View, Error: View, Content: View>: View {
   @ViewBuilder let errorContent: (_ error: Swift.Error, _ reload: @escaping ReloadStreamHandler) -> Error
   @ViewBuilder let loading: () -> Loading
 
-  @State var task: Task<Void, Swift.Error>?
-
   var body: some View {
     Group {
       if isLoading {
@@ -41,20 +39,16 @@ struct StreamView<Data, Loading: View, Error: View, Content: View>: View {
   }
 
   private func listenStream() async {
-    task?.cancel()
-    task = Task { @MainActor in
-      do {
-        try await Task.sleep(nanoseconds: 4_000)
-        for try await data in stream {
-          self.data = data
+    do {
+      for try await data in stream {
+        self.data = data
 
-          if isLoading {
-            isLoading = false
-          }
+        if isLoading {
+          isLoading = false
         }
-      } catch {
-        self.error = error
       }
+    } catch {
+      self.error = error
     }
   }
 }
