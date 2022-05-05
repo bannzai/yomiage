@@ -64,7 +64,7 @@ struct NoteArticle: View {
             }
           },
           webViewButton: {
-            NavigationLink {
+            NavigationLinkButton {
               ArticleWebViewPage(article: article)
             } label: {
               Image(systemName: "safari")
