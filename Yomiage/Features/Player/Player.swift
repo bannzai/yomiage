@@ -109,17 +109,21 @@ final class Player: NSObject, ObservableObject {
 
       let nextArticle = self.allArticle[nextArticleIndex]
       if let nextBody = self.cachedFullText[nextArticle] {
-        if let note = nextArticle.note {
-          self.play(article: nextArticle, title: note.title, text: nextBody)
-        } else if let medium = nextArticle.medium {
-          self.play(article: nextArticle, title: medium.title, text: nextBody)
+        self.speak(text: nextBody)
+        return .success
+      } else {
+        if let url = URL(string: nextArticle.pageURL), let kind = nextArticle.typedKind {
+          Task { @MainActor in
+            await self.play(article: nextArticle, url: url, kind: kind)
+
+            if let title = nextArticle.note?.title ?? nextArticle.medium?.title {
+              self.configurePlayingCenter(title: title)
+            }
+          }
+          return .success
         } else {
           return .commandFailed
         }
-        return .success
-      } else {
-        self.loadingArticle = nextArticle
-        return .success
       }
     }
   }
