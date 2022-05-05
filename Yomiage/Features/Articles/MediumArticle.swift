@@ -48,8 +48,9 @@ struct MediumArticle: View {
                   .padding()
               }
             } else {
-              Button {
-                player.load(article: article, url: url, mediumArticle: mediumArticle)
+              AsyncButton {
+                await player.play(article: article, url: url, kind: .medium)
+                player.configurePlayingCenter(title: mediumArticle.title)
               } label: {
                 Image(systemName: "play.fill")
                   .frame(width: 14, height: 14)
@@ -70,7 +71,7 @@ struct MediumArticle: View {
           }
         )
         .padding()
-        .errorAlert(error: $player.localizedError)
+        .errorAlert(error: $player.error)
       }
     }
   }
