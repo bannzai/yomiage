@@ -56,11 +56,11 @@ struct ArticlesPage: View {
           .listRowInsets(EdgeInsets())
           .listRowSeparator(.hidden)
           .buttonStyle(.plain)
-          .refreshable {
-            await reload()
-          }
         }
         .listStyle(.plain)
+        .refreshable {
+          await reload()
+        }
         .navigationBarHidden(false)
         .navigationTitle("一覧")
         .toolbar(content: {
