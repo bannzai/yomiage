@@ -45,7 +45,7 @@ struct ArticlesPage: View {
           }
         }
         .navigationBarHidden(false)
-        .navigationTitle("記事一覧")
+        .navigationTitle("一覧")
         .toolbar(content: {
           ToolbarItem(placement: .navigationBarTrailing) {
             Button {
