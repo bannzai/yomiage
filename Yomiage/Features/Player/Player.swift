@@ -8,7 +8,6 @@ final class Player: NSObject, ObservableObject {
   @Published var rate = UserDefaults.standard.float(forKey: UserDefaultsKeys.playerRate)
   @Published var pitch = UserDefaults.standard.float(forKey: UserDefaultsKeys.playerPitch)
 
-  @Published private(set) var loadingArticle: Article?
   @Published private(set) var playingArticle: Article?
 
   var allArticle: Set<Article> = []
@@ -49,8 +48,6 @@ final class Player: NSObject, ObservableObject {
 
   func play(article: Article, url: URL, kind: Article.Kind) async {
     do {
-      loadingArticle = article
-
       let body: String
       switch kind {
       case .note:
@@ -60,7 +57,6 @@ final class Player: NSObject, ObservableObject {
       }
 
       cachedFullText[article] = body
-      loadingArticle = nil
       playingArticle = article
       speak(text: body)
     } catch {

@@ -30,6 +30,8 @@ struct AddArticleSheet: View {
               }
             } label: {
               Text("追加する")
+            } progress: {
+              ProgressView()
             }
             .buttonStyle(.primary)
             .disabled(url == nil || loader.isLoading)

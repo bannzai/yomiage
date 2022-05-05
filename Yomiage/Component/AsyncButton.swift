@@ -1,10 +1,11 @@
 import SwiftUI
 
-struct AsyncButton<Label: View>: View {
+struct AsyncButton<Label: View, Progress: View>: View {
   @State private var isLoading = false
 
   let action: () async -> Void
   @ViewBuilder let label: Label
+  @ViewBuilder let progress: Progress
 
   var body: some View {
     Button {
@@ -15,7 +16,7 @@ struct AsyncButton<Label: View>: View {
       }
     } label: {
       if isLoading {
-        ProgressView()
+        progress
       } else {
         label
       }

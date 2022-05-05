@@ -33,12 +33,7 @@ struct NoteArticle: View {
             Text(noteArticle.author)
           },
           playButton: {
-            if player.loadingArticle == article {
-              ProgressView()
-                .frame(width: 14, height: 14)
-                .foregroundColor(.label)
-                .padding()
-            } else if player.playingArticle == article {
+            if player.playingArticle == article {
               Button {
                 player.stop()
               } label: {
@@ -53,6 +48,11 @@ struct NoteArticle: View {
                 player.configurePlayingCenter(title: noteArticle.title)
               } label: {
                 Image(systemName: "play.fill")
+                  .frame(width: 14, height: 14)
+                  .foregroundColor(.label)
+                  .padding()
+              } progress: {
+                ProgressView()
                   .frame(width: 14, height: 14)
                   .foregroundColor(.label)
                   .padding()

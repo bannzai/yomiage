@@ -33,12 +33,7 @@ struct MediumArticle: View {
             Text(mediumArticle.author)
           },
           playButton: {
-            if player.loadingArticle == article {
-              ProgressView()
-                .frame(width: 14, height: 14)
-                .foregroundColor(.label)
-                .padding()
-            } else if player.playingArticle == article {
+            if player.playingArticle == article {
               Button {
                 player.stop()
               } label: {
@@ -53,6 +48,11 @@ struct MediumArticle: View {
                 player.configurePlayingCenter(title: mediumArticle.title)
               } label: {
                 Image(systemName: "play.fill")
+                  .frame(width: 14, height: 14)
+                  .foregroundColor(.label)
+                  .padding()
+              } progress: {
+                ProgressView()
                   .frame(width: 14, height: 14)
                   .foregroundColor(.label)
                   .padding()
