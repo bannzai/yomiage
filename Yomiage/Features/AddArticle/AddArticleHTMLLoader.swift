@@ -9,7 +9,7 @@ final class AddArticleHTMLLoader: ObservableObject {
   @Published private(set) var loadedArticle: Article?
 
   func load(url: URL) {
-    self.loadingURL = loadingURL
+    self.loadingURL = url
   }
 }
 
