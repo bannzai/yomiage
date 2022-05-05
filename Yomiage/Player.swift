@@ -133,10 +133,13 @@ extension Player {
 extension Player: AVSpeechSynthesizerDelegate {
   func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didFinish utterance: AVSpeechUtterance) {
     print(#function)
+
     progress = nil
+    playingArticle = nil
   }
   func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didCancel utterance: AVSpeechUtterance) {
     print(#function)
+
     progress = nil
   }
 
@@ -148,6 +151,7 @@ extension Player: AVSpeechSynthesizerDelegate {
   }
   func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, willSpeakRangeOfSpeechString characterRange: NSRange, utterance: AVSpeechUtterance) {
     print(#function)
+
     guard let range = Range(characterRange, in: utterance.speechString) else {
       return
     }
