@@ -9,7 +9,7 @@ struct ArticlesPage: View {
   @State private var error: Error?
 
   var body: some View {
-    StreamView(stream: articleDatastore.articlesStream()) { articles, reload in
+    StreamView(stream: articleDatastore.articlesStream()) { articles in
       if articles.isEmpty {
         VStack(spacing: 0) {
           Text("記事を追加しましょう")
@@ -56,9 +56,6 @@ struct ArticlesPage: View {
           .listRowInsets(EdgeInsets())
           .listRowSeparator(.hidden)
           .buttonStyle(.plain)
-          .refreshable {
-            await reload()
-          }
         }
         .listStyle(.plain)
         .navigationBarHidden(false)
