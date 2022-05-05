@@ -126,6 +126,7 @@ private func load(url: URL, javaScript: String, evaluted: @escaping (Result<Stri
 
 private func load(url: URL, javaScript: String) async throws -> String {
   try await withCheckedThrowingContinuation { continuation in
+    // NOTE: WKWebView should instantiate and call WKWebView#load on main thread
     Task { @MainActor in
       load(
         url: url,
