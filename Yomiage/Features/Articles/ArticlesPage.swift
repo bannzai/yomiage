@@ -6,7 +6,6 @@ struct ArticlesPage: View {
 
   @State private var addArticleSheetIsPresented = false
   @State private var playerSettingSheetIsPresented = false
-  @State private var error: Error?
 
   var body: some View {
     StreamView(stream: articleDatastore.articlesStream()) { articles in
@@ -45,11 +44,7 @@ struct ArticlesPage: View {
           .onDelete(perform: { indexSet in
             indexSet.forEach { index in
               Task { @MainActor in
-                do {
-                  try await articleDatastore.delete(article: articles[index])
-                } catch {
-                  self.error = error
-                }
+                  try? await articleDatastore.delete(article: articles[index])
               }
             }
           })
@@ -95,6 +90,5 @@ struct ArticlesPage: View {
     .sheet(isPresented: $addArticleSheetIsPresented, detents: [.medium()]) {
       AddArticleSheet()
     }
-    .errorAlert(error: $error)
   }
 }
