@@ -17,7 +17,7 @@ struct ReloadOnErrorButton: View {
   var body: some View {
     VStack {
       Text("問題が発生しました")
-      AsyncButton("再読み込みをする", action: reload)
+      Button("再読み込みをする", action: reload)
         .buttonStyle(.primary)
 
       Text("詳細: \(error.localizedDescription)")
