@@ -14,7 +14,7 @@ struct ArticleDatastore {
 
   func delete(article: Article) async throws {
     guard let articleID = article.id else {
-      throw "削除に失敗しました。画面を再読み込みしてください"
+      throw "削除に失敗しました。再度お試しください"
     }
 
     try await UserDatabase.shared.articleReference(articleID: articleID).delete()
