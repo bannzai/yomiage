@@ -3,7 +3,9 @@ import SwiftUI
 struct ArticleDatastore {
   // TODO: Pagenation
   func articlesStream() -> AsyncThrowingStream<[Article], Error> {
-    UserDatabase.shared.articlesReference().stream()
+    UserDatabase.shared.articlesReference()
+      .order(by: "createdDate", descending: true)
+      .stream()
   }
 
   func create(article: Article) async throws {

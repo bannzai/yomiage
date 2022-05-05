@@ -4,7 +4,6 @@ import FirebaseFirestoreSwift
 
 struct Article: Codable, Equatable, Identifiable {
   @DocumentID var id: String?
-
   let kind: String
   let pageURL: String
   var note: Note?
