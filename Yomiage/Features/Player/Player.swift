@@ -9,7 +9,6 @@ final class Player: NSObject, ObservableObject {
   @Published var pitch = UserDefaults.standard.float(forKey: UserDefaultsKeys.playerPitch)
 
   @Published private(set) var loadingArticle: Article?
-  let loadedBody = PassthroughSubject<String, Never>()
   @Published private(set) var playingArticle: Article?
 
   var allArticle: Set<Article> = []
@@ -48,16 +47,47 @@ final class Player: NSObject, ObservableObject {
     synthesizer.delegate = self
   }
 
-  private var webViewReference: WebView<Player>?
-  func load(article: Article) {
+  private var webView: AbstractLoadHTMLView?
+  func load(article: Article, url: URL, noteArticle: Article.Note) {
     loadingArticle = article
 
-    webViewReference = .init(url: URL(string: article.pageURL)!, loader: self)
+    webView = NoteArticleBodyLoadHTMLWebView(url: url, evaluatedJavaScript: { [weak self] result in
+      defer {
+        self?.webView = nil
+        self?.loadingArticle = nil
+      }
+
+      switch result {
+      case let .success(body):
+        self?.cachedFullText[article] = body
+        self?.play(article: article, title: noteArticle.title, text: body)
+      case let .failure(error):
+        self?.localizedError = error
+      }
+    })
   }
 
-  func speak(article: Article, title: String, text: String) {
+  func load(article: Article, url: URL, mediumArticle: Article.Medium) {
+    loadingArticle = article
+
+    webView = NoteArticleBodyLoadHTMLWebView(url: url, evaluatedJavaScript: { [weak self] result in
+      defer {
+        self?.webView = nil
+        self?.loadingArticle = nil
+      }
+
+      switch result {
+      case let .success(body):
+        self?.cachedFullText[article] = body
+        self?.play(article: article, title: mediumArticle.title, text: body)
+      case let .failure(error):
+        self?.localizedError = error
+      }
+    })
+  }
+
+  func play(article: Article, title: String, text: String) {
     playingArticle = article
-    cachedFullText[article] = text
 
     MPNowPlayingInfoCenter.default().nowPlayingInfo = [
       MPMediaItemPropertyTitle: title,
@@ -102,9 +132,9 @@ final class Player: NSObject, ObservableObject {
       let nextArticle = self.allArticle[nextArticleIndex]
       if let nextBody = self.cachedFullText[nextArticle] {
         if let note = nextArticle.note {
-          self.speak(article: nextArticle, title: note.title, text: nextBody)
+          self.play(article: nextArticle, title: note.title, text: nextBody)
         } else if let medium = nextArticle.medium {
-          self.speak(article: nextArticle, title: medium.title, text: nextBody)
+          self.play(article: nextArticle, title: medium.title, text: nextBody)
         } else {
           return .commandFailed
         }
@@ -141,66 +171,6 @@ final class Player: NSObject, ObservableObject {
       if let remainingText = _remainingText {
         self.speak(text: remainingText)
       }
-    }
-  }
-}
-
-extension Player: LoadHTMLLoader {
-  func javaScript() -> String? {
-    guard let article = loadingArticle else {
-      return nil
-    }
-
-    switch article.typedKind {
-    case .note:
-      return """
-const bodyDocument = document.getElementsByClassName('note-common-styles__textnote-body')[0];
-const body = Array.from(bodyDocument.children).reduce((previousValue, element) => {
-  if (['h1', 'h2', 'h3', 'h4'].includes(element.localName)) {
-    return previousValue + '\\n' + element.textContent + '\\n' + '\\n';
-  } else if (['p', 'ul'].includes(element.localName)) {
-    return previousValue + '\\n' + element.textContent + '\\n';
-  } else {
-    return previousValue + element.textContent;
-  }
-},'');
-body;
-"""
-    case .medium:
-      return """
-const bodyDocument = document.querySelector("article").querySelector("section");
-const body = Array.from(bodyDocument.children).reduce((previousValue, element) => {
-  if (['h1', 'h2', 'h3', 'h4'].includes(element.localName)) {
-    return previousValue + '\\n' + element.textContent + '\\n' + '\\n';
-  } else if (['p', 'ul'].includes(element.localName)) {
-    return previousValue + '\\n' + element.textContent + '\\n';
-  } else {
-    return previousValue + element.textContent;
-  }
-},'');
-body;
-"""
-    case nil:
-      return nil
-    }
-  }
-
-  func handlEevaluateJavaScript(arguments: (Any?, Error?)) {
-    guard let loadingArticle = loadingArticle else {
-      return
-    }
-    defer {
-      self.loadingArticle = nil
-    }
-
-    print("arguments: \(arguments)")
-    if let html = arguments.0 as? String {
-      cachedFullText[loadingArticle] = html
-      loadedBody.send(html)
-    } else if let loadError = arguments.1 {
-      localizedError = WebViewLoadHTMLError(error: loadError)
-    } else {
-      localizedError = WebViewLoadHTMLError(error: nil)
     }
   }
 }

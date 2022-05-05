@@ -7,7 +7,7 @@ struct MediumArticle: View {
   let mediumArticle: Article.Medium?
 
   var body: some View {
-    if let mediumArticle = mediumArticle {
+    if let mediumArticle = mediumArticle, let url = URL(string: article.pageURL) {
       ZStack {
         ArticleRowLayout(
           thumbnailImage: {
@@ -49,7 +49,7 @@ struct MediumArticle: View {
               }
             } else {
               Button {
-                player.load(article: article)
+                player.load(article: article, url: url, mediumArticle: mediumArticle)
               } label: {
                 Image(systemName: "play.fill")
                   .frame(width: 14, height: 14)
@@ -71,12 +71,6 @@ struct MediumArticle: View {
         )
         .padding()
         .errorAlert(error: $player.localizedError)
-        .onReceive(player.loadedBody) { body in
-          guard player.loadingArticle == article else {
-            return
-          }
-          player.speak(article: article, title: mediumArticle.title, text: body)
-        }
       }
     }
   }

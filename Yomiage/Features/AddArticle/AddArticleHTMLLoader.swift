@@ -4,41 +4,30 @@ import Kanna
 final class AddArticleHTMLLoader: ObservableObject {
   @Environment(\.articleDatastore) private var articleDatastore
 
-  @Published private(set) var loadingURL: URL?
-  @Published private(set) var localizedError: Error?
+  @Published private(set) var isLoading: Bool = false
+  @Published private(set) var localizedError: LocalizedError?
   @Published private(set) var loadedArticle: Article?
 
+  private var webView: LoadHTMLWebView?
   func load(url: URL) {
-    loadingURL = url
-  }
-}
+    isLoading = true
 
-extension AddArticleHTMLLoader: LoadHTMLLoader {
-  func javaScript() -> String? {
-"""
-window.document.getElementsByTagName('html')[0].outerHTML;
-"""
-  }
-
-  func handlEevaluateJavaScript(arguments: (Any?, Error?)) {
-    guard let loadingURL = loadingURL else {
-      return
-    }
-
-    defer {
-      self.loadingURL = nil
-    }
-
-    if let html = arguments.0 as? String {
-      do {
-        loadedArticle = try proceedReadArticle(html: html, loadingURL: loadingURL)
-      } catch {
-        localizedError = WebViewLoadHTMLError(error: error)
+    webView = LoadHTMLWebView(url: url) { [weak self] result in
+      defer {
+        self?.isLoading = false
+        self?.webView = nil
       }
-    } else if let loadError = arguments.1 {
-      localizedError = WebViewLoadHTMLError(error: loadError)
-    } else {
-      localizedError = WebViewLoadHTMLError(error: nil)
+
+      switch result {
+      case .success(let html):
+        do {
+          self?.loadedArticle = try self?.proceedReadArticle(html: html, loadingURL: url)
+        } catch {
+          self?.localizedError = WebViewLoadHTMLError(error: error)
+        }
+      case .failure(let error):
+        self?.localizedError = error
+      }
     }
   }
 
@@ -92,17 +81,4 @@ window.document.getElementsByTagName('html')[0].outerHTML;
     // No match
     throw "ページが読み込めませんでした。URLをご確認ください"
   }
-}
-
-fileprivate struct WebViewLoadHTMLError: LocalizedError {
-  let error: Error?
-
-  var errorDescription: String? {
-    "読み込みに失敗しました"
-  }
-  var failureReason: String? {
-    (error as? LocalizedError)?.failureReason ?? "URLと通信環境をお確かめの上、再度実行をしてください"
-  }
-  let helpAnchor: String? = nil
-  let recoverySuggestion: String? = nil
 }

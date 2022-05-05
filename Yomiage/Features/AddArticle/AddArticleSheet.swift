@@ -10,10 +10,6 @@ struct AddArticleSheet: View {
 
   var body: some View {
     ZStack {
-      if let url = loader.loadingURL {
-        LoadHTMLWebView(url: url, loader: loader)
-      }
-
       MediumSheetLayout(
         title: {
           Text("記事を追加")
@@ -36,13 +32,13 @@ struct AddArticleSheet: View {
               Text("追加する")
             }
             .buttonStyle(.primary)
-            .disabled(url == nil || loader.loadingURL != nil)
+            .disabled(url == nil || loader.isLoading)
           }
           .padding(.horizontal, 20)
         }
       )
 
-      if loader.loadingURL != nil {
+      if loader.isLoading {
         HUD()
       }
     }
