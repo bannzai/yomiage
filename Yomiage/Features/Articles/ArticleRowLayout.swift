@@ -24,8 +24,10 @@ struct ArticleRowLayout<
         author
           .font(.system(.caption))
       }
+      .layoutPriority(2)
 
       Spacer()
+        .layoutPriority(1)
 
       HStack(spacing: 4) {
         playButton
