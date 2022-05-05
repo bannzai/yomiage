@@ -82,6 +82,11 @@ struct ArticlesPage: View {
             }
           }
         })
+        .onAppear {
+          articles.forEach { article in
+            player.allArticle.insert(article)
+          }
+        }
       }
     } errorContent: { error, reload in
       UniversalErrorView(error: error, reload: reload)

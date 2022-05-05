@@ -2,7 +2,7 @@ import Foundation
 import FirebaseFirestore
 import FirebaseFirestoreSwift
 
-struct Article: Codable, Equatable, Identifiable {
+struct Article: Codable, Equatable, Hashable, Identifiable {
   @DocumentID var id: String?
   let kind: String
   let pageURL: String
@@ -18,14 +18,14 @@ struct Article: Codable, Equatable, Identifiable {
   }
 
   // MARK: - Each Kind Structure
-  struct Note: Codable, Equatable {
+  struct Note: Codable, Equatable, Hashable {
     let title: String
     let author: String
     let eyeCatchImageURL: String?
     let createdDate: Timestamp
   }
 
-  struct Medium: Codable, Equatable {
+  struct Medium: Codable, Equatable, Hashable {
     let title: String
     let author: String
     let eyeCatchImageURL: String?

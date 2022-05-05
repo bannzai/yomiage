@@ -154,6 +154,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		203A88BB2823A92C00B4C12C /* Player */ = {
+			isa = PBXGroup;
+			children = (
+				20FF79522820DCD7001D062E /* Player.swift */,
+			);
+			path = Player;
+			sourceTree = "<group>";
+		};
 		20FF78BB281F4C53001D062E = {
 			isa = PBXGroup;
 			children = (
@@ -194,7 +202,6 @@
 				20FF78C7281F4C53001D062E /* YomiageApp.swift */,
 				20FF78C9281F4C53001D062E /* RootView.swift */,
 				20FF7933281FB7EC001D062E /* Screen.swift */,
-				20FF79522820DCD7001D062E /* Player.swift */,
 				20FF78CB281F4C53001D062E /* Assets.xcassets */,
 				20FF78CD281F4C53001D062E /* Preview Content */,
 				20FF78FC281F4F0B001D062E /* AppDelegate.swift */,
@@ -308,6 +315,7 @@
 		20FF792D281FAF1B001D062E /* Features */ = {
 			isa = PBXGroup;
 			children = (
+				203A88BB2823A92C00B4C12C /* Player */,
 				20FF794B2820DB12001D062E /* PlayerSetting */,
 				20FF792E281FAF28001D062E /* AddArticle */,
 				20FF78F1281F4C5E001D062E /* Articles */,

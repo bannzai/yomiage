@@ -7,8 +7,11 @@ final class Player: NSObject, ObservableObject {
   @Published var volume = UserDefaults.standard.float(forKey: UserDefaultsKeys.playerVolume)
   @Published var rate = UserDefaults.standard.float(forKey: UserDefaultsKeys.playerRate)
   @Published var pitch = UserDefaults.standard.float(forKey: UserDefaultsKeys.playerPitch)
+  var allArticle: Set<Article> = []
 
+  @Published private(set) var loadingURL: URL?
   @Published private(set) var playingArticle: Article?
+  private var cachedFullText: [Article: String] = [:]
   private var progress: Progress?
 
   let synthesizer = AVSpeechSynthesizer()
@@ -44,6 +47,7 @@ final class Player: NSObject, ObservableObject {
 
   func speak(article: Article, title: String, text: String) {
     playingArticle = article
+    cachedFullText[article] = text
 
     MPNowPlayingInfoCenter.default().nowPlayingInfo = [
       MPMediaItemPropertyTitle: title,
@@ -78,34 +82,79 @@ final class Player: NSObject, ObservableObject {
       self.synthesizer.pauseSpeaking(at: .immediate)
       return .success
     }
+    MPRemoteCommandCenter.shared().nextTrackCommand.addTarget { event in
+      guard
+        let playingArticle = self.playingArticle,
+        let nextArticleIndex = self.allArticle.firstIndex(of: playingArticle) else {
+        return .commandFailed
+      }
+
+      let nextArticle = self.allArticle[nextArticleIndex]
+      if let article = cachedFullText[]
+      playingArticle = nextArticle
+      if self.synthesizer.isSpeaking {
+        self.stop()
+      }
+
+
+      self.synthesizer.continueSpeaking()
+      return .success
+    }
   }
 }
 
-private extension Player {
-  func speak(text: String) {
-    let utterance = AVSpeechUtterance(string: text)
-    utterance.volume = volume
-    utterance.rate = rate
-    utterance.pitchMultiplier = pitch
+extension ArticleBodyHTMLLoader: LoadHTMLLoader {
+  func javaScript() -> String? {
+    guard let article = loadingArticle else {
+      return nil
+    }
 
-    synthesizer.speak(utterance)
+    switch article.typedKind {
+    case .note:
+      return """
+const bodyDocument = document.getElementsByClassName('note-common-styles__textnote-body')[0];
+const body = Array.from(bodyDocument.children).reduce((previousValue, element) => {
+  if (['h1', 'h2', 'h3', 'h4'].includes(element.localName)) {
+    return previousValue + '\\n' + element.textContent + '\\n' + '\\n';
+  } else if (['p', 'ul'].includes(element.localName)) {
+    return previousValue + '\\n' + element.textContent + '\\n';
+  } else {
+    return previousValue + element.textContent;
+  }
+},'');
+body;
+"""
+    case .medium:
+      return """
+const bodyDocument = document.querySelector("article").querySelector("section");
+const body = Array.from(bodyDocument.children).reduce((previousValue, element) => {
+  if (['h1', 'h2', 'h3', 'h4'].includes(element.localName)) {
+    return previousValue + '\\n' + element.textContent + '\\n' + '\\n';
+  } else if (['p', 'ul'].includes(element.localName)) {
+    return previousValue + '\\n' + element.textContent + '\\n';
+  } else {
+    return previousValue + element.textContent;
+  }
+},'');
+body;
+"""
+    case nil:
+      return nil
+    }
   }
 
-  func reset() {
-    // NOTE: After update @Published property(volume,rate,pitch), other @Published property cannot be updated. So should run to the next run loop.
-    DispatchQueue.main.async {
-      // NOTE: Keep vlaue for avoid flushing after synthesizer.stopSpeaking -> speechSynthesizer(:didCancel).
-      let _remainingText = self.progress?.remainingText
+  func handlEevaluateJavaScript(arguments: (Any?, Error?)) {
+    defer {
+      self.loadingArticle = nil
+    }
 
-      // NOTE: call synthesizer.speak is not speaking and is broken synthesizer when synthesizer.isSpeaking
-      guard self.synthesizer.isSpeaking else {
-        return
-      }
-      self.synthesizer.stopSpeaking(at: .word)
-
-      if let remainingText = _remainingText {
-        self.speak(text: remainingText)
-      }
+    print("arguments: \(arguments)")
+    if let html = arguments.0 as? String {
+      loadedBody = html
+    } else if let loadError = arguments.1 {
+      localizedError = WebViewLoadHTMLError(error: loadError)
+    } else {
+      localizedError = WebViewLoadHTMLError(error: nil)
     }
   }
 }
@@ -167,3 +216,34 @@ extension Player: AVSpeechSynthesizerDelegate {
     )
   }
 }
+
+// MARK: - Private
+private extension Player {
+  func speak(text: String) {
+    let utterance = AVSpeechUtterance(string: text)
+    utterance.volume = volume
+    utterance.rate = rate
+    utterance.pitchMultiplier = pitch
+
+    synthesizer.speak(utterance)
+  }
+
+  func reset() {
+    // NOTE: After update @Published property(volume,rate,pitch), other @Published property cannot be updated. So should run to the next run loop.
+    DispatchQueue.main.async {
+      // NOTE: Keep vlaue for avoid flushing after synthesizer.stopSpeaking -> speechSynthesizer(:didCancel).
+      let _remainingText = self.progress?.remainingText
+
+      // NOTE: call synthesizer.speak is not speaking and is broken synthesizer when synthesizer.isSpeaking
+      guard self.synthesizer.isSpeaking else {
+        return
+      }
+      self.synthesizer.stopSpeaking(at: .word)
+
+      if let remainingText = _remainingText {
+        self.speak(text: remainingText)
+      }
+    }
+  }
+}
+

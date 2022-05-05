@@ -2,7 +2,6 @@ import SwiftUI
 
 struct NoteArticle: View {
   @EnvironmentObject private var player: Player
-  @StateObject private var loader = ArticleBodyHTMLLoader()
 
   let article: Article
   let noteArticle: Article.Note?

@@ -2,7 +2,6 @@ import SwiftUI
 
 struct MediumArticle: View {
   @EnvironmentObject private var player: Player
-  @StateObject private var loader = ArticleBodyHTMLLoader()
 
   let article: Article
   let mediumArticle: Article.Medium?
