@@ -6,10 +6,10 @@ struct StreamView<Data, Loading: View, Error: View, Content: View>: View {
   @State private var data: Data?
   @State private var error: Swift.Error?
 
-  typealias ReloadStreamHandler = () -> Void
+  typealias ReloadStreamHandler = () async -> Void
 
   let stream: AsyncThrowingStream<Data, Swift.Error>
-  @ViewBuilder let content: (Data) -> Content
+  @ViewBuilder let content: (Data, @escaping ReloadStreamHandler) -> Content
   @ViewBuilder let errorContent: (_ error: Swift.Error, _ reload: @escaping ReloadStreamHandler) -> Error
   @ViewBuilder let loading: () -> Loading
 
@@ -18,7 +18,11 @@ struct StreamView<Data, Loading: View, Error: View, Content: View>: View {
       if isLoading {
         loading()
       } else if let data = data {
-        content(data)
+        content(data, {
+          Task { @MainActor in
+            await listenStream()
+          }
+        })
       } else if let error = error {
         errorContent(error, {
           Task { @MainActor in
