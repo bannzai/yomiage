@@ -24,26 +24,28 @@ struct ArticlesPage: View {
           .navigationBarHidden(true)
         }
       } else {
-        ScrollView(.vertical) {
-          VStack(spacing: 0) {
-            ForEach(articles) { article in
-              switch article.typedKind {
-              case .note:
-                VStack(alignment: .leading, spacing: 0) {
-                  NoteArticle(article: article, noteArticle: article.note)
-                  Divider()
-                }
-              case .medium:
-                VStack(alignment: .leading, spacing: 0) {
-                  MediumArticle(article: article, mediumArticle: article.medium)
-                  Divider()
-                }
-              case nil:
-                EmptyView()
+        List {
+          ForEach(articles) { article in
+            switch article.typedKind {
+            case .note:
+              VStack(alignment: .leading, spacing: 0) {
+                NoteArticle(article: article, noteArticle: article.note)
+                Divider()
               }
+            case .medium:
+              VStack(alignment: .leading, spacing: 0) {
+                MediumArticle(article: article, mediumArticle: article.medium)
+                Divider()
+              }
+            case nil:
+              EmptyView()
             }
           }
+          .listRowInsets(EdgeInsets())
+          .listRowSeparator(.hidden)
+          .buttonStyle(.plain)
         }
+        .listStyle(.plain)
         .navigationBarHidden(false)
         .navigationTitle("一覧")
         .toolbar(content: {
