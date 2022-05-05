@@ -2,55 +2,12 @@ import SwiftUI
 import WebKit
 import Combine
 
-protocol LoadHTMLLoader {
-  func javaScript() -> String?
-  func handlEevaluateJavaScript(arguments: (Any?, Error?))
-}
-
-struct LoadHTMLWebView<Loader: LoadHTMLLoader & ObservableObject>: UIViewRepresentable {
-  let url: URL
-  @ObservedObject var loader: Loader
-
-  func makeUIView(context: Context) -> WKWebView {
-    let webView = WKWebView(frame: .zero)
-    webView.navigationDelegate = context.coordinator
-    webView.load(.init(url: url))
-
-    // LoadHTMLWebView should invisible, because LoadHTMLWebView is for getting HTML using the Browser's function
-    webView.frame = .zero
-    webView.layer.opacity = 0
-
-    return webView
-  }
-
-  func updateUIView(_ webView: WKWebView, context: Context) {
-    // None
-  }
-
-  func makeCoordinator() -> WebViewCoordinator<Loader> {
-    WebViewCoordinator(loader: _loader)
-  }
-}
-
-final class WebViewCoordinator<Loader: LoadHTMLLoader & ObservableObject>: NSObject, WKNavigationDelegate {
-  @ObservedObject var loader: Loader
-  init(loader: ObservedObject<Loader>) {
-    _loader = loader
-  }
-
-  func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-    if let javaScript = loader.javaScript() {
-      webView.evaluateJavaScript(javaScript, completionHandler: { [weak self] value, error in
-        self?.loader.handlEevaluateJavaScript(arguments: (value, error))
-      })
-    }
-  }
-}
-
 class AbstractLoadHTMLView: WKWebView, WKNavigationDelegate {
-  let publisher = PassthroughSubject<String, WebViewLoadHTMLError>()
+  let evaluatedJavaScript: (Result<String, WebViewLoadHTMLError>) -> Void
 
-  init(url: URL) {
+  init(url: URL, evaluatedJavaScript: @escaping (Result<String, WebViewLoadHTMLError>) -> Void) {
+    self.evaluatedJavaScript = evaluatedJavaScript
+
     super.init(frame: .zero, configuration: .init())
 
     navigationDelegate = self
@@ -65,13 +22,32 @@ class AbstractLoadHTMLView: WKWebView, WKNavigationDelegate {
     fatalError("init(coder:) has not been implemented")
   }
 
+
+  var javaScript: String {
+    fatalError("Must be implement on subclass")
+  }
+
   func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-    fatalError("Require implement to subclass")
+      webView.evaluateJavaScript(javaScript, completionHandler: { [weak self] value, error in
+        if let body = value as? String {
+          self?.evaluatedJavaScript(.success(body))
+        } else {
+          self?.evaluatedJavaScript(.failure(.init(error: error)))
+        }
+      })
+  }
+}
+
+final class LoadHTMLWebView: AbstractLoadHTMLView {
+  override var javaScript: String {
+"""
+window.document.getElementsByTagName('html')[0].outerHTML;
+"""
   }
 }
 
 final class NoteArticleBodyLoadHTMLWebView: AbstractLoadHTMLView {
-  private var javaScript: String {
+  override var javaScript: String {
 """
 const bodyDocument = document.getElementsByClassName('note-common-styles__textnote-body')[0];
 const body = Array.from(bodyDocument.children).reduce((previousValue, element) => {
@@ -86,13 +62,23 @@ const body = Array.from(bodyDocument.children).reduce((previousValue, element) =
 body;
 """
   }
+}
 
-  func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-      webView.evaluateJavaScript(javaScript, completionHandler: { [weak self] value, error in
-//        self?.publisher.send("")
-//        self?.publisher.send(completion: .finished)
-      })
-    }
+final class MediumArticleBodyLoadHTMLWebView: AbstractLoadHTMLView {
+  override var javaScript: String {
+"""
+const bodyDocument = document.querySelector("article").querySelector("section");
+const body = Array.from(bodyDocument.children).reduce((previousValue, element) => {
+  if (['h1', 'h2', 'h3', 'h4'].includes(element.localName)) {
+    return previousValue + '\\n' + element.textContent + '\\n' + '\\n';
+  } else if (['p', 'ul'].includes(element.localName)) {
+    return previousValue + '\\n' + element.textContent + '\\n';
+  } else {
+    return previousValue + element.textContent;
+  }
+},'');
+body;
+"""
   }
 }
 
