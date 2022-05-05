@@ -2,50 +2,6 @@ import SwiftUI
 import WebKit
 import Combine
 
-struct WebViewLoadHTMLError: LocalizedError {
-  let error: Error?
-
-  var errorDescription: String? {
-    "読み込みに失敗しました"
-  }
-  var failureReason: String? {
-    (error as? LocalizedError)?.failureReason ?? "通信環境をお確かめの上再度実行してください"
-  }
-  let helpAnchor: String? = nil
-  let recoverySuggestion: String? = nil
-}
-
-private func load(url: URL, javaScript: String, evaluted: @escaping (Result<String, WebViewLoadHTMLError>) -> Void) {
-  // HACK: Keep reference to end eval javaScript task via `load(url:javaScript) async throws -> String`
-  var webView: LoadWebView? = LoadWebView()
-  webView?.load(
-    url: url,
-    javaScript: javaScript,
-    evaluatedJavaScript: { result in
-      evaluted(result)
-
-      // Release reference after eval
-      webView = nil
-    }
-  )
-}
-
-private func load(url: URL, javaScript: String) async throws -> String {
-  try await withCheckedThrowingContinuation { continuation in
-    Task { @MainActor in
-      load(
-        url: url,
-        javaScript: javaScript) { result in
-          do {
-            continuation.resume(returning: try result.get())
-          } catch {
-            continuation.resume(throwing: error)
-          }
-        }
-    }
-  }
-}
-
 func loadHTML(url: URL) async throws -> String {
   let javaScript =
 """
@@ -98,4 +54,88 @@ body;
     url: url,
     javaScript: javaScript
   )
+}
+
+struct WebViewLoadHTMLError: LocalizedError {
+  let error: Error?
+
+  var errorDescription: String? {
+    "読み込みに失敗しました"
+  }
+  var failureReason: String? {
+    (error as? LocalizedError)?.failureReason ?? "通信環境をお確かめの上再度実行してください"
+  }
+  let helpAnchor: String? = nil
+  let recoverySuggestion: String? = nil
+}
+
+private final class LoadWebView: WKWebView, WKNavigationDelegate {
+  var javaScript: String!
+  var evaluatedJavaScript: ((Result<String, WebViewLoadHTMLError>) -> Void)!
+
+  init() {
+    super.init(frame: .zero, configuration: .init())
+    navigationDelegate = self
+
+    // LoadHTMLWebView should invisible, because LoadHTMLWebView is for getting HTML using the Browser's function
+    layer.opacity = 0
+    frame = .zero
+  }
+
+  func load(
+    url: URL,
+    javaScript: String,
+    evaluatedJavaScript: @escaping (Result<String, WebViewLoadHTMLError>) -> Void
+  ) {
+    self.javaScript = javaScript
+    self.evaluatedJavaScript = evaluatedJavaScript
+
+    load(.init(url: url))
+  }
+
+
+  required init?(coder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
+
+  func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+    webView.evaluateJavaScript(javaScript, completionHandler: { [weak self] value, error in
+      if let body = value as? String {
+        self?.evaluatedJavaScript(.success(body))
+      } else {
+        self?.evaluatedJavaScript(.failure(.init(error: error)))
+      }
+    })
+  }
+}
+
+private func load(url: URL, javaScript: String, evaluted: @escaping (Result<String, WebViewLoadHTMLError>) -> Void) {
+  // HACK: Keep reference to end eval javaScript task via `load(url:javaScript) async throws -> String`
+  var webView: LoadWebView? = LoadWebView()
+  webView?.load(
+    url: url,
+    javaScript: javaScript,
+    evaluatedJavaScript: { result in
+      evaluted(result)
+
+      // Release reference after eval
+      webView = nil
+    }
+  )
+}
+
+private func load(url: URL, javaScript: String) async throws -> String {
+  try await withCheckedThrowingContinuation { continuation in
+    Task { @MainActor in
+      load(
+        url: url,
+        javaScript: javaScript) { result in
+          do {
+            continuation.resume(returning: try result.get())
+          } catch {
+            continuation.resume(throwing: error)
+          }
+        }
+    }
+  }
 }
