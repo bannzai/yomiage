@@ -14,7 +14,7 @@ struct ArticleDatastore {
 
   func delete(article: Article) async throws {
     guard let articleID = article.id else {
-      throw "削除に失敗しました。再度お試しください"
+      fatalError("articleID is not found. Must be fetch from DB")
     }
 
     try await UserDatabase.shared.articleReference(articleID: articleID).delete()
