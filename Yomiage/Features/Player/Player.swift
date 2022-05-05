@@ -48,8 +48,11 @@ final class Player: NSObject, ObservableObject {
     synthesizer.delegate = self
   }
 
+  private var webViewReference: WebView<Player>?
   func load(article: Article) {
     loadingArticle = article
+
+    webViewReference = .init(url: URL(string: article.pageURL)!, loader: self)
   }
 
   func speak(article: Article, title: String, text: String) {
@@ -89,26 +92,30 @@ final class Player: NSObject, ObservableObject {
       self.synthesizer.pauseSpeaking(at: .immediate)
       return .success
     }
-//    MPRemoteCommandCenter.shared().nextTrackCommand.addTarget { event in
-//      guard
-//        let playingArticle = self.playingArticle,
-//        let nextArticleIndex = self.allArticle.firstIndex(of: playingArticle) else {
-//        return .commandFailed
-//      }
-//
-//      let nextArticle = self.allArticle[nextArticleIndex]
-//      if let article = cachedFullText[]
-//      playingArticle = nextArticle
-//      if self.synthesizer.isSpeaking {
-//        self.stop()
-//      }
-//
-//
-//      self.synthesizer.continueSpeaking()
-//      return .success
-//    }
+    MPRemoteCommandCenter.shared().nextTrackCommand.addTarget { event in
+      guard
+        let playingArticle = self.playingArticle,
+        let nextArticleIndex = self.allArticle.firstIndex(of: playingArticle) else {
+        return .commandFailed
+      }
+
+      let nextArticle = self.allArticle[nextArticleIndex]
+      if let nextBody = self.cachedFullText[nextArticle] {
+        if let note = nextArticle.note {
+          self.speak(article: nextArticle, title: note.title, text: nextBody)
+        } else if let medium = nextArticle.medium {
+          self.speak(article: nextArticle, title: medium.title, text: nextBody)
+        } else {
+          return .commandFailed
+        }
+        return .success
+      } else {
+        self.loadingArticle = nextArticle
+        return .success
+      }
+    }
   }
-  
+
   // MARK: - Private
   private func speak(text: String) {
     let utterance = AVSpeechUtterance(string: text)

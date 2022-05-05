@@ -9,10 +9,6 @@ struct NoteArticle: View {
   var body: some View {
     if let noteArticle = noteArticle {
       ZStack {
-        if let article = player.loadingArticle, let url = URL(string: article.pageURL) {
-          LoadHTMLWebView(url: url, loader: player)
-        }
-
         ArticleRowLayout(
           thumbnailImage: {
             Group {
@@ -76,6 +72,9 @@ struct NoteArticle: View {
         .padding()
         .errorAlert(error: $player.localizedError)
         .onReceive(player.loadedBody) { body in
+          guard player.loadingArticle == article else {
+            return
+          }
           player.speak(article: article, title: noteArticle.title, text: body)
         }
       }
