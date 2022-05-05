@@ -2,54 +2,6 @@ import SwiftUI
 import WebKit
 import Combine
 
-private final class LoadWebView: WKWebView, WKNavigationDelegate {
-  let javaScript: String
-  let evaluatedJavaScript: (Result<String, WebViewLoadHTMLError>) -> Void
-
-  init(
-    url: URL,
-    javaScript: String,
-    evaluatedJavaScript: @escaping (Result<String, WebViewLoadHTMLError>) -> Void
-  ) {
-    self.javaScript = javaScript
-    self.evaluatedJavaScript = evaluatedJavaScript
-
-    super.init(frame: .zero, configuration: .init())
-
-    navigationDelegate = self
-    load(.init(url: url))
-
-    // LoadHTMLWebView should invisible, because LoadHTMLWebView is for getting HTML using the Browser's function
-    frame = .zero
-    layer.opacity = 0
-  }
-
-  required init?(coder: NSCoder) {
-    fatalError("init(coder:) has not been implemented")
-  }
-
-  func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-    webView.evaluateJavaScript(javaScript, completionHandler: { [weak self] value, error in
-      if let body = value as? String {
-        self?.evaluatedJavaScript(.success(body))
-      } else {
-        self?.evaluatedJavaScript(.failure(.init(error: error)))
-      }
-    })
-  }
-}
-
-private struct Loader {
-  let webView: LoadWebView
-  init(
-    url: URL,
-    javaScript: String,
-    evaluatedJavaScript: @escaping (Result<String, WebViewLoadHTMLError>) -> Void
-  ) {
-    webView = .init(url: url, javaScript: javaScript, evaluatedJavaScript: evaluatedJavaScript)
-  }
-}
-
 struct WebViewLoadHTMLError: LocalizedError {
   let error: Error?
 
@@ -63,18 +15,34 @@ struct WebViewLoadHTMLError: LocalizedError {
   let recoverySuggestion: String? = nil
 }
 
+private func load(url: URL, javaScript: String, evaluted: @escaping (Result<String, WebViewLoadHTMLError>) -> Void) {
+  // HACK: Keep reference to end eval javaScript task via `load(url:javaScript) async throws -> String`
+  var webView: LoadWebView? = LoadWebView()
+  webView?.load(
+    url: url,
+    javaScript: javaScript,
+    evaluatedJavaScript: { result in
+      evaluted(result)
+
+      // Release reference after eval
+      webView = nil
+    }
+  )
+}
+
 private func load(url: URL, javaScript: String) async throws -> String {
   try await withCheckedThrowingContinuation { continuation in
-    // Keep Reference
-    _ = Loader(
-      url: url,
-      javaScript: javaScript) { result in
-        do {
-          continuation.resume(returning: try result.get())
-        } catch {
-          continuation.resume(throwing: error)
+    Task { @MainActor in
+      load(
+        url: url,
+        javaScript: javaScript) { result in
+          do {
+            continuation.resume(returning: try result.get())
+          } catch {
+            continuation.resume(throwing: error)
+          }
         }
-      }
+    }
   }
 }
 
