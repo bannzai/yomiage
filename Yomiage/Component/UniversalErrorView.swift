@@ -2,7 +2,7 @@ import SwiftUI
 
 struct UniversalErrorView: View {
   let error: Error
-  let reload: () async -> Void
+  let reload: () -> Void
 
   var body: some View {
     // TODO: Switch view for each error
@@ -12,7 +12,7 @@ struct UniversalErrorView: View {
 
 struct ReloadOnErrorButton: View {
   let error: Error
-  let reload: () async -> Void
+  let reload: () -> Void
 
   var body: some View {
     VStack {
