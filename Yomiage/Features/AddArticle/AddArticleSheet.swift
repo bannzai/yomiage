@@ -39,10 +39,6 @@ struct AddArticleSheet: View {
           .padding(.horizontal, 20)
         }
       )
-
-      if loader.isLoading {
-        HUD()
-      }
     }
     .onReceive(loader.$loadedArticle) { article in
       if let article = article {
