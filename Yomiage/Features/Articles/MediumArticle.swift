@@ -9,8 +9,8 @@ struct MediumArticle: View {
   var body: some View {
     if let mediumArticle = mediumArticle {
       ZStack {
-        if let article = loader.loadingArticle, let url = URL(string: article.pageURL) {
-          LoadHTMLWebView(url: url, loader: loader)
+        if let article = player.loadingArticle, let url = URL(string: article.pageURL) {
+          LoadHTMLWebView(url: url, loader: player)
         }
 
         ArticleRowLayout(
@@ -37,7 +37,7 @@ struct MediumArticle: View {
             Text(mediumArticle.author)
           },
           playButton: {
-            if loader.loadingArticle != nil {
+            if player.loadingArticle == article {
               ProgressView()
                 .frame(width: 14, height: 14)
                 .foregroundColor(.label)
@@ -53,7 +53,7 @@ struct MediumArticle: View {
               }
             } else {
               Button {
-                loader.load(article: article)
+                player.load(article: article)
               } label: {
                 Image(systemName: "play.fill")
                   .frame(width: 14, height: 14)
@@ -74,12 +74,8 @@ struct MediumArticle: View {
           }
         )
         .padding()
-        .errorAlert(error: $loader.localizedError)
-        .onReceive(loader.$loadedBody) { body in
-          guard let body = body else {
-            return
-          }
-
+        .errorAlert(error: $player.localizedError)
+        .onReceive(player.loadedBody) { body in
           player.speak(article: article, title: mediumArticle.title, text: body)
         }
       }
