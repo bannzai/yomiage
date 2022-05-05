@@ -47,8 +47,7 @@ final class Player: NSObject, ObservableObject {
     synthesizer.delegate = self
   }
 
-  private var webView: AbstractLoadHTMLView?
-  func load(article: Article, url: URL, noteArticle: Article.Note) {
+  func load(article: Article, url: URL) {
     loadingArticle = article
 
     webView = NoteArticleBodyLoadHTMLWebView(url: url, evaluatedJavaScript: { [weak self] result in
@@ -60,7 +59,8 @@ final class Player: NSObject, ObservableObject {
       switch result {
       case let .success(body):
         self?.cachedFullText[article] = body
-        self?.play(article: article, title: noteArticle.title, text: body)
+        self?.playingArticle = article
+        self?.speak(text: text)
       case let .failure(error):
         self?.localizedError = error
       }
