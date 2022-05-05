@@ -714,6 +714,11 @@
 				DEVELOPMENT_ASSET_PATHS = "\"Yomiage/Preview Content\"";
 				DEVELOPMENT_TEAM = TQPN82UBBY;
 				ENABLE_PREVIEWS = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+					"DEV=1",
+				);
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Yomiage/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
