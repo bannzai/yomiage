@@ -262,17 +262,3 @@ extension Player: AVSpeechSynthesizerDelegate {
     )
   }
 }
-
-
-fileprivate struct WebViewLoadHTMLError: LocalizedError {
-  let error: Error?
-
-  var errorDescription: String? {
-    "読み込みに失敗しました"
-  }
-  var failureReason: String? {
-    (error as? LocalizedError)?.failureReason ?? "通信環境をお確かめの上再度実行してください"
-  }
-  let helpAnchor: String? = nil
-  let recoverySuggestion: String? = nil
-}

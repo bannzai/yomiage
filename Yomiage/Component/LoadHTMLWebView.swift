@@ -1,5 +1,6 @@
 import SwiftUI
 import WebKit
+import Combine
 
 protocol LoadHTMLLoader {
   func javaScript() -> String?
@@ -46,11 +47,10 @@ final class WebViewCoordinator<Loader: LoadHTMLLoader & ObservableObject>: NSObj
   }
 }
 
-class WebView<Loader: LoadHTMLLoader & ObservableObject>: WKWebView, WKNavigationDelegate {
-  let loader: Loader
-  init(url: URL, loader: Loader) {
-    self.loader = loader
+class AbstractLoadHTMLView: WKWebView, WKNavigationDelegate {
+  let publisher = PassthroughSubject<String, WebViewLoadHTMLError>()
 
+  init(url: URL) {
     super.init(frame: .zero, configuration: .init())
 
     navigationDelegate = self
@@ -66,11 +66,45 @@ class WebView<Loader: LoadHTMLLoader & ObservableObject>: WKWebView, WKNavigatio
   }
 
   func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-    if let javaScript = loader.javaScript() {
+    fatalError("Require implement to subclass")
+  }
+}
+
+final class NoteArticleBodyLoadHTMLWebView: AbstractLoadHTMLView {
+  private var javaScript: String {
+"""
+const bodyDocument = document.getElementsByClassName('note-common-styles__textnote-body')[0];
+const body = Array.from(bodyDocument.children).reduce((previousValue, element) => {
+  if (['h1', 'h2', 'h3', 'h4'].includes(element.localName)) {
+    return previousValue + '\\n' + element.textContent + '\\n' + '\\n';
+  } else if (['p', 'ul'].includes(element.localName)) {
+    return previousValue + '\\n' + element.textContent + '\\n';
+  } else {
+    return previousValue + element.textContent;
+  }
+},'');
+body;
+"""
+  }
+
+  func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
       webView.evaluateJavaScript(javaScript, completionHandler: { [weak self] value, error in
-        self?.loader.handlEevaluateJavaScript(arguments: (value, error))
+//        self?.publisher.send("")
+//        self?.publisher.send(completion: .finished)
       })
     }
   }
+}
 
+struct WebViewLoadHTMLError: LocalizedError {
+  let error: Error?
+
+  var errorDescription: String? {
+    "読み込みに失敗しました"
+  }
+  var failureReason: String? {
+    (error as? LocalizedError)?.failureReason ?? "通信環境をお確かめの上再度実行してください"
+  }
+  let helpAnchor: String? = nil
+  let recoverySuggestion: String? = nil
 }
