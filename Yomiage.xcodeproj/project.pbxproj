@@ -7,51 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		200946352825178500973B9F /* Article.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FF78F5281F4D40001D062E /* Article.swift */; };
-		200946362825178500973B9F /* HUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FF7945281FFCE1001D062E /* HUD.swift */; };
-		200946372825178500973B9F /* AsyncButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203A88C22823FF3A00B4C12C /* AsyncButton.swift */; };
-		200946382825178500973B9F /* ArticleWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FF795A2821E5B3001D062E /* ArticleWebView.swift */; };
-		200946392825178500973B9F /* NavigationLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20E7069628238CEB00DF824F /* NavigationLink.swift */; };
-		2009463A2825178500973B9F /* UINavigationBar+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FF795E28220344001D062E /* UINavigationBar+.swift */; };
-		2009463B2825178500973B9F /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FF78C9281F4C53001D062E /* RootView.swift */; };
-		2009463C2825178500973B9F /* PlayerSettingSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FF794E2820DB28001D062E /* PlayerSettingSheet.swift */; };
-		2009463D2825178500973B9F /* AppStorage+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FF79502820DB75001D062E /* AppStorage+.swift */; };
-		2009463E2825178500973B9F /* NoteArticle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FF795C2821EE88001D062E /* NoteArticle.swift */; };
-		2009463F2825178500973B9F /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FF7922281F8950001D062E /* Color.swift */; };
-		200946402825178500973B9F /* AddArticleSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FF792F281FAF2F001D062E /* AddArticleSheet.swift */; };
-		200946412825178500973B9F /* Spacer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FF7949282094D0001D062E /* Spacer.swift */; };
-		200946422825178500973B9F /* Sheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FF7928281FAB02001D062E /* Sheet.swift */; };
-		200946432825178500973B9F /* String+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FF7943281FF967001D062E /* String+.swift */; };
-		200946442825178500973B9F /* StreamView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FF791B281F868A001D062E /* StreamView.swift */; };
-		200946452825178500973B9F /* ArticlesPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FF78F2281F4C63001D062E /* ArticlesPage.swift */; };
-		200946462825178500973B9F /* Auth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FF7937281FB869001D062E /* Auth.swift */; };
-		200946472825178500973B9F /* ArticleDatastore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FF7918281F77CF001D062E /* ArticleDatastore.swift */; };
-		200946482825178500973B9F /* Screen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FF7933281FB7EC001D062E /* Screen.swift */; };
-		200946492825178500973B9F /* MediumArticle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20884DFE28223644008388AE /* MediumArticle.swift */; };
-		2009464A2825178500973B9F /* Button.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FF791F281F8847001D062E /* Button.swift */; };
-		2009464B2825178500973B9F /* ArticleRowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20884DFC28223419008388AE /* ArticleRowLayout.swift */; };
-		2009464C2825178500973B9F /* ErrorAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FF7947281FFF15001D062E /* ErrorAlert.swift */; };
-		2009464D2825178500973B9F /* UISlider+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20EAD3C3282295F100B15D8E /* UISlider+.swift */; };
-		2009464E2825178500973B9F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FF78FC281F4F0B001D062E /* AppDelegate.swift */; };
-		2009464F2825178500973B9F /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FF79522820DCD7001D062E /* Player.swift */; };
-		200946502825178500973B9F /* UserDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FF7912281F7686001D062E /* UserDatabase.swift */; };
-		200946512825178500973B9F /* AddArticleHTMLLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FF7931281FB4CB001D062E /* AddArticleHTMLLoader.swift */; };
-		200946522825178500973B9F /* LoadWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FF7940281FC369001D062E /* LoadWebView.swift */; };
-		200946532825178500973B9F /* UniversalErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FF791D281F878A001D062E /* UniversalErrorView.swift */; };
-		200946542825178500973B9F /* YomiageApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FF78C7281F4C53001D062E /* YomiageApp.swift */; };
-		200946552825178500973B9F /* MediumSheetLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FF79552820FEE2001D062E /* MediumSheetLayout.swift */; };
-		200946562825178500973B9F /* SheetPresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FF792B281FAD25001D062E /* SheetPresentation.swift */; };
-		200946582825178500973B9F /* FirebaseAnalyticsSwift-Beta in Frameworks */ = {isa = PBXBuildFile; productRef = 2009462D2825178500973B9F /* FirebaseAnalyticsSwift-Beta */; };
-		200946592825178500973B9F /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = 2009462F2825178500973B9F /* FirebaseCrashlytics */; };
-		2009465A2825178500973B9F /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 2009462E2825178500973B9F /* FirebaseAuth */; };
-		2009465B2825178500973B9F /* FirebaseFirestoreSwift-Beta in Frameworks */ = {isa = PBXBuildFile; productRef = 200946312825178500973B9F /* FirebaseFirestoreSwift-Beta */; };
-		2009465C2825178500973B9F /* Kanna in Frameworks */ = {isa = PBXBuildFile; productRef = 200946322825178500973B9F /* Kanna */; };
-		2009465D2825178500973B9F /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 200946302825178500973B9F /* FirebaseFirestore */; };
-		2009465E2825178500973B9F /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 2009462B2825178500973B9F /* FirebaseAnalytics */; };
-		200946602825178500973B9F /* GoogleService-Info-prod.plist in Resources */ = {isa = PBXBuildFile; fileRef = 20FF78F9281F4E8A001D062E /* GoogleService-Info-prod.plist */; };
-		200946612825178500973B9F /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 20FF78CE281F4C53001D062E /* Preview Assets.xcassets */; };
-		200946622825178500973B9F /* GoogleService-Info-dev.plist in Resources */ = {isa = PBXBuildFile; fileRef = 20FF78F8281F4E8A001D062E /* GoogleService-Info-dev.plist */; };
-		200946632825178500973B9F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 20FF78CB281F4C53001D062E /* Assets.xcassets */; };
 		203A88C32823FF3A00B4C12C /* AsyncButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203A88C22823FF3A00B4C12C /* AsyncButton.swift */; };
 		20884DFD28223419008388AE /* ArticleRowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20884DFC28223419008388AE /* ArticleRowLayout.swift */; };
 		20884DFF28223644008388AE /* MediumArticle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20884DFE28223644008388AE /* MediumArticle.swift */; };
@@ -120,8 +75,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		2009466B2825178500973B9F /* Yomiage-DEV.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Yomiage-DEV.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		2009466C2825178500973B9F /* Yomiage-DEV-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Yomiage-DEV-Info.plist"; path = "/Users/bannzai/ghq/github.com/bannzai/yomiage/Yomiage-DEV-Info.plist"; sourceTree = "<absolute>"; };
 		203A88C22823FF3A00B4C12C /* AsyncButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncButton.swift; sourceTree = "<group>"; };
 		20884DFC28223419008388AE /* ArticleRowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleRowLayout.swift; sourceTree = "<group>"; };
 		20884DFE28223644008388AE /* MediumArticle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediumArticle.swift; sourceTree = "<group>"; };
@@ -170,20 +123,6 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		200946572825178500973B9F /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				200946582825178500973B9F /* FirebaseAnalyticsSwift-Beta in Frameworks */,
-				200946592825178500973B9F /* FirebaseCrashlytics in Frameworks */,
-				2009465A2825178500973B9F /* FirebaseAuth in Frameworks */,
-				2009465B2825178500973B9F /* FirebaseFirestoreSwift-Beta in Frameworks */,
-				2009465C2825178500973B9F /* Kanna in Frameworks */,
-				2009465D2825178500973B9F /* FirebaseFirestore in Frameworks */,
-				2009465E2825178500973B9F /* FirebaseAnalytics in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		20FF78C1281F4C53001D062E /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -219,17 +158,8 @@
 			isa = PBXGroup;
 			children = (
 				201C6BC72825379A00195179 /* Release */,
-				201C6BC62825379400195179 /* Development */,
 			);
 			path = Env;
-			sourceTree = "<group>";
-		};
-		201C6BC62825379400195179 /* Development */ = {
-			isa = PBXGroup;
-			children = (
-				2009466C2825178500973B9F /* Yomiage-DEV-Info.plist */,
-			);
-			path = Development;
 			sourceTree = "<group>";
 		};
 		201C6BC72825379A00195179 /* Release */ = {
@@ -267,7 +197,6 @@
 				20FF78C4281F4C53001D062E /* Yomiage.app */,
 				20FF78D4281F4C54001D062E /* YomiageTests.xctest */,
 				20FF78DE281F4C54001D062E /* YomiageUITests.xctest */,
-				2009466B2825178500973B9F /* Yomiage-DEV.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -465,32 +394,6 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		2009462A2825178500973B9F /* Yomiage-DEV */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 200946642825178500973B9F /* Build configuration list for PBXNativeTarget "Yomiage-DEV" */;
-			buildPhases = (
-				200946342825178500973B9F /* Sources */,
-				200946572825178500973B9F /* Frameworks */,
-				2009465F2825178500973B9F /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = "Yomiage-DEV";
-			packageProductDependencies = (
-				2009462B2825178500973B9F /* FirebaseAnalytics */,
-				2009462D2825178500973B9F /* FirebaseAnalyticsSwift-Beta */,
-				2009462E2825178500973B9F /* FirebaseAuth */,
-				2009462F2825178500973B9F /* FirebaseCrashlytics */,
-				200946302825178500973B9F /* FirebaseFirestore */,
-				200946312825178500973B9F /* FirebaseFirestoreSwift-Beta */,
-				200946322825178500973B9F /* Kanna */,
-			);
-			productName = Yomiage;
-			productReference = 2009466B2825178500973B9F /* Yomiage-DEV.app */;
-			productType = "com.apple.product-type.application";
-		};
 		20FF78C3281F4C53001D062E /* Yomiage */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 20FF78E8281F4C54001D062E /* Build configuration list for PBXNativeTarget "Yomiage" */;
@@ -596,23 +499,11 @@
 				20FF78C3281F4C53001D062E /* Yomiage */,
 				20FF78D3281F4C54001D062E /* YomiageTests */,
 				20FF78DD281F4C54001D062E /* YomiageUITests */,
-				2009462A2825178500973B9F /* Yomiage-DEV */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		2009465F2825178500973B9F /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				200946602825178500973B9F /* GoogleService-Info-prod.plist in Resources */,
-				200946612825178500973B9F /* Preview Assets.xcassets in Resources */,
-				200946622825178500973B9F /* GoogleService-Info-dev.plist in Resources */,
-				200946632825178500973B9F /* Assets.xcassets in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		20FF78C2281F4C53001D062E /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -641,47 +532,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		200946342825178500973B9F /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				200946352825178500973B9F /* Article.swift in Sources */,
-				200946362825178500973B9F /* HUD.swift in Sources */,
-				200946372825178500973B9F /* AsyncButton.swift in Sources */,
-				200946382825178500973B9F /* ArticleWebView.swift in Sources */,
-				200946392825178500973B9F /* NavigationLink.swift in Sources */,
-				2009463A2825178500973B9F /* UINavigationBar+.swift in Sources */,
-				2009463B2825178500973B9F /* RootView.swift in Sources */,
-				2009463C2825178500973B9F /* PlayerSettingSheet.swift in Sources */,
-				2009463D2825178500973B9F /* AppStorage+.swift in Sources */,
-				2009463E2825178500973B9F /* NoteArticle.swift in Sources */,
-				2009463F2825178500973B9F /* Color.swift in Sources */,
-				200946402825178500973B9F /* AddArticleSheet.swift in Sources */,
-				200946412825178500973B9F /* Spacer.swift in Sources */,
-				200946422825178500973B9F /* Sheet.swift in Sources */,
-				200946432825178500973B9F /* String+.swift in Sources */,
-				200946442825178500973B9F /* StreamView.swift in Sources */,
-				200946452825178500973B9F /* ArticlesPage.swift in Sources */,
-				200946462825178500973B9F /* Auth.swift in Sources */,
-				200946472825178500973B9F /* ArticleDatastore.swift in Sources */,
-				200946482825178500973B9F /* Screen.swift in Sources */,
-				200946492825178500973B9F /* MediumArticle.swift in Sources */,
-				2009464A2825178500973B9F /* Button.swift in Sources */,
-				2009464B2825178500973B9F /* ArticleRowLayout.swift in Sources */,
-				2009464C2825178500973B9F /* ErrorAlert.swift in Sources */,
-				2009464D2825178500973B9F /* UISlider+.swift in Sources */,
-				2009464E2825178500973B9F /* AppDelegate.swift in Sources */,
-				2009464F2825178500973B9F /* Player.swift in Sources */,
-				200946502825178500973B9F /* UserDatabase.swift in Sources */,
-				200946512825178500973B9F /* AddArticleHTMLLoader.swift in Sources */,
-				200946522825178500973B9F /* LoadWebView.swift in Sources */,
-				200946532825178500973B9F /* UniversalErrorView.swift in Sources */,
-				200946542825178500973B9F /* YomiageApp.swift in Sources */,
-				200946552825178500973B9F /* MediumSheetLayout.swift in Sources */,
-				200946562825178500973B9F /* SheetPresentation.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		20FF78C0281F4C53001D062E /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -756,208 +606,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		200946652825178500973B9F /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-DEV";
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"Yomiage/Preview Content\"";
-				DEVELOPMENT_TEAM = TQPN82UBBY;
-				ENABLE_PREVIEWS = YES;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-					"DEV=1",
-				);
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "Yomiage-DEV-Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = "Yomiage-Dev";
-				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
-				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.bannzai.yomiage.dev;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG DEV";
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Debug;
-		};
-		200946662825178500973B9F /* Debug-Production */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"Yomiage/Preview Content\"";
-				DEVELOPMENT_TEAM = TQPN82UBBY;
-				ENABLE_PREVIEWS = YES;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "Yomiage-DEV-Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = "";
-				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
-				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.bannzai.yomiage;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = "Debug-Production";
-		};
-		200946672825178500973B9F /* Debug-Development */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-DEV";
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"Yomiage/Preview Content\"";
-				DEVELOPMENT_TEAM = TQPN82UBBY;
-				ENABLE_PREVIEWS = YES;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-					"DEV=1",
-				);
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "Yomiage-DEV-Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = "Yomiage-Dev";
-				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
-				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.bannzai.yomiage.dev;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG DEV";
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = "Debug-Development";
-		};
-		200946682825178500973B9F /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"Yomiage/Preview Content\"";
-				DEVELOPMENT_TEAM = TQPN82UBBY;
-				ENABLE_PREVIEWS = YES;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "Yomiage-DEV-Info.plist";
-				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
-				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.bannzai.yomiage;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Release;
-		};
-		200946692825178500973B9F /* Release-Production */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"Yomiage/Preview Content\"";
-				DEVELOPMENT_TEAM = TQPN82UBBY;
-				ENABLE_PREVIEWS = YES;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "Yomiage-DEV-Info.plist";
-				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
-				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.bannzai.yomiage;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = "Release-Production";
-		};
-		2009466A2825178500973B9F /* Release-Development */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-DEV";
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"Yomiage/Preview Content\"";
-				DEVELOPMENT_TEAM = TQPN82UBBY;
-				ENABLE_PREVIEWS = YES;
-				GCC_PREPROCESSOR_DEFINITIONS = "DEV=1";
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "Yomiage-DEV-Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = "Yomiage-Dev";
-				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
-				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.bannzai.yomiage.dev;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEV;
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = "Release-Development";
-		};
 		209AC239282483E100C648E6 /* Debug-Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1733,19 +1381,6 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		200946642825178500973B9F /* Build configuration list for PBXNativeTarget "Yomiage-DEV" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				200946652825178500973B9F /* Debug */,
-				200946662825178500973B9F /* Debug-Production */,
-				200946672825178500973B9F /* Debug-Development */,
-				200946682825178500973B9F /* Release */,
-				200946692825178500973B9F /* Release-Production */,
-				2009466A2825178500973B9F /* Release-Development */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		20FF78BF281F4C53001D062E /* Build configuration list for PBXProject "Yomiage" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -1801,22 +1436,6 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		2009462C2825178500973B9F /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
-			requirement = {
-				kind = upToNextMinorVersion;
-				minimumVersion = 8.15.0;
-			};
-		};
-		200946332825178500973B9F /* XCRemoteSwiftPackageReference "Kanna" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/tid-kijyun/Kanna";
-			requirement = {
-				kind = upToNextMinorVersion;
-				minimumVersion = 5.2.0;
-			};
-		};
 		20FF78FF281F70A5001D062E /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
@@ -1836,41 +1455,6 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		2009462B2825178500973B9F /* FirebaseAnalytics */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 2009462C2825178500973B9F /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseAnalytics;
-		};
-		2009462D2825178500973B9F /* FirebaseAnalyticsSwift-Beta */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 2009462C2825178500973B9F /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = "FirebaseAnalyticsSwift-Beta";
-		};
-		2009462E2825178500973B9F /* FirebaseAuth */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 2009462C2825178500973B9F /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseAuth;
-		};
-		2009462F2825178500973B9F /* FirebaseCrashlytics */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 2009462C2825178500973B9F /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseCrashlytics;
-		};
-		200946302825178500973B9F /* FirebaseFirestore */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 2009462C2825178500973B9F /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseFirestore;
-		};
-		200946312825178500973B9F /* FirebaseFirestoreSwift-Beta */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 2009462C2825178500973B9F /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = "FirebaseFirestoreSwift-Beta";
-		};
-		200946322825178500973B9F /* Kanna */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 200946332825178500973B9F /* XCRemoteSwiftPackageReference "Kanna" */;
-			productName = Kanna;
-		};
 		20FF7900281F70A5001D062E /* FirebaseAnalytics */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 20FF78FF281F70A5001D062E /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
