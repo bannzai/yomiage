@@ -20,20 +20,6 @@
                ReferencedContainer = "container:Yomiage.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "2009462A2825178500973B9F"
-               BuildableName = "Yomiage-DEV.app"
-               BlueprintName = "Yomiage-DEV"
-               ReferencedContainer = "container:Yomiage.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction
