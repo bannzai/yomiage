@@ -1,2 +1,3 @@
 #include "Base.xcconfig"
 
+PRODUCT_BUNDLE_IDENTIFIER="com.bannzai.yomiage.dev"
