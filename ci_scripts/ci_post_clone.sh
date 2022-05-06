@@ -10,5 +10,5 @@ make secret
 cd -
 
 if [[ $CI_BUNDLE_ID = 'com.bannzai.yomiage.dev' ]]; then
-  sed -i 's/"Production.xcconfig"/"Development.xcconfig"/g' $REPOSITORY_DIR/Yomiage/Config/Release.xcocnfig
+  sed -i 's|Production.xcconfig|Development.xcconfig|g' $REPOSITORY_DIR/Yomiage/Config/Release.xcocnfig
 fi
