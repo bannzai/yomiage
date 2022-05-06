@@ -2,6 +2,6 @@
 
 PRODUCT_BUNDLE_IDENTIFIER="com.bannzai.yomiage.dev"
 INFOPLIST_KEY_CFBundleDisplayName="Yomiage-Dev"
-# NOTE: Allow duplicate setting of `DEBUG=1` on Xcode, when Overwrite with $(inherited).
+// NOTE: Allow duplicate setting of `DEBUG=1` on Xcode, when Overwrite with $(inherited).
 GCC_PREPROCESSOR_DEFINITIONS = $(inherited) DEV=1
 ASSETCATALOG_COMPILER_APPICON_NAME=AppIcon-DEV
