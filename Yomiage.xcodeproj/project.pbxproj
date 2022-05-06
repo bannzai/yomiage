@@ -78,6 +78,8 @@
 		201C6BC828253C0200195179 /* Base.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Base.xcconfig; sourceTree = "<group>"; };
 		201C6BC928253C1100195179 /* Development.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Development.xcconfig; sourceTree = "<group>"; };
 		201C6BCA28253C1900195179 /* Production.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Production.xcconfig; sourceTree = "<group>"; };
+		201C6BCD2825411D00195179 /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
+		201C6BCE2825412300195179 /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
 		203A88C22823FF3A00B4C12C /* AsyncButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncButton.swift; sourceTree = "<group>"; };
 		20884DFC28223419008388AE /* ArticleRowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleRowLayout.swift; sourceTree = "<group>"; };
 		20884DFE28223644008388AE /* MediumArticle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediumArticle.swift; sourceTree = "<group>"; };
@@ -163,6 +165,8 @@
 				201C6BC828253C0200195179 /* Base.xcconfig */,
 				201C6BC928253C1100195179 /* Development.xcconfig */,
 				201C6BCA28253C1900195179 /* Production.xcconfig */,
+				201C6BCD2825411D00195179 /* Release.xcconfig */,
+				201C6BCE2825412300195179 /* Debug.xcconfig */,
 			);
 			path = Config;
 			sourceTree = "<group>";
@@ -720,7 +724,7 @@
 		};
 		20FF78E9281F4C54001D062E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 201C6BC928253C1100195179 /* Development.xcconfig */;
+			baseConfigurationReference = 201C6BCE2825412300195179 /* Debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-DEV";
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -757,7 +761,7 @@
 		};
 		20FF78EA281F4C54001D062E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 201C6BCA28253C1900195179 /* Production.xcconfig */;
+			baseConfigurationReference = 201C6BCD2825411D00195179 /* Release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
