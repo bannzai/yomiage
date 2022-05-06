@@ -4,10 +4,6 @@ set -eu
 SCRIPT_DIR="$(cd `dirname $0` && pwd -P)"
 REPOSITORY_DIR="$(cd $SCRIPT_DIR && cd .. && pwd -P)"
 
-cd $REPOSITORY_DIR
-make secret
-cd -
-
 echo "Log: BUNDLE IDENTIFIER: $CI_BUNDLE_ID"
 if [[ $CI_BUNDLE_ID = 'com.bannzai.yomiage.dev' ]]; then
   echo "Log: Replace Release.xcconfig"
