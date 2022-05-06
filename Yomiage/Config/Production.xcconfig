@@ -2,3 +2,4 @@
 
 PRODUCT_BUNDLE_IDENTIFIER="com.bannzai.yomiage"
 INFOPLIST_KEY_CFBundleDisplayName="Yomiage"
+GCC_PREPROCESSOR_DEFINITIONS = $(inherited)
