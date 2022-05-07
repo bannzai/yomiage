@@ -22,8 +22,8 @@ struct ArticlesPage: View {
           }
           .buttonStyle(.primary)
           .frame(width: 200)
-          .navigationBarHidden(true)
         }
+        .navigationBarHidden(true)
       } else {
         List {
           ForEach(articles) { article in
