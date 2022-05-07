@@ -11,6 +11,7 @@
 		2037DF9228264F2000F43B11 /* TermsAndPrivacyPolilcy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2037DF9128264F2000F43B11 /* TermsAndPrivacyPolilcy.swift */; };
 		2037DF942826557C00F43B11 /* FirebaseAnalytics+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2037DF932826557C00F43B11 /* FirebaseAnalytics+.swift */; };
 		2037DF9628265C8600F43B11 /* Timeout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2037DF9528265C8600F43B11 /* Timeout.swift */; };
+		2037DF982827317000F43B11 /* ScreenShotData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2037DF972827317000F43B11 /* ScreenShotData.swift */; };
 		203A88C32823FF3A00B4C12C /* AsyncButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203A88C22823FF3A00B4C12C /* AsyncButton.swift */; };
 		20884DFD28223419008388AE /* ArticleRowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20884DFC28223419008388AE /* ArticleRowLayout.swift */; };
 		20884DFF28223644008388AE /* MediumArticle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20884DFE28223644008388AE /* MediumArticle.swift */; };
@@ -86,6 +87,7 @@
 		2037DF9128264F2000F43B11 /* TermsAndPrivacyPolilcy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsAndPrivacyPolilcy.swift; sourceTree = "<group>"; };
 		2037DF932826557C00F43B11 /* FirebaseAnalytics+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FirebaseAnalytics+.swift"; sourceTree = "<group>"; };
 		2037DF9528265C8600F43B11 /* Timeout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Timeout.swift; sourceTree = "<group>"; };
+		2037DF972827317000F43B11 /* ScreenShotData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenShotData.swift; sourceTree = "<group>"; };
 		203A88C22823FF3A00B4C12C /* AsyncButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncButton.swift; sourceTree = "<group>"; };
 		20884DFC28223419008388AE /* ArticleRowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleRowLayout.swift; sourceTree = "<group>"; };
 		20884DFE28223644008388AE /* MediumArticle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediumArticle.swift; sourceTree = "<group>"; };
@@ -243,6 +245,7 @@
 			isa = PBXGroup;
 			children = (
 				20FF78CE281F4C53001D062E /* Preview Assets.xcassets */,
+				2037DF972827317000F43B11 /* ScreenShotData.swift */,
 			);
 			path = "Preview Content";
 			sourceTree = "<group>";
@@ -582,6 +585,7 @@
 				20FF78FD281F4F0B001D062E /* AppDelegate.swift in Sources */,
 				20FF79532820DCD7001D062E /* Player.swift in Sources */,
 				20FF7913281F7686001D062E /* UserDatabase.swift in Sources */,
+				2037DF982827317000F43B11 /* ScreenShotData.swift in Sources */,
 				20FF7932281FB4CB001D062E /* AddArticleHTMLLoader.swift in Sources */,
 				20FF7941281FC369001D062E /* LoadWebView.swift in Sources */,
 				20FF791E281F878A001D062E /* UniversalErrorView.swift in Sources */,
