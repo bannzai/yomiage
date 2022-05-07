@@ -1,7 +1,7 @@
 import SwiftUI
 import Kanna
 
-final class AddArticleHTMLLoader: ObservableObject {
+@MainActor final class AddArticleHTMLLoader: ObservableObject {
   @Environment(\.articleDatastore) private var articleDatastore
 
   @Published private(set) var isLoading: Bool = false
@@ -14,8 +14,11 @@ final class AddArticleHTMLLoader: ObservableObject {
       defer {
         isLoading = false
       }
-      let html = try await loadHTML(url: url)
-      loadedArticle = try proceedReadArticle(html: html, loadingURL: url)
+      let html = try await timeout(seconds: 11, operation: {
+//        try await loadHTML(url: url)
+        try await Task.sleep(nanoseconds: UInt64(10_000_000_000))
+      })
+      loadedArticle = try proceedReadArticle(html: "", loadingURL: url)
     } catch {
       if let localizedError = error as? LocalizedError {
         self.localizedError = localizedError
