@@ -16,14 +16,15 @@ struct ArticlesPage: View {
             .font(.system(.headline))
           VSpacer(20)
           Button {
+            analytics.logEvent("add_article_button_pressed", parameters: nil)
             addArticleSheetIsPresented = true
           } label: {
             Text("追加")
           }
           .buttonStyle(.primary)
           .frame(width: 200)
-          .navigationBarHidden(true)
         }
+        .navigationBarHidden(true)
       } else {
         List {
           ForEach(articles) { article in
@@ -63,6 +64,8 @@ struct ArticlesPage: View {
         .toolbar(content: {
           ToolbarItem(placement: .navigationBarTrailing) {
             Button {
+              analytics.logEvent("player_setting_present_toolbar_button")
+
               playerSettingSheetIsPresented = true
             } label: {
               Image(systemName: "gearshape")
@@ -73,6 +76,8 @@ struct ArticlesPage: View {
           }
           ToolbarItem(placement: .navigationBarTrailing) {
             Button {
+              analytics.logEvent("add_article_present_toolbar_button")
+
               addArticleSheetIsPresented = true
             } label: {
               Image(systemName: "plus")

@@ -35,6 +35,8 @@ struct MediumArticle: View {
           playButton: {
             if player.playingArticle == article {
               Button {
+                analytics.logEvent("medium_article_stop_play", parameters: ["article_id": String(describing: article.id)])
+
                 player.stop()
               } label: {
                 Image(systemName: "stop.fill")
@@ -44,6 +46,8 @@ struct MediumArticle: View {
               }
             } else {
               AsyncButton {
+                analytics.logEvent("medium_article_start_play", parameters: ["article_id": String(describing: article.id)])
+
                 await player.play(article: article, url: url, kind: .medium)
                 player.configurePlayingCenter(title: mediumArticle.title)
               } label: {

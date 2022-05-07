@@ -25,6 +25,8 @@ struct AddArticleSheet: View {
             }
 
             AsyncButton {
+              analytics.logEvent("add_article_button_on_sheet", parameters: ["url": String(describing: url?.absoluteString)])
+
               if let url = url {
                 await loader.load(url: url)
               }
@@ -35,6 +37,10 @@ struct AddArticleSheet: View {
             }
             .buttonStyle(.primary)
             .disabled(url == nil || loader.isLoading)
+
+            Text("※ 現在はnote.com,medium.comに対応しています")
+              .font(.system(.caption2))
+              .foregroundColor(Color(.lightGray))
           }
           .padding(.horizontal, 20)
         }

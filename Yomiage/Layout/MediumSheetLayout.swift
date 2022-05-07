@@ -5,10 +5,11 @@ struct MediumSheetLayout<Title: View, Content: View>: View {
   @ViewBuilder let content: Content
 
   var body: some View {
-    VStack(spacing: 40) {
+    VStack(spacing: 24) {
       title
-      content
-      Spacer()
+      ScrollView(.vertical) {
+        content
+      }
     }
     .padding(.top, 30)
   }

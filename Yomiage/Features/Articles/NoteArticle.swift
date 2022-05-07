@@ -35,6 +35,8 @@ struct NoteArticle: View {
           playButton: {
             if player.playingArticle == article {
               Button {
+                analytics.logEvent("note_article_stop_play", parameters: ["article_id": String(describing: article.id)])
+
                 player.stop()
               } label: {
                 Image(systemName: "stop.fill")
@@ -44,9 +46,12 @@ struct NoteArticle: View {
               }
             } else {
               AsyncButton {
+                analytics.logEvent("note_article_start_play", parameters: ["article_id": String(describing: article.id)])
+                
                 await player.play(article: article, url: url, kind: .note)
                 player.configurePlayingCenter(title: noteArticle.title)
               } label: {
+
                 Image(systemName: "play.fill")
                   .frame(width: 14, height: 14)
                   .foregroundColor(.label)

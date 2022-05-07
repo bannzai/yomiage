@@ -9,19 +9,25 @@ struct PlayerSettingSheet: View {
       Text("設定")
         .font(.headline)
     } content: {
-      VStack(spacing: 24) {
-        VStack(alignment: .leading, spacing: 8) {
-          Text("音量").font(.system(size: 16))
-          Slider(value: $player.volume, in: Range.volume)
+      VStack(spacing: 0) {
+        VStack(spacing: 20) {
+          VStack(alignment: .leading, spacing: 8) {
+            Text("音量").font(.system(.subheadline))
+            Slider(value: $player.volume, in: Range.volume)
+          }
+          VStack(alignment: .leading, spacing: 8) {
+            Text("読む早さ").font(.system(.subheadline))
+            Slider(value: $player.rate, in: Range.rate)
+          }
+          VStack(alignment: .leading, spacing: 8) {
+            Text("声の高さ").font(.system(.subheadline))
+            Slider(value: $player.pitch, in: Range.pitch)
+          }
         }
-        VStack(alignment: .leading, spacing: 8) {
-          Text("読む早さ").font(.system(size: 16))
-          Slider(value: $player.rate, in: Range.rate)
-        }
-        VStack(alignment: .leading, spacing: 8) {
-          Text("声の高さ").font(.system(size: 16))
-          Slider(value: $player.pitch, in: Range.pitch)
-        }
+        Spacer()
+
+        TermsAndPrivacyPolilcy()
+        VSpacer(20)
       }
       .padding(.horizontal, 20)
     }
