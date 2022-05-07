@@ -25,6 +25,8 @@ struct AddArticleSheet: View {
             }
 
             AsyncButton {
+              analytics.logEvent("add_article_button_on_sheet", parameters: ["url": String(describing: url?.absoluteString)])
+
               if let url = url {
                 await loader.load(url: url)
               }
