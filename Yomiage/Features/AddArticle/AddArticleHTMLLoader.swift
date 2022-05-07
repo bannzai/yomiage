@@ -11,9 +11,11 @@ final class AddArticleHTMLLoader: ObservableObject {
   func load(url: URL) async {
     do {
       isLoading = true
+      defer {
+        isLoading = false
+      }
       let html = try await loadHTML(url: url)
       loadedArticle = try proceedReadArticle(html: html, loadingURL: url)
-      isLoading = false
     } catch {
       if let localizedError = error as? LocalizedError {
         self.localizedError = localizedError
