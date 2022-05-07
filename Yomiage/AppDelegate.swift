@@ -20,17 +20,7 @@ final class AppDelegate: NSObject, UIApplicationDelegate {
 // MARK: - Private
 private extension AppDelegate {
   func setupFirebase() {
-    let firebaseFileName: String
-#if DEV
-    firebaseFileName = "GoogleService-Info-dev"
-#else
-    firebaseFileName = "GoogleService-Info-prod"
-#endif
-
-    let path = Bundle.main.path(forResource: firebaseFileName, ofType: "plist")!
-    let options = FirebaseOptions(contentsOfFile: path)!
-
-    FirebaseApp.configure(options: options)
+    FirebaseApp.configure()
   }
 
   func setupAudio() {

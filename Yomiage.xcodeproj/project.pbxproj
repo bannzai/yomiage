@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		201C6BD028263D7400195179 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 201C6BCF28263D7400195179 /* GoogleService-Info.plist */; };
 		203A88C32823FF3A00B4C12C /* AsyncButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203A88C22823FF3A00B4C12C /* AsyncButton.swift */; };
 		20884DFD28223419008388AE /* ArticleRowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20884DFC28223419008388AE /* ArticleRowLayout.swift */; };
 		20884DFF28223644008388AE /* MediumArticle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20884DFE28223644008388AE /* MediumArticle.swift */; };
@@ -21,8 +22,6 @@
 		20FF78E5281F4C54001D062E /* YomiageUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FF78E4281F4C54001D062E /* YomiageUITestsLaunchTests.swift */; };
 		20FF78F3281F4C63001D062E /* ArticlesPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FF78F2281F4C63001D062E /* ArticlesPage.swift */; };
 		20FF78F6281F4D40001D062E /* Article.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FF78F5281F4D40001D062E /* Article.swift */; };
-		20FF78FA281F4E8A001D062E /* GoogleService-Info-dev.plist in Resources */ = {isa = PBXBuildFile; fileRef = 20FF78F8281F4E8A001D062E /* GoogleService-Info-dev.plist */; };
-		20FF78FB281F4E8A001D062E /* GoogleService-Info-prod.plist in Resources */ = {isa = PBXBuildFile; fileRef = 20FF78F9281F4E8A001D062E /* GoogleService-Info-prod.plist */; };
 		20FF78FD281F4F0B001D062E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FF78FC281F4F0B001D062E /* AppDelegate.swift */; };
 		20FF7901281F70A5001D062E /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 20FF7900281F70A5001D062E /* FirebaseAnalytics */; };
 		20FF7903281F70A5001D062E /* FirebaseAnalyticsSwift-Beta in Frameworks */ = {isa = PBXBuildFile; productRef = 20FF7902281F70A5001D062E /* FirebaseAnalyticsSwift-Beta */; };
@@ -80,6 +79,7 @@
 		201C6BCA28253C1900195179 /* Production.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Production.xcconfig; sourceTree = "<group>"; };
 		201C6BCD2825411D00195179 /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
 		201C6BCE2825412300195179 /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
+		201C6BCF28263D7400195179 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		203A88C22823FF3A00B4C12C /* AsyncButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncButton.swift; sourceTree = "<group>"; };
 		20884DFC28223419008388AE /* ArticleRowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleRowLayout.swift; sourceTree = "<group>"; };
 		20884DFE28223644008388AE /* MediumArticle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediumArticle.swift; sourceTree = "<group>"; };
@@ -98,8 +98,6 @@
 		20FF78E4281F4C54001D062E /* YomiageUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YomiageUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		20FF78F2281F4C63001D062E /* ArticlesPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticlesPage.swift; sourceTree = "<group>"; };
 		20FF78F5281F4D40001D062E /* Article.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Article.swift; sourceTree = "<group>"; };
-		20FF78F8281F4E8A001D062E /* GoogleService-Info-dev.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info-dev.plist"; sourceTree = "<group>"; };
-		20FF78F9281F4E8A001D062E /* GoogleService-Info-prod.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info-prod.plist"; sourceTree = "<group>"; };
 		20FF78FC281F4F0B001D062E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		20FF7912281F7686001D062E /* UserDatabase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDatabase.swift; sourceTree = "<group>"; };
 		20FF7918281F77CF001D062E /* ArticleDatastore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleDatastore.swift; sourceTree = "<group>"; };
@@ -275,8 +273,7 @@
 		20FF78F7281F4E8A001D062E /* Firebase */ = {
 			isa = PBXGroup;
 			children = (
-				20FF78F8281F4E8A001D062E /* GoogleService-Info-dev.plist */,
-				20FF78F9281F4E8A001D062E /* GoogleService-Info-prod.plist */,
+				201C6BCF28263D7400195179 /* GoogleService-Info.plist */,
 			);
 			path = Firebase;
 			sourceTree = "<group>";
@@ -510,9 +507,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				20FF78FB281F4E8A001D062E /* GoogleService-Info-prod.plist in Resources */,
 				20FF78CF281F4C53001D062E /* Preview Assets.xcassets in Resources */,
-				20FF78FA281F4E8A001D062E /* GoogleService-Info-dev.plist in Resources */,
+				201C6BD028263D7400195179 /* GoogleService-Info.plist in Resources */,
 				20FF78CC281F4C53001D062E /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
