@@ -37,6 +37,10 @@ struct AddArticleSheet: View {
             }
             .buttonStyle(.primary)
             .disabled(url == nil || loader.isLoading)
+
+            Text("※ 現在はnote.com,medium.comに対応しています")
+              .font(.system(.caption2))
+              .foregroundColor(Color(.lightGray))
           }
           .padding(.horizontal, 20)
         }
