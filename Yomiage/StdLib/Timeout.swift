@@ -1,6 +1,8 @@
 import Foundation
 
-public func timeout<T>(
+// Reference: https://forums.swift.org/t/running-an-async-task-with-a-timeout/49733/13
+// TODO: not working with loadHTML(url:)
+public func withTimeout<T>(
   seconds: Foundation.TimeInterval,
   operation: @escaping @Sendable () async throws -> T
 ) async throws -> T {
@@ -20,7 +22,7 @@ public func timeout<T>(
     defer{
       group.cancelAll()
     }
-    
+
     do {
       let result = try await group.next()!
       return result

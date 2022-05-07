@@ -14,11 +14,8 @@ import Kanna
       defer {
         isLoading = false
       }
-      let html = try await timeout(seconds: 11, operation: {
-//        try await loadHTML(url: url)
-        try await Task.sleep(nanoseconds: UInt64(10_000_000_000))
-      })
-      loadedArticle = try proceedReadArticle(html: "", loadingURL: url)
+      let html = try await loadHTML(url: url)
+      loadedArticle = try proceedReadArticle(html: html, loadingURL: url)
     } catch {
       if let localizedError = error as? LocalizedError {
         self.localizedError = localizedError
