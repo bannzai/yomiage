@@ -1,4 +1,11 @@
 import FirebaseCrashlytics
+import FirebaseAuth
 
+let errorLogger = FirebaseCrashlytics.Crashlytics.crashlytics()
 
-let errorLogger = FirebaseCrashlytics
+extension Crashlytics {
+  func setup(user: FirebaseAuth.User) {
+    setUserID(user.uid)
+  }
+}
+

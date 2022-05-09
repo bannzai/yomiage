@@ -35,7 +35,8 @@ struct RootView: View {
   private func logIn() {
     Task { @MainActor in
       do {
-        _ = try await auth.signInOrCachedUser()
+        let user = try await auth.signInOrCachedUser()
+        errorLogger.setup(user: user)
       } catch {
         signInError = error
       }
