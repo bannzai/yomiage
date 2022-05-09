@@ -29,17 +29,9 @@ final class AddArticleHTMLLoader: ObservableObject {
     let doc = try HTML(html: html, encoding: .utf8)
 
     // note.com
-    if let title = doc.at_xpath(#"//*[@id="__layout"]/div/div[1]/div[2]/main/div[1]/article/div[1]/div/div/h1"#)?.text?.trimmingCharacters(in: .whitespacesAndNewlines),
-       let author = doc.at_xpath(#"//*[@id="__layout"]/div/div[1]/div[2]/main/div[1]/article/div[1]/div/div/div[2]/div/div[1]/div/a"#)?.text?.trimmingCharacters(in: .whitespacesAndNewlines) {
-      let eyeCatchImageURL: String? = {
-        if let first = doc.at_xpath(#"//*[@id="__layout"]/div/div[1]/div[2]/main/div[1]/article/div[1]/div/div/figure/a/img"#)?["src"]?.trimmingCharacters(in: .whitespacesAndNewlines) {
-          return first
-        }
-
-        // NOTE: Actual HTML: #"//*[@id="__layout"]/div/div[1]/div[2]/main/div[1]/article/div[1]/div/div/figure/a/img"#
-        // However, via Kanna, the last <a> tag is missing
-        return doc.at_xpath(#"//*[@id="__layout"]/div/div[1]/div[2]/main/div[1]/article/div[1]/div/div/figure/img"#)?["src"]?.trimmingCharacters(in: .whitespacesAndNewlines)
-      }()
+    if let title = doc.at_xpath("//h1[contains(@class, 'o-noteContentText__title')]")?.text?.trimmingCharacters(in: .whitespacesAndNewlines),
+       let author = doc.at_xpath("//div[contains(@class, 'o-noteContentHeader__name')]/a")?.text?.trimmingCharacters(in: .whitespacesAndNewlines) {
+      let eyeCatchImageURL: String? = doc.at_xpath("//img[contains(@class, 'o-noteEyecatch__image')]")?["src"]?.trimmingCharacters(in: .whitespacesAndNewlines)
 
       return .init(
         kind: Article.Kind.note.rawValue,
