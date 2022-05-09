@@ -47,9 +47,9 @@ final class AddArticleHTMLLoader: ObservableObject {
     }
 
     // medium.com
-    if let title = doc.at_xpath(#"/html/body/div/div/div[3]/div/div/main/div/div[3]/div[1]/div/article/div/div[2]/section/div/div[2]/div[1]/h1"#)?.text?.trimmingCharacters(in: .whitespacesAndNewlines),
-       let author = doc.at_xpath(#"//*[@id="root"]/div/div[3]/div/div/main/div/div[3]/div[1]/div/article/div/div[2]/header/div[1]/div[1]/div[2]/div[1]/div/div[1]/div/a"#)?.text?.trimmingCharacters(in: .whitespacesAndNewlines) {
-      let eyeCatchImageURL: String? = doc.at_xpath(#"//*[@id="root"]/div/div[3]/div/div/main/div/div[3]/div[1]/div/article/div/div[2]/section/div/div[2]/figure[1]/div/div/img"#)?["src"]?.trimmingCharacters(in: .whitespacesAndNewlines)
+    if let title = doc.at_xpath("//h1[contains(@class, 'pw-post-title')]")?.text?.trimmingCharacters(in: .whitespacesAndNewlines),
+       let author = doc.at_xpath("//div[contains(@class, 'pw-author')]/div[1]/div/div/a")?.text?.trimmingCharacters(in: .whitespacesAndNewlines) {
+      let eyeCatchImageURL: String? = doc.at_xpath("//figure[contains(@class, 'paragraph-image')]/div/div/img")?["src"]?.trimmingCharacters(in: .whitespacesAndNewlines)
 
       return .init(
         kind: Article.Kind.medium.rawValue,
