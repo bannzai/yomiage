@@ -1,14 +1,14 @@
 import SwiftUI
 import Kanna
 
-@MainActor final class AddArticleHTMLLoader: ObservableObject {
+final class AddArticleHTMLLoader: ObservableObject {
   @Environment(\.articleDatastore) private var articleDatastore
 
   @Published private(set) var isLoading: Bool = false
   @Published private(set) var localizedError: LocalizedError?
   @Published private(set) var loadedArticle: Article?
 
-  func load(url: URL) async {
+  @MainActor func load(url: URL) async {
     do {
       isLoading = true
       defer {
