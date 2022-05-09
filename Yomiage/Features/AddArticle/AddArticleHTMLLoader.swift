@@ -9,13 +9,21 @@ final class AddArticleHTMLLoader: ObservableObject {
   @Published private(set) var loadedArticle: Article?
 
   @MainActor func load(url: URL) async {
+    analytics.logEvent("load_html_body", parameters: ["url": url.absoluteString])
+
     do {
       isLoading = true
       defer {
         isLoading = false
       }
+
       let html = try await loadHTML(url: url)
-      loadedArticle = try proceedReadArticle(html: html, loadingURL: url)
+      do {
+        loadedArticle = try proceedReadArticle(html: html, loadingURL: url)
+      } catch {
+        errorLogger.record(error: error)
+        throw error
+      }
     } catch {
       if let localizedError = error as? LocalizedError {
         self.localizedError = localizedError
