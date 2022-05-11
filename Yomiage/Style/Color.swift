@@ -1,7 +1,7 @@
 import SwiftUI
 
 extension UIColor {
-  // DE396B
+  // 4ABBC3
   static let primary = UIColor(red: 74 / 255, green: 187 / 255, blue: 195 / 255, alpha: 1)
 }
 
