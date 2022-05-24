@@ -45,14 +45,18 @@ final class Player: NSObject, ObservableObject {
     synthesizer.delegate = self
   }
 
-  func play(article: Article, url: URL, kind: Article.Kind) async {
+  func play(article: Article) async {
+    guard let pageURL = URL(string: article.pageURL), let kind = article.typedKind else {
+      return
+    }
+
     do {
       let body: String
       switch kind {
       case .note:
-        body = try await loadNoteBody(url: url)
+        body = try await loadNoteBody(url: pageURL)
       case .medium:
-        body = try await loadMediumBody(url: url)
+        body = try await loadMediumBody(url: pageURL)
       }
 
       playingArticle = article
