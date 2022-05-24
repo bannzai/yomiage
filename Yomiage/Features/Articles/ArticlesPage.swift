@@ -59,6 +59,9 @@ struct ArticlesPage: View {
             .listRowSeparator(.hidden)
             .buttonStyle(.plain)
 
+            VSpacer(PlayerBar.Const.height + PlayerBar.Const.bottomPadding)
+              .listRowInsets(EdgeInsets())
+              .listRowSeparator(.hidden)
           }
           .listStyle(.plain)
 

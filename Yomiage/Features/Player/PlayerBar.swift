@@ -1,6 +1,10 @@
 import SwiftUI
 
 struct PlayerBar: View {
+  enum Const {
+    static let height: CGFloat = 120
+    static let bottomPadding: CGFloat = 40
+  }
   @EnvironmentObject var player: Player
 
   let article: Article
@@ -55,8 +59,10 @@ struct PlayerBar: View {
 
       Divider()
     }
+    .background(Color(.secondarySystemBackground)) // FIXME: Color is not fill to top when with frame(height:)
     .frame(maxWidth: .infinity)
-    .padding(.bottom, 40)
+    .frame(height: Const.height)
+    .padding(.bottom, Const.bottomPadding)
     .background(Color(.secondarySystemBackground))
   }
 
