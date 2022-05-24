@@ -59,11 +59,11 @@ struct PlayerBar: View {
 
       Divider()
     }
-    .background(Color(.secondarySystemBackground)) // FIXME: Color is not fill to top when with frame(height:)
+    .background(Color(.systemGray6)) // FIXME: Color is not fill to top when with frame(height:)
     .frame(maxWidth: .infinity)
     .frame(height: Const.height)
     .padding(.bottom, Const.bottomPadding)
-    .background(Color(.secondarySystemBackground))
+    .background(Color(.systemGray6))
   }
 
   private var title: String? {
