@@ -10,7 +10,7 @@ final class Player: NSObject, ObservableObject {
 
   @Published private(set) var playingArticle: Article?
 
-  var allArticle: Set<Article> = []
+  var allArticle: [Article] = []
   @Published var error: Error?
 
   private let synthesizer = AVSpeechSynthesizer()
