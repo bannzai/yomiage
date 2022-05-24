@@ -26,71 +26,77 @@ struct ArticlesPage: View {
         }
         .navigationBarHidden(true)
       } else {
-        List {
-          ForEach(articles) { article in
-            switch article.typedKind {
-            case .note:
-              VStack(alignment: .leading, spacing: 0) {
-                NoteArticle(article: article, noteArticle: article.note)
-                Divider()
-              }
-            case .medium:
-              VStack(alignment: .leading, spacing: 0) {
-                MediumArticle(article: article, mediumArticle: article.medium)
-                Divider()
-              }
-            case nil:
-              EmptyView()
-            }
-          }
-          .onDelete(perform: { indexSet in
-            indexSet.forEach { index in
-              Task { @MainActor in
-                do {
-                  try await articleDatastore.delete(article: articles[index])
-                } catch {
-                  self.error = error
+        ZStack {
+          List {
+            ForEach(articles) { article in
+              switch article.typedKind {
+              case .note:
+                VStack(alignment: .leading, spacing: 0) {
+                  NoteArticle(article: article, noteArticle: article.note)
+                  Divider()
                 }
+              case .medium:
+                VStack(alignment: .leading, spacing: 0) {
+                  MediumArticle(article: article, mediumArticle: article.medium)
+                  Divider()
+                }
+              case nil:
+                EmptyView()
+              }
+            }
+            .onDelete(perform: { indexSet in
+              indexSet.forEach { index in
+                Task { @MainActor in
+                  do {
+                    try await articleDatastore.delete(article: articles[index])
+                  } catch {
+                    self.error = error
+                  }
+                }
+              }
+            })
+            .listRowInsets(EdgeInsets())
+            .listRowSeparator(.hidden)
+            .buttonStyle(.plain)
+          }
+          .listStyle(.plain)
+          .navigationBarHidden(false)
+          .navigationTitle("一覧")
+          .toolbar(content: {
+            ToolbarItem(placement: .navigationBarTrailing) {
+              Button {
+                analytics.logEvent("player_setting_present_toolbar_button")
+
+                playerSettingSheetIsPresented = true
+              } label: {
+                Image(systemName: "gearshape")
+                  .imageScale(.large)
+                  .foregroundColor(.label)
+                  .frame(width: 28, height: 28)
+              }
+            }
+            ToolbarItem(placement: .navigationBarTrailing) {
+              Button {
+                analytics.logEvent("add_article_present_toolbar_button")
+
+                addArticleSheetIsPresented = true
+              } label: {
+                Image(systemName: "plus")
+                  .imageScale(.large)
+                  .foregroundColor(.label)
+                  .frame(width: 28, height: 28)
               }
             }
           })
-          .listRowInsets(EdgeInsets())
-          .listRowSeparator(.hidden)
-          .buttonStyle(.plain)
+          .onAppear {
+            articles.forEach { article in
+              player.allArticle.insert(article)
+            }
+          }
         }
-        .listStyle(.plain)
-        .navigationBarHidden(false)
-        .navigationTitle("一覧")
-        .toolbar(content: {
-          ToolbarItem(placement: .navigationBarTrailing) {
-            Button {
-              analytics.logEvent("player_setting_present_toolbar_button")
 
-              playerSettingSheetIsPresented = true
-            } label: {
-              Image(systemName: "gearshape")
-                .imageScale(.large)
-                .foregroundColor(.label)
-                .frame(width: 28, height: 28)
-            }
-          }
-          ToolbarItem(placement: .navigationBarTrailing) {
-            Button {
-              analytics.logEvent("add_article_present_toolbar_button")
-
-              addArticleSheetIsPresented = true
-            } label: {
-              Image(systemName: "plus")
-                .imageScale(.large)
-                .foregroundColor(.label)
-                .frame(width: 28, height: 28)
-            }
-          }
-        })
-        .onAppear {
-          articles.forEach { article in
-            player.allArticle.insert(article)
-          }
+        if let playingArticle = player.playingArticle {
+          PlayerBar(article: playingArticle)
         }
       }
     } errorContent: { error, reload in
