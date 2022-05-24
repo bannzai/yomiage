@@ -10,7 +10,7 @@ final class Player: NSObject, ObservableObject {
 
   @Published private(set) var playingArticle: Article?
 
-  var allArticle: [Article] = []
+  var allArticle: Set<Article> = []
   @Published var error: Error?
 
   private let synthesizer = AVSpeechSynthesizer()
@@ -45,18 +45,14 @@ final class Player: NSObject, ObservableObject {
     synthesizer.delegate = self
   }
 
-  func play(article: Article) async {
-    guard let pageURL = URL(string: article.pageURL), let kind = article.typedKind else {
-      return
-    }
-
+  func play(article: Article, url: URL, kind: Article.Kind) async {
     do {
       let body: String
       switch kind {
       case .note:
-        body = try await loadNoteBody(url: pageURL)
+        body = try await loadNoteBody(url: url)
       case .medium:
-        body = try await loadMediumBody(url: pageURL)
+        body = try await loadMediumBody(url: url)
       }
 
       playingArticle = article
@@ -79,34 +75,6 @@ final class Player: NSObject, ObservableObject {
     }
 
     playingArticle = nil
-  }
-
-  func backword() async {
-    guard
-      let playingArticle = playingArticle,
-      let index = allArticle.firstIndex(of: playingArticle),
-      index > 0
-    else {
-      return
-    }
-
-    stop()
-
-    await play(article: allArticle[index - 1])
-  }
-
-  func forward() async {
-    guard
-      let playingArticle = playingArticle,
-      let index = allArticle.firstIndex(of: playingArticle),
-      allArticle.count >= index + 1
-    else {
-      return
-    }
-
-    stop()
-
-    await play(article: allArticle[index + 1])
   }
 
   func setupRemoteTransportControls() {
