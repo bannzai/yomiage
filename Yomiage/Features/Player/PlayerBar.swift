@@ -7,14 +7,17 @@ struct PlayerBar: View {
 
   var body: some View {
     VStack {
+      Divider()
+
       if let title = title {
         Text(title)
           .font(.subheadline.weight(.medium))
+          .padding(.top)
       }
 
       HStack {
         Button {
-          analytics.logEvent("player_bar_play_button_pressed", parameters: ["article_id": String(describing: article.id)])
+          analytics.logEvent("player_bar_backword_button_pressed", parameters: ["article_id": String(describing: article.id)])
 
           player.stop()
         } label: {
@@ -38,7 +41,7 @@ struct PlayerBar: View {
         Spacer()
 
         Button {
-          analytics.logEvent("player_bar_play_button_pressed", parameters: ["article_id": String(describing: article.id)])
+          analytics.logEvent("player_bar_forward_button_pressed", parameters: ["article_id": String(describing: article.id)])
 
           player.stop()
         } label: {
@@ -49,7 +52,12 @@ struct PlayerBar: View {
         }
       }
       .padding()
+
+      Divider()
     }
+    .frame(maxWidth: .infinity)
+    .padding(.bottom, 40)
+    .background(Color.white)
   }
 
   private var title: String? {
