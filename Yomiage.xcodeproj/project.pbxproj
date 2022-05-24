@@ -15,8 +15,10 @@
 		203A88C32823FF3A00B4C12C /* AsyncButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203A88C22823FF3A00B4C12C /* AsyncButton.swift */; };
 		20884DFD28223419008388AE /* ArticleRowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20884DFC28223419008388AE /* ArticleRowLayout.swift */; };
 		20884DFF28223644008388AE /* MediumArticle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20884DFE28223644008388AE /* MediumArticle.swift */; };
+		20947B35283D02F200099BD8 /* PlayerBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20947B34283D02F200099BD8 /* PlayerBar.swift */; };
 		20E7069728238CEB00DF824F /* NavigationLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20E7069628238CEB00DF824F /* NavigationLink.swift */; };
 		20EAD3C4282295F100B15D8E /* UISlider+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20EAD3C3282295F100B15D8E /* UISlider+.swift */; };
+		20FABF00283C2D81003AFAC4 /* InquiryWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FABEFF283C2D81003AFAC4 /* InquiryWebView.swift */; };
 		20FF78C8281F4C53001D062E /* YomiageApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FF78C7281F4C53001D062E /* YomiageApp.swift */; };
 		20FF78CA281F4C53001D062E /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FF78C9281F4C53001D062E /* RootView.swift */; };
 		20FF78CC281F4C53001D062E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 20FF78CB281F4C53001D062E /* Assets.xcassets */; };
@@ -92,8 +94,10 @@
 		20884DFC28223419008388AE /* ArticleRowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleRowLayout.swift; sourceTree = "<group>"; };
 		20884DFE28223644008388AE /* MediumArticle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediumArticle.swift; sourceTree = "<group>"; };
 		20884E002822578A008388AE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		20947B34283D02F200099BD8 /* PlayerBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerBar.swift; sourceTree = "<group>"; };
 		20E7069628238CEB00DF824F /* NavigationLink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationLink.swift; sourceTree = "<group>"; };
 		20EAD3C3282295F100B15D8E /* UISlider+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UISlider+.swift"; sourceTree = "<group>"; };
+		20FABEFF283C2D81003AFAC4 /* InquiryWebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquiryWebView.swift; sourceTree = "<group>"; };
 		20FF78C4281F4C53001D062E /* Yomiage.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Yomiage.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		20FF78C7281F4C53001D062E /* YomiageApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YomiageApp.swift; sourceTree = "<group>"; };
 		20FF78C9281F4C53001D062E /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
@@ -189,8 +193,17 @@
 			isa = PBXGroup;
 			children = (
 				20FF79522820DCD7001D062E /* Player.swift */,
+				20947B34283D02F200099BD8 /* PlayerBar.swift */,
 			);
 			path = Player;
+			sourceTree = "<group>";
+		};
+		20FABEFE283C2D74003AFAC4 /* Inquiry */ = {
+			isa = PBXGroup;
+			children = (
+				20FABEFF283C2D81003AFAC4 /* InquiryWebView.swift */,
+			);
+			path = Inquiry;
 			sourceTree = "<group>";
 		};
 		20FF78BB281F4C53001D062E = {
@@ -346,6 +359,7 @@
 		20FF792D281FAF1B001D062E /* Features */ = {
 			isa = PBXGroup;
 			children = (
+				20FABEFE283C2D74003AFAC4 /* Inquiry */,
 				2037DF9028264F1900F43B11 /* AppInfo */,
 				203A88BB2823A92C00B4C12C /* Player */,
 				20FF794B2820DB12001D062E /* PlayerSetting */,
@@ -582,8 +596,10 @@
 				2037DF9A2828A07900F43B11 /* Crashlytics+.swift in Sources */,
 				20FF7946281FFCE1001D062E /* HUD.swift in Sources */,
 				203A88C32823FF3A00B4C12C /* AsyncButton.swift in Sources */,
+				20947B35283D02F200099BD8 /* PlayerBar.swift in Sources */,
 				20FF795B2821E5B3001D062E /* ArticleWebView.swift in Sources */,
 				20E7069728238CEB00DF824F /* NavigationLink.swift in Sources */,
+				20FABF00283C2D81003AFAC4 /* InquiryWebView.swift in Sources */,
 				2037DF9628265C8600F43B11 /* Timeout.swift in Sources */,
 				20FF795F28220344001D062E /* UINavigationBar+.swift in Sources */,
 				20FF78CA281F4C53001D062E /* RootView.swift in Sources */,
@@ -793,7 +809,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.4;
+				MARKETING_VERSION = 1.0.3;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -823,7 +839,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.4;
+				MARKETING_VERSION = 1.0.3;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -841,7 +857,7 @@
 				DEVELOPMENT_TEAM = TQPN82UBBY;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
-				MARKETING_VERSION = 1.0.4;
+				MARKETING_VERSION = 1.0.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.bannzai.yomiage.YomiageTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
@@ -861,7 +877,7 @@
 				DEVELOPMENT_TEAM = TQPN82UBBY;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
-				MARKETING_VERSION = 1.0.4;
+				MARKETING_VERSION = 1.0.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.bannzai.yomiage.YomiageTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
@@ -879,7 +895,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = TQPN82UBBY;
 				GENERATE_INFOPLIST_FILE = YES;
-				MARKETING_VERSION = 1.0.4;
+				MARKETING_VERSION = 1.0.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.bannzai.yomiage.YomiageUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
@@ -897,7 +913,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = TQPN82UBBY;
 				GENERATE_INFOPLIST_FILE = YES;
-				MARKETING_VERSION = 1.0.4;
+				MARKETING_VERSION = 1.0.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.bannzai.yomiage.YomiageUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;

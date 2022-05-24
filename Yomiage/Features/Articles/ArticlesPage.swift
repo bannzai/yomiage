@@ -26,39 +26,49 @@ struct ArticlesPage: View {
         }
         .navigationBarHidden(true)
       } else {
-        List {
-          ForEach(articles) { article in
-            switch article.typedKind {
-            case .note:
-              VStack(alignment: .leading, spacing: 0) {
-                NoteArticle(article: article, noteArticle: article.note)
-                Divider()
+        ZStack(alignment: .bottom) {
+          List {
+            ForEach(articles) { article in
+              switch article.typedKind {
+              case .note:
+                VStack(alignment: .leading, spacing: 0) {
+                  NoteArticle(article: article, noteArticle: article.note)
+                  Divider()
+                }
+              case .medium:
+                VStack(alignment: .leading, spacing: 0) {
+                  MediumArticle(article: article, mediumArticle: article.medium)
+                  Divider()
+                }
+              case nil:
+                EmptyView()
               }
-            case .medium:
-              VStack(alignment: .leading, spacing: 0) {
-                MediumArticle(article: article, mediumArticle: article.medium)
-                Divider()
-              }
-            case nil:
-              EmptyView()
             }
-          }
-          .onDelete(perform: { indexSet in
-            indexSet.forEach { index in
-              Task { @MainActor in
-                do {
-                  try await articleDatastore.delete(article: articles[index])
-                } catch {
-                  self.error = error
+            .onDelete(perform: { indexSet in
+              indexSet.forEach { index in
+                Task { @MainActor in
+                  do {
+                    try await articleDatastore.delete(article: articles[index])
+                  } catch {
+                    self.error = error
+                  }
                 }
               }
-            }
-          })
-          .listRowInsets(EdgeInsets())
-          .listRowSeparator(.hidden)
-          .buttonStyle(.plain)
+            })
+            .listRowInsets(EdgeInsets())
+            .listRowSeparator(.hidden)
+            .buttonStyle(.plain)
+
+            VSpacer(PlayerBar.Const.height + PlayerBar.Const.bottomPadding)
+              .listRowInsets(EdgeInsets())
+              .listRowSeparator(.hidden)
+          }
+          .listStyle(.plain)
+
+          if let playingArticle = player.playingArticle {
+            PlayerBar(article: playingArticle)
+          }
         }
-        .listStyle(.plain)
         .navigationBarHidden(false)
         .navigationTitle("一覧")
         .toolbar(content: {
@@ -89,7 +99,9 @@ struct ArticlesPage: View {
         })
         .onAppear {
           articles.forEach { article in
-            player.allArticle.insert(article)
+            if !player.allArticle.contains(article) {
+              player.allArticle.append(article)
+            }
           }
         }
       }

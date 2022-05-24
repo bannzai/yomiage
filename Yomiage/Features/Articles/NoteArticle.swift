@@ -7,7 +7,7 @@ struct NoteArticle: View {
   let noteArticle: Article.Note?
 
   var body: some View {
-    if let noteArticle = noteArticle, let url = URL(string: article.pageURL) {
+    if let noteArticle = noteArticle {
       ZStack {
         ArticleRowLayout(
           thumbnailImage: {
@@ -48,7 +48,7 @@ struct NoteArticle: View {
               AsyncButton {
                 analytics.logEvent("note_article_start_play", parameters: ["article_id": String(describing: article.id)])
                 
-                await player.play(article: article, url: url, kind: .note)
+                await player.play(article: article)
                 player.configurePlayingCenter(title: noteArticle.title)
               } label: {
 
