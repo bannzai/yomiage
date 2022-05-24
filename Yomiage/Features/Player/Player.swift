@@ -81,6 +81,34 @@ final class Player: NSObject, ObservableObject {
     playingArticle = nil
   }
 
+  func backword() async {
+    guard
+      let playingArticle = playingArticle,
+      let index = allArticle.firstIndex(of: playingArticle),
+      index > 0
+    else {
+      return
+    }
+
+    stop()
+
+    await play(article: allArticle[index - 1])
+  }
+
+  func forward() async {
+    guard
+      let playingArticle = playingArticle,
+      let index = allArticle.firstIndex(of: playingArticle),
+      allArticle.count >= index + 1
+    else {
+      return
+    }
+
+    stop()
+
+    await play(article: allArticle[index + 1])
+  }
+
   func setupRemoteTransportControls() {
     MPRemoteCommandCenter.shared().playCommand.addTarget { event in
       if !self.synthesizer.isPaused {
