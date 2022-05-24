@@ -22,8 +22,6 @@ struct PlayerBar: View {
           player.stop()
         } label: {
           Image(systemName: "backward.frame.fill")
-            .font(.body.weight(.heavy))
-            .foregroundColor(.label)
             .padding()
         }
         Spacer()
@@ -34,8 +32,6 @@ struct PlayerBar: View {
           player.stop()
         } label: {
           Image(systemName: "stop.fill")
-            .font(.body.weight(.heavy))
-            .foregroundColor(.label)
             .padding()
         }
         Spacer()
@@ -46,18 +42,18 @@ struct PlayerBar: View {
           player.stop()
         } label: {
           Image(systemName: "forward.frame.fill")
-            .font(.body.weight(.heavy))
-            .foregroundColor(.label)
             .padding()
         }
       }
+      .font(.title)
+      .foregroundColor(.label)
       .padding()
 
       Divider()
     }
     .frame(maxWidth: .infinity)
     .padding(.bottom, 40)
-    .background(Color.white)
+    .background(Color(.secondarySystemBackground))
   }
 
   private var title: String? {
