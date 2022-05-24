@@ -26,7 +26,7 @@ struct ArticlesPage: View {
         }
         .navigationBarHidden(true)
       } else {
-        ZStack {
+        ZStack(alignment: .bottom) {
           List {
             ForEach(articles) { article in
               switch article.typedKind {
@@ -58,45 +58,46 @@ struct ArticlesPage: View {
             .listRowInsets(EdgeInsets())
             .listRowSeparator(.hidden)
             .buttonStyle(.plain)
+
           }
           .listStyle(.plain)
-          .navigationBarHidden(false)
-          .navigationTitle("一覧")
-          .toolbar(content: {
-            ToolbarItem(placement: .navigationBarTrailing) {
-              Button {
-                analytics.logEvent("player_setting_present_toolbar_button")
 
-                playerSettingSheetIsPresented = true
-              } label: {
-                Image(systemName: "gearshape")
-                  .imageScale(.large)
-                  .foregroundColor(.label)
-                  .frame(width: 28, height: 28)
-              }
-            }
-            ToolbarItem(placement: .navigationBarTrailing) {
-              Button {
-                analytics.logEvent("add_article_present_toolbar_button")
-
-                addArticleSheetIsPresented = true
-              } label: {
-                Image(systemName: "plus")
-                  .imageScale(.large)
-                  .foregroundColor(.label)
-                  .frame(width: 28, height: 28)
-              }
-            }
-          })
-          .onAppear {
-            articles.forEach { article in
-              player.allArticle.insert(article)
-            }
+          if let playingArticle = player.playingArticle {
+            PlayerBar(article: playingArticle)
           }
         }
+        .navigationBarHidden(false)
+        .navigationTitle("一覧")
+        .toolbar(content: {
+          ToolbarItem(placement: .navigationBarTrailing) {
+            Button {
+              analytics.logEvent("player_setting_present_toolbar_button")
 
-        if let playingArticle = player.playingArticle {
-          PlayerBar(article: playingArticle)
+              playerSettingSheetIsPresented = true
+            } label: {
+              Image(systemName: "gearshape")
+                .imageScale(.large)
+                .foregroundColor(.label)
+                .frame(width: 28, height: 28)
+            }
+          }
+          ToolbarItem(placement: .navigationBarTrailing) {
+            Button {
+              analytics.logEvent("add_article_present_toolbar_button")
+
+              addArticleSheetIsPresented = true
+            } label: {
+              Image(systemName: "plus")
+                .imageScale(.large)
+                .foregroundColor(.label)
+                .frame(width: 28, height: 28)
+            }
+          }
+        })
+        .onAppear {
+          articles.forEach { article in
+            player.allArticle.insert(article)
+          }
         }
       }
     } errorContent: { error, reload in
