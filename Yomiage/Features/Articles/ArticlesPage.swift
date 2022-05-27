@@ -63,15 +63,15 @@ struct ArticlesPage: View {
         .navigationTitle("一覧")
         .toolbar(content: {
           ToolbarItem(placement: .navigationBarLeading) {
-            Button {
-              analytics.logEvent("app_other_menu_button_pressed")
-
-              playerSettingSheetIsPresented = true
+            NavigationLinkButton {
+              AppOtherSettingPage()
             } label: {
-              Image(systemName: "gearshape")
+              Image(systemName: "info.circle")
                 .imageScale(.large)
                 .foregroundColor(.label)
                 .frame(width: 28, height: 28)
+            } tapped: {
+              analytics.logEvent("app_other_menu_button_pressed")
             }
           }
           ToolbarItem(placement: .navigationBarTrailing) {
