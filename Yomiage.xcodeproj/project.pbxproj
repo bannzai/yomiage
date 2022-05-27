@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		201C6BD028263D7400195179 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 201C6BCF28263D7400195179 /* GoogleService-Info.plist */; };
-		2037DF9228264F2000F43B11 /* TermsAndPrivacyPolilcy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2037DF9128264F2000F43B11 /* TermsAndPrivacyPolilcy.swift */; };
 		2037DF942826557C00F43B11 /* FirebaseAnalytics+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2037DF932826557C00F43B11 /* FirebaseAnalytics+.swift */; };
 		2037DF9628265C8600F43B11 /* Timeout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2037DF9528265C8600F43B11 /* Timeout.swift */; };
 		2037DF9A2828A07900F43B11 /* Crashlytics+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2037DF992828A07900F43B11 /* Crashlytics+.swift */; };
@@ -87,7 +86,6 @@
 		201C6BCD2825411D00195179 /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
 		201C6BCE2825412300195179 /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
 		201C6BCF28263D7400195179 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		2037DF9128264F2000F43B11 /* TermsAndPrivacyPolilcy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsAndPrivacyPolilcy.swift; sourceTree = "<group>"; };
 		2037DF932826557C00F43B11 /* FirebaseAnalytics+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FirebaseAnalytics+.swift"; sourceTree = "<group>"; };
 		2037DF9528265C8600F43B11 /* Timeout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Timeout.swift; sourceTree = "<group>"; };
 		2037DF992828A07900F43B11 /* Crashlytics+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Crashlytics+.swift"; sourceTree = "<group>"; };
@@ -186,7 +184,6 @@
 		2037DF9028264F1900F43B11 /* AppOtherSetting */ = {
 			isa = PBXGroup;
 			children = (
-				2037DF9128264F2000F43B11 /* TermsAndPrivacyPolilcy.swift */,
 				20CE8F8D2840ED7B0035D4E3 /* AppOtherSettingPage.swift */,
 			);
 			path = AppOtherSetting;
@@ -599,7 +596,6 @@
 				20FF78CA281F4C53001D062E /* RootView.swift in Sources */,
 				20FF794F2820DB28001D062E /* PlayerSettingSheet.swift in Sources */,
 				20FF79512820DB75001D062E /* AppStorage+.swift in Sources */,
-				2037DF9228264F2000F43B11 /* TermsAndPrivacyPolilcy.swift in Sources */,
 				20FF795D2821EE88001D062E /* NoteArticle.swift in Sources */,
 				20FF7923281F8950001D062E /* Color.swift in Sources */,
 				20FF7930281FAF2F001D062E /* AddArticleSheet.swift in Sources */,
