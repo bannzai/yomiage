@@ -67,9 +67,7 @@ struct ArticlesPage: View {
               AppOtherSettingPage()
             } label: {
               Image(systemName: "info.circle")
-                .imageScale(.large)
                 .foregroundColor(.label)
-                .frame(width: 28, height: 28)
             } tapped: {
               analytics.logEvent("app_other_menu_button_pressed")
             }
@@ -80,10 +78,14 @@ struct ArticlesPage: View {
 
               playerSettingSheetIsPresented = true
             } label: {
-              Image(systemName: "speaker")
-                .imageScale(.large)
-                .foregroundColor(.label)
-                .frame(width: 28, height: 28)
+              ZStack(alignment: .bottomTrailing) {
+                Image(systemName: "gearshape")
+                  .foregroundColor(Color(.systemGray))
+
+                Image(systemName: "speaker.fill")
+                  .font(.caption)
+                  .foregroundColor(.label)
+              }
             }
           }
           ToolbarItem(placement: .navigationBarTrailing) {
@@ -93,9 +95,7 @@ struct ArticlesPage: View {
               addArticleSheetIsPresented = true
             } label: {
               Image(systemName: "plus")
-                .imageScale(.large)
                 .foregroundColor(.label)
-                .frame(width: 28, height: 28)
             }
           }
         })
