@@ -79,12 +79,13 @@ struct ArticlesPage: View {
               playerSettingSheetIsPresented = true
             } label: {
               ZStack(alignment: .bottomTrailing) {
-                Image(systemName: "gearshape")
-                  .foregroundColor(Color(.systemGray))
-
                 Image(systemName: "speaker.fill")
-                  .font(.caption)
+                  .font(.title2)
                   .foregroundColor(.label)
+
+                Image(systemName: "gearshape")
+                  .font(.caption2)
+                  .foregroundColor(Color(.systemGray))
               }
             }
           }
