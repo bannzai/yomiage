@@ -16,7 +16,6 @@
 		20884DFD28223419008388AE /* ArticleRowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20884DFC28223419008388AE /* ArticleRowLayout.swift */; };
 		20884DFF28223644008388AE /* MediumArticle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20884DFE28223644008388AE /* MediumArticle.swift */; };
 		20CE8F8E2840ED7B0035D4E3 /* AppOtherSettingPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20CE8F8D2840ED7B0035D4E3 /* AppOtherSettingPage.swift */; };
-		20CE8F902840EEDB0035D4E3 /* SafariView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20CE8F8F2840EEDB0035D4E3 /* SafariView.swift */; };
 		20E7069728238CEB00DF824F /* NavigationLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20E7069628238CEB00DF824F /* NavigationLink.swift */; };
 		20EAD3C4282295F100B15D8E /* UISlider+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20EAD3C3282295F100B15D8E /* UISlider+.swift */; };
 		20FF78C8281F4C53001D062E /* YomiageApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FF78C7281F4C53001D062E /* YomiageApp.swift */; };
@@ -95,7 +94,6 @@
 		20884DFE28223644008388AE /* MediumArticle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediumArticle.swift; sourceTree = "<group>"; };
 		20884E002822578A008388AE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		20CE8F8D2840ED7B0035D4E3 /* AppOtherSettingPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppOtherSettingPage.swift; sourceTree = "<group>"; };
-		20CE8F8F2840EEDB0035D4E3 /* SafariView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafariView.swift; sourceTree = "<group>"; };
 		20E7069628238CEB00DF824F /* NavigationLink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationLink.swift; sourceTree = "<group>"; };
 		20EAD3C3282295F100B15D8E /* UISlider+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UISlider+.swift"; sourceTree = "<group>"; };
 		20FF78C4281F4C53001D062E /* Yomiage.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Yomiage.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -395,7 +393,6 @@
 				2037DF932826557C00F43B11 /* FirebaseAnalytics+.swift */,
 				2037DF992828A07900F43B11 /* Crashlytics+.swift */,
 				2037DF9528265C8600F43B11 /* Timeout.swift */,
-				20CE8F8F2840EEDB0035D4E3 /* SafariView.swift */,
 			);
 			path = StdLib;
 			sourceTree = "<group>";
@@ -588,7 +585,6 @@
 				2037DF9A2828A07900F43B11 /* Crashlytics+.swift in Sources */,
 				20FF7946281FFCE1001D062E /* HUD.swift in Sources */,
 				203A88C32823FF3A00B4C12C /* AsyncButton.swift in Sources */,
-				20CE8F902840EEDB0035D4E3 /* SafariView.swift in Sources */,
 				20FF795B2821E5B3001D062E /* ArticleWebView.swift in Sources */,
 				20E7069728238CEB00DF824F /* NavigationLink.swift in Sources */,
 				2037DF9628265C8600F43B11 /* Timeout.swift in Sources */,
