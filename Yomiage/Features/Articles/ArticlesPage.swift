@@ -80,7 +80,7 @@ struct ArticlesPage: View {
 
               playerSettingSheetIsPresented = true
             } label: {
-              Image(systemName: "gearshape")
+              Image(systemName: "speaker")
                 .imageScale(.large)
                 .foregroundColor(.label)
                 .frame(width: 28, height: 28)
