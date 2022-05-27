@@ -62,6 +62,18 @@ struct ArticlesPage: View {
         .navigationBarHidden(false)
         .navigationTitle("一覧")
         .toolbar(content: {
+          ToolbarItem(placement: .navigationBarLeading) {
+            Button {
+              analytics.logEvent("app_other_menu_button_pressed")
+
+              playerSettingSheetIsPresented = true
+            } label: {
+              Image(systemName: "gearshape")
+                .imageScale(.large)
+                .foregroundColor(.label)
+                .frame(width: 28, height: 28)
+            }
+          }
           ToolbarItem(placement: .navigationBarTrailing) {
             Button {
               analytics.logEvent("player_setting_present_toolbar_button")
