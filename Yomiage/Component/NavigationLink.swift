@@ -24,20 +24,3 @@ struct NavigationLinkButton<Destination: View, Label: View>: View {
     }
   }
 }
-
-struct NavigationLinkLayout<Leading: View>: View {
-  @ViewBuilder let leading: Leading
-
-  var body: some View {
-    HStack {
-      leading
-
-      Spacer()
-
-      Image(systemName: "chevron.right")
-        .font(.system(.body))
-        .foregroundColor(.systemGray2)
-    }
-    .frame(maxWidth: .infinity)
-  }
-}
