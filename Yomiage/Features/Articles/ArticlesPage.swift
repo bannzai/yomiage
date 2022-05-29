@@ -62,16 +62,31 @@ struct ArticlesPage: View {
         .navigationBarHidden(false)
         .navigationTitle("一覧")
         .toolbar(content: {
+          ToolbarItem(placement: .navigationBarLeading) {
+            NavigationLinkButton {
+              AppOtherSettingPage()
+            } label: {
+              Image(systemName: "info.circle")
+                .foregroundColor(.label)
+            } tapped: {
+              analytics.logEvent("app_other_menu_button_pressed")
+            }
+          }
           ToolbarItem(placement: .navigationBarTrailing) {
             Button {
               analytics.logEvent("player_setting_present_toolbar_button")
 
               playerSettingSheetIsPresented = true
             } label: {
-              Image(systemName: "gearshape")
-                .imageScale(.large)
-                .foregroundColor(.label)
-                .frame(width: 28, height: 28)
+              ZStack(alignment: .bottomTrailing) {
+                Image(systemName: "speaker.fill")
+                  .font(.title2)
+                  .foregroundColor(.label)
+
+                Image(systemName: "gearshape")
+                  .font(.caption2)
+                  .foregroundColor(Color(.systemGray))
+              }
             }
           }
           ToolbarItem(placement: .navigationBarTrailing) {
@@ -81,9 +96,7 @@ struct ArticlesPage: View {
               addArticleSheetIsPresented = true
             } label: {
               Image(systemName: "plus")
-                .imageScale(.large)
                 .foregroundColor(.label)
-                .frame(width: 28, height: 28)
             }
           }
         })

@@ -24,9 +24,6 @@ struct PlayerSettingSheet: View {
             Slider(value: $player.pitch, in: Range.pitch)
           }
         }
-        Spacer()
-
-        TermsAndPrivacyPolilcy()
         VSpacer(20)
       }
       .padding(.horizontal, 20)
