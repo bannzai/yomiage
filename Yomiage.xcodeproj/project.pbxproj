@@ -93,6 +93,7 @@
 		20884DFC28223419008388AE /* ArticleRowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleRowLayout.swift; sourceTree = "<group>"; };
 		20884DFE28223644008388AE /* MediumArticle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediumArticle.swift; sourceTree = "<group>"; };
 		20884E002822578A008388AE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		209924E528443E6C0049D444 /* Secret.swift.sample */ = {isa = PBXFileReference; lastKnownFileType = text; path = Secret.swift.sample; sourceTree = "<group>"; };
 		20CE8F8D2840ED7B0035D4E3 /* AppOtherSettingPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppOtherSettingPage.swift; sourceTree = "<group>"; };
 		20CE8F91284102180035D4E3 /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
 		20CE8F9328410A820035D4E3 /* AppPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppPreview.swift; sourceTree = "<group>"; };
@@ -177,6 +178,7 @@
 				201C6BCA28253C1900195179 /* Production.xcconfig */,
 				201C6BCD2825411D00195179 /* Release.xcconfig */,
 				201C6BCE2825412300195179 /* Debug.xcconfig */,
+				209924E528443E6C0049D444 /* Secret.swift.sample */,
 			);
 			path = Config;
 			sourceTree = "<group>";
@@ -791,7 +793,7 @@
 				);
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Yomiage/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = "Yomiage-Dev";
+				INFOPLIST_KEY_CFBundleDisplayName = Yomiage;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -822,6 +824,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Yomiage/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Yomiage;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -832,6 +835,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0.4;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bannzai.yomiage.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
