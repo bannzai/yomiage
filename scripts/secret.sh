@@ -1,6 +1,5 @@
 #!/bin/bash
 set -euo pipefail
-set -x
 
 SCRIPT_DIR="$(cd `dirname $0` && pwd -P)"
 REPOSITORY_DIR="$(cd $SCRIPT_DIR && cd .. && pwd -P)"
