@@ -12,6 +12,7 @@
 		2037DF9628265C8600F43B11 /* Timeout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2037DF9528265C8600F43B11 /* Timeout.swift */; };
 		2037DF9A2828A07900F43B11 /* Crashlytics+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2037DF992828A07900F43B11 /* Crashlytics+.swift */; };
 		203A88C32823FF3A00B4C12C /* AsyncButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203A88C22823FF3A00B4C12C /* AsyncButton.swift */; };
+		2070D4912844B41E00D51DE7 /* TTS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2070D4902844B41E00D51DE7 /* TTS.swift */; };
 		20884DFD28223419008388AE /* ArticleRowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20884DFC28223419008388AE /* ArticleRowLayout.swift */; };
 		20884DFF28223644008388AE /* MediumArticle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20884DFE28223644008388AE /* MediumArticle.swift */; };
 		209924E828443FE10049D444 /* Secret.swift in Sources */ = {isa = PBXBuildFile; fileRef = 209924E728443FE10049D444 /* Secret.swift */; };
@@ -91,6 +92,7 @@
 		2037DF9528265C8600F43B11 /* Timeout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Timeout.swift; sourceTree = "<group>"; };
 		2037DF992828A07900F43B11 /* Crashlytics+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Crashlytics+.swift"; sourceTree = "<group>"; };
 		203A88C22823FF3A00B4C12C /* AsyncButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncButton.swift; sourceTree = "<group>"; };
+		2070D4902844B41E00D51DE7 /* TTS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TTS.swift; sourceTree = "<group>"; };
 		20884DFC28223419008388AE /* ArticleRowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleRowLayout.swift; sourceTree = "<group>"; };
 		20884DFE28223644008388AE /* MediumArticle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediumArticle.swift; sourceTree = "<group>"; };
 		20884E002822578A008388AE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -200,6 +202,14 @@
 				20FF79522820DCD7001D062E /* Player.swift */,
 			);
 			path = Player;
+			sourceTree = "<group>";
+		};
+		2070D48F2844B40D00D51DE7 /* TTS */ = {
+			isa = PBXGroup;
+			children = (
+				2070D4902844B41E00D51DE7 /* TTS.swift */,
+			);
+			path = TTS;
 			sourceTree = "<group>";
 		};
 		20FF78BB281F4C53001D062E = {
@@ -378,6 +388,7 @@
 		20FF7935281FB84F001D062E /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				2070D48F2844B40D00D51DE7 /* TTS */,
 				20FF7936281FB862001D062E /* Auth */,
 			);
 			path = Services;
@@ -596,6 +607,7 @@
 				203A88C32823FF3A00B4C12C /* AsyncButton.swift in Sources */,
 				20FF795B2821E5B3001D062E /* ArticleWebView.swift in Sources */,
 				20E7069728238CEB00DF824F /* NavigationLink.swift in Sources */,
+				2070D4912844B41E00D51DE7 /* TTS.swift in Sources */,
 				2037DF9628265C8600F43B11 /* Timeout.swift in Sources */,
 				20FF795F28220344001D062E /* UINavigationBar+.swift in Sources */,
 				20CE8F9428410A820035D4E3 /* AppPreview.swift in Sources */,
