@@ -1,6 +1,6 @@
 import Foundation
 
-private let endpoint = "https://texttospeech.googleapis.com/v1beta1/text:synthesize"
+private let endpoint = "https://texttospeech.googleapis.com/v1/text:synthesize"
 
 struct TTS {
   private init() { }
