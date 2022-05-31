@@ -15,7 +15,6 @@
 		2070D4912844B41E00D51DE7 /* TTS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2070D4902844B41E00D51DE7 /* TTS.swift */; };
 		20884DFD28223419008388AE /* ArticleRowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20884DFC28223419008388AE /* ArticleRowLayout.swift */; };
 		20884DFF28223644008388AE /* MediumArticle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20884DFE28223644008388AE /* MediumArticle.swift */; };
-		209924E828443FE10049D444 /* Secret.swift in Sources */ = {isa = PBXBuildFile; fileRef = 209924E728443FE10049D444 /* Secret.swift */; };
 		20CE8F8E2840ED7B0035D4E3 /* AppOtherSettingPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20CE8F8D2840ED7B0035D4E3 /* AppOtherSettingPage.swift */; };
 		20CE8F92284102180035D4E3 /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20CE8F91284102180035D4E3 /* WebView.swift */; };
 		20CE8F9428410A820035D4E3 /* AppPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20CE8F9328410A820035D4E3 /* AppPreview.swift */; };
@@ -96,8 +95,6 @@
 		20884DFC28223419008388AE /* ArticleRowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleRowLayout.swift; sourceTree = "<group>"; };
 		20884DFE28223644008388AE /* MediumArticle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediumArticle.swift; sourceTree = "<group>"; };
 		20884E002822578A008388AE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		209924E528443E6C0049D444 /* Secret.swift.sample */ = {isa = PBXFileReference; lastKnownFileType = text; path = Secret.swift.sample; sourceTree = "<group>"; };
-		209924E728443FE10049D444 /* Secret.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Secret.swift; sourceTree = "<group>"; };
 		20CE8F8D2840ED7B0035D4E3 /* AppOtherSettingPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppOtherSettingPage.swift; sourceTree = "<group>"; };
 		20CE8F91284102180035D4E3 /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
 		20CE8F9328410A820035D4E3 /* AppPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppPreview.swift; sourceTree = "<group>"; };
@@ -182,8 +179,6 @@
 				201C6BCA28253C1900195179 /* Production.xcconfig */,
 				201C6BCD2825411D00195179 /* Release.xcconfig */,
 				201C6BCE2825412300195179 /* Debug.xcconfig */,
-				209924E728443FE10049D444 /* Secret.swift */,
-				209924E528443E6C0049D444 /* Secret.swift.sample */,
 			);
 			path = Config;
 			sourceTree = "<group>";
@@ -601,7 +596,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				20FF78F6281F4D40001D062E /* Article.swift in Sources */,
-				209924E828443FE10049D444 /* Secret.swift in Sources */,
 				2037DF9A2828A07900F43B11 /* Crashlytics+.swift in Sources */,
 				20FF7946281FFCE1001D062E /* HUD.swift in Sources */,
 				203A88C32823FF3A00B4C12C /* AsyncButton.swift in Sources */,
