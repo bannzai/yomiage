@@ -46,7 +46,7 @@ final class Player: NSObject, ObservableObject {
     synthesizer.delegate = self
   }
 
-  func play(article: Article, url: URL, kind: Article.Kind) async {
+  @MainActor func play(article: Article, url: URL, kind: Article.Kind) async {
     do {
       let body: String
       switch kind {
