@@ -104,6 +104,23 @@ final class Player: NSObject, ObservableObject {
     utterance.pitchMultiplier = pitch
 
     synthesizer.speak(utterance)
+
+    let fileURL = URL(string: "file:///tmp/\(playingArticle!.id!)")!
+    synthesizer.write(utterance) { buffer in
+      guard let pcmBuffer = buffer as? AVAudioPCMBuffer else {
+        return
+      }
+      if pcmBuffer.frameLength == 0 {
+        return
+      }
+
+      do {
+        let output = try AVAudioFile(forWriting: fileURL, settings: pcmBuffer.format.settings, commonFormat: .pcmFormatInt16, interleaved: false)
+        try output.write(from: pcmBuffer)
+      } catch {
+        self.error = error
+      }
+    }
   }
 
   private func reset() {
