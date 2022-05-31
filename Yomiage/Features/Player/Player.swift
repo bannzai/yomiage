@@ -13,7 +13,6 @@ final class Player: NSObject, ObservableObject {
   var allArticle: Set<Article> = []
   @Published var error: Error?
 
-  private var audioPlayer: AVAudioPlayer?
   private let synthesizer = AVSpeechSynthesizer()
   private var canceller: Set<AnyCancellable> = []
   private var progress: Progress?
