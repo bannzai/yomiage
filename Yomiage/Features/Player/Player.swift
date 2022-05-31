@@ -57,13 +57,7 @@ final class Player: NSObject, ObservableObject {
       }
 
       playingArticle = article
-
-      let audioData = try await TTS.shared.request(text: body, voice: (name: "ja-JP-Wavenet-B", languageCode: "ja-JP"))
-      audioPlayer = try! AVAudioPlayer(data: audioData)
-      audioPlayer?.delegate = self
-      audioPlayer?.play()
-
-//      speak(text: body)
+      speak(text: body)
     } catch {
       self.error = error
     }
