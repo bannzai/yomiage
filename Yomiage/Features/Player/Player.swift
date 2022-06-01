@@ -20,6 +20,7 @@ final class Player: NSObject, ObservableObject {
 
   private var canceller: Set<AnyCancellable> = []
   private var progress: Progress?
+  private var writingAudioFile: AVAudioFile?
 
   override init() {
     super.init()
@@ -91,6 +92,9 @@ final class Player: NSObject, ObservableObject {
     if playerNode.isPlaying {
       playerNode.stop()
     }
+    if writingAudioFile != nil {
+      writingAudioFile = nil
+    }
 
     playingArticle = nil
   }
@@ -154,7 +158,6 @@ final class Player: NSObject, ObservableObject {
     utterance.pitchMultiplier = pitch
 
     let fileURL = URL(string: "file:///tmp/v7-\(playingArticleID)")!
-    var writingAudioFile: AVAudioFile?
     if let cachedPCMBuffer = readCachedAudioData(from: fileURL).pcmBuffer {
       play(pcmBuffer: cachedPCMBuffer)
     } else {
