@@ -88,6 +88,9 @@ final class Player: NSObject, ObservableObject {
     if audioEngine.isRunning {
       audioEngine.stop()
     }
+    if playerNode.isPlaying {
+      playerNode.stop()
+    }
 
     playingArticle = nil
   }
