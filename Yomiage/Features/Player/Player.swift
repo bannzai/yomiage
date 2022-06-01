@@ -62,9 +62,9 @@ final class Player: NSObject, ObservableObject {
       let body: String
       switch kind {
       case .note:
-        body = try await loadNoteBody(url: url)
+        body = try await loadNoteBody(url: pageURL)
       case .medium:
-        body = try await loadMediumBody(url: url)
+        body = try await loadMediumBody(url: pageURL)
       }
 
       playingArticle = article
