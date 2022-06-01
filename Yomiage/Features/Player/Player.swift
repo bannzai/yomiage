@@ -13,12 +13,11 @@ final class Player: NSObject, ObservableObject {
   var allArticle: Set<Article> = []
   @Published var error: Error?
 
-  var engine = AVAudioEngine()
-  var player = AVAudioPlayerNode()
-  let synthesizer = AVSpeechSynthesizer()
-  var bufferCounter: Int = 0
+  private let audioEngine = AVAudioEngine()
+  private let playerNode = AVAudioPlayerNode()
+  private let outputAudioFormat = AVAudioFormat(commonFormat: .pcmFormatFloat32, sampleRate: 22050, channels: 1, interleaved: false)!
 
-  let audioSession = AVAudioSession.sharedInstance()
+  private let synthesizer = AVSpeechSynthesizer()
   private var canceller: Set<AnyCancellable> = []
   private var progress: Progress?
 
@@ -48,6 +47,15 @@ final class Player: NSObject, ObservableObject {
       }.store(in: &canceller)
 
     synthesizer.delegate = self
+
+    try? AVAudioSession.sharedInstance().setActive(false)
+
+    audioEngine.attach(playerNode)
+
+    let outputAudioFormat = AVAudioFormat(commonFormat: .pcmFormatFloat32, sampleRate: 22050, channels: 1, interleaved: false)!
+    audioEngine.connect(playerNode, to: audioEngine.mainMixerNode, format: outputAudioFormat)
+    audioEngine.prepare()
+
   }
 
   @MainActor func play(article: Article, url: URL, kind: Article.Kind) async {
@@ -112,8 +120,7 @@ final class Player: NSObject, ObservableObject {
     let playingArticleID = playingArticle!.id!
     let fileURL = URL(string: "file:///tmp/\(playingArticleID)")!
 
-    let outputFormat = AVAudioFormat(commonFormat: AVAudioCommonFormat.pcmFormatFloat32, sampleRate: 22050, channels: 1, interleaved: false)!
-    setupAudio(format: outputFormat, globalGain: 0)
+    setupAudio(format: outputAudioFormat, globalGain: 0)
 
     synthesizer.write(utterance) { [weak self] buffer in
       print("in synthesizer.write(utterance)")
@@ -153,7 +160,6 @@ final class Player: NSObject, ObservableObject {
 
   // Ref: https://stackoverflow.com/questions/56999334/boost-increase-volume-of-text-to-speech-avspeechutterance-to-make-it-louder
   private func play(pcmBuffer: AVAudioPCMBuffer) {
-    let outputFormat = AVAudioFormat(commonFormat: .pcmFormatFloat32, sampleRate: 22050, channels: 1, interleaved: false)!
 
     // NOTE: PCM format is pcmFormatInt16
     let converter = AVAudioConverter(
@@ -163,11 +169,11 @@ final class Player: NSObject, ObservableObject {
         channels: 1,
         interleaved: false
       )!,
-      to: outputFormat
+      to: outputAudioFormat
     )
     let convertedBuffer = AVAudioPCMBuffer(
       pcmFormat: AVAudioFormat(
-        commonFormat: outputFormat.commonFormat,
+        commonFormat: outputAudioFormat.commonFormat,
         sampleRate: pcmBuffer.format.sampleRate,
         channels: pcmBuffer.format.channelCount,
         interleaved: false
@@ -177,22 +183,14 @@ final class Player: NSObject, ObservableObject {
     try! converter?.convert(to: convertedBuffer, from: pcmBuffer)
 
     activateAudioSession()
-    player.scheduleBuffer(convertedBuffer, at: nil)
+    playerNode.scheduleBuffer(convertedBuffer, at: nil)
 
     do {
-      try engine.start()
+      try audioEngine.start()
     } catch {
       fatalError(error.localizedDescription)
     }
-    player.play()
-  }
-
-  func setupAudio(format: AVAudioFormat, globalGain: Float) {
-    try? AVAudioSession.sharedInstance().setActive(false)
-
-    engine.attach(player)
-    engine.connect(player, to: engine.mainMixerNode, format: format)
-    engine.prepare()
+    playerNode.play()
   }
 
   private func readPCMBuffer(url: URL) -> AVAudioPCMBuffer? {
