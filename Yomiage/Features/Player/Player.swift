@@ -49,8 +49,6 @@ final class Player: NSObject, ObservableObject {
     synthesizer.delegate = self
 
     audioEngine.attach(playerNode)
-
-    let outputAudioFormat = AVAudioFormat(commonFormat: .pcmFormatFloat32, sampleRate: 22050, channels: 1, interleaved: false)!
     audioEngine.connect(playerNode, to: audioEngine.mainMixerNode, format: outputAudioFormat)
     audioEngine.prepare()
 
