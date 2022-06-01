@@ -149,15 +149,6 @@ final class Player: NSObject, ObservableObject {
   }
 
 
-  func activateAudioSession() {
-    do {
-      try audioSession.setCategory(.playback, mode: .voicePrompt, options: [.mixWithOthers, .duckOthers])
-      try audioSession.setActive(true, options: .notifyOthersOnDeactivation)
-    } catch {
-      print("An error has occurred while setting the AVAudioSession.")
-    }
-  }
-
   // Ref: https://stackoverflow.com/questions/56999334/boost-increase-volume-of-text-to-speech-avspeechutterance-to-make-it-louder
   private func play(pcmBuffer: AVAudioPCMBuffer) {
 
