@@ -102,7 +102,9 @@ struct ArticlesPage: View {
         })
         .onAppear {
           articles.forEach { article in
-            player.allArticle.insert(article)
+            if !player.allArticle.contains(article) {
+              player.allArticle.append(article)
+            }
           }
         }
       }
