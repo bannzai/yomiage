@@ -138,18 +138,20 @@ final class Player: NSObject, ObservableObject {
 
   // MARK: - Private
   private func speak(text: String) {
+    guard let playingArticleID = playingArticle?.id else {
+      return
+    }
+
     let utterance = AVSpeechUtterance(string: text)
     utterance.volume = volume
     utterance.rate = rate
     utterance.pitchMultiplier = pitch
 
-    // TODO: Pass from argument
-    let playingArticleID = playingArticle!.id!
     let fileURL = URL(string: "file:///tmp/\(playingArticleID)")!
 
-    if let cachedPCMBuffer = readPCMBuffer(url: fileURL) {
-      play(pcmBuffer: cachedPCMBuffer)
-    } else {
+//    if let cachedPCMBuffer = readPCMBuffer(url: fileURL) {
+//      play(pcmBuffer: cachedPCMBuffer)
+//    } else {
       synthesizer.write(utterance) { [weak self] buffer in
         print("in synthesizer.write(utterance)")
         guard let pcmBuffer = buffer as? AVAudioPCMBuffer else {
@@ -168,7 +170,7 @@ final class Player: NSObject, ObservableObject {
           print(error)
         }
       }
-    }
+//    }
   }
 
 
