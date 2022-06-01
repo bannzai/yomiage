@@ -154,7 +154,6 @@ final class Player: NSObject, ObservableObject {
     utterance.pitchMultiplier = pitch
 
     let fileURL = URL(string: "file:///tmp/v7-\(playingArticleID)")!
-
     var writingAudioFile: AVAudioFile?
     if let cachedPCMBuffer = readCachedAudioData(from: fileURL).pcmBuffer {
       play(pcmBuffer: cachedPCMBuffer)
