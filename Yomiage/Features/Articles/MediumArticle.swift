@@ -37,8 +37,7 @@ struct MediumArticle: View {
               Button {
                 analytics.logEvent("medium_article_stop_play", parameters: ["article_id": String(describing: article.id)])
 
-                // TODO:
-                //                player.stop()
+                player.stop()
               } label: {
                 Image(systemName: "stop.fill")
                   .frame(width: 14, height: 14)

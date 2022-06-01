@@ -82,6 +82,10 @@ final class Player: NSObject, ObservableObject {
     ]
   }
 
+  func stop() {
+    reset()
+  }
+
   func backword() async {
     guard
       let playingArticle = playingArticle,
