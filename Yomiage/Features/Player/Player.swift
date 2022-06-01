@@ -17,7 +17,7 @@ final class Player: NSObject, ObservableObject {
   private let playerNode = AVAudioPlayerNode()
   private let outputAudioFormat = AVAudioFormat(commonFormat: .pcmFormatFloat32, sampleRate: 22050, channels: 1, interleaved: false)!
   private let synthesizer = AVSpeechSynthesizer()
-  
+
   private var canceller: Set<AnyCancellable> = []
   private var progress: Progress?
 
@@ -116,37 +116,36 @@ final class Player: NSObject, ObservableObject {
     let playingArticleID = playingArticle!.id!
     let fileURL = URL(string: "file:///tmp/\(playingArticleID)")!
 
-    synthesizer.write(utterance) { [weak self] buffer in
-      print("in synthesizer.write(utterance)")
-      guard let pcmBuffer = buffer as? AVAudioPCMBuffer else {
-        return
-      }
-      if pcmBuffer.frameLength == 0 {
-        return
-      }
+    if let cachedPCMBuffer = readPCMBuffer(url: fileURL) {
+      play(pcmBuffer: cachedPCMBuffer)
+    } else {
+      synthesizer.write(utterance) { [weak self] buffer in
+        print("in synthesizer.write(utterance)")
+        guard let pcmBuffer = buffer as? AVAudioPCMBuffer else {
+          return
+        }
+        if pcmBuffer.frameLength == 0 {
+          return
+        }
 
-      do {
-        //          let file = try AVAudioFile(forWriting: fileURL, settings: pcmBuffer.format.settings, commonFormat: .pcmFormatInt16, interleaved: false)
-        //          try file.write(from: pcmBuffer)
         self?.play(pcmBuffer: pcmBuffer)
-      } catch {
-        fatalError(error.localizedDescription)
+
+        do {
+          let file = try AVAudioFile(forWriting: fileURL, settings: pcmBuffer.format.settings, commonFormat: .pcmFormatInt16, interleaved: false)
+          try file.write(from: pcmBuffer)
+        } catch {
+          print(error)
+        }
       }
-
-
-      // Cache to file systems
-      //        do {
-      //          let file = try AVAudioFile(forWriting: fileURL, settings: pcmBuffer.format.settings, commonFormat: .pcmFormatInt16, interleaved: false)
-      //          try file.write(from: pcmBuffer)
-      //        } catch { }
     }
   }
 
 
   // Ref: https://stackoverflow.com/questions/56999334/boost-increase-volume-of-text-to-speech-avspeechutterance-to-make-it-louder
   private func play(pcmBuffer: AVAudioPCMBuffer) {
-
-    // NOTE: PCM format is pcmFormatInt16
+    // NOTE: SpeechSynthesizer PCM format is pcmFormatInt16
+    // it must be convert to .pcmFormatFloat32 if use pcmFormatInt16 to crash
+    // ref: https://developer.apple.com/forums/thread/27674
     let converter = AVAudioConverter(
       from: AVAudioFormat(
         commonFormat: .pcmFormatInt16,
@@ -186,11 +185,10 @@ final class Player: NSObject, ObservableObject {
     }
     do {
       try input.read(into: buffer)
+      return buffer
     } catch {
       return nil
     }
-
-    return buffer
   }
 
   private func reset() {
