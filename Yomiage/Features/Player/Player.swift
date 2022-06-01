@@ -144,7 +144,14 @@ final class Player: NSObject, ObservableObject {
     utterance.rate = rate
     utterance.pitchMultiplier = pitch
 
-    let fileURL = URL(string: "file:///tmp/v7-\(playingArticleID)")!
+    #if DEBUG
+    let tmpDir = URL(string: NSTemporaryDirectory())!
+    let fileURL = tmpDir.appendingPathComponent("v7-\(playingArticleID)")
+    #else
+    let cacheDir = URL(string: FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask)[0])!
+    let fileURL = cacheDir.appendingPathComponent("v1-\(playingArticleID)")
+    #endif
+    
     if let cachedPCMBuffer = readCachedAudioData(from: fileURL).pcmBuffer {
       play(pcmBuffer: cachedPCMBuffer)
     } else {
