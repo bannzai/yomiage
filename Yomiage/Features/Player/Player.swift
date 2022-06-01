@@ -173,7 +173,6 @@ final class Player: NSObject, ObservableObject {
           if writingAudioFile == nil {
             writingAudioFile = try AVAudioFile(forWriting: fileURL, settings: pcmBuffer.format.settings, commonFormat: .pcmFormatInt16, interleaved: false)
           }
-
           try writingAudioFile?.write(from: pcmBuffer)
         } catch {
           print(error)
