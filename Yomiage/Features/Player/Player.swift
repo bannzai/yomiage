@@ -82,10 +82,6 @@ final class Player: NSObject, ObservableObject {
     ]
   }
 
-  func stop() {
-    reset()
-  }
-
   func backword() async {
     guard
       let playingArticle = playingArticle,
@@ -95,7 +91,7 @@ final class Player: NSObject, ObservableObject {
       return
     }
 
-    stop()
+    reset()
 
     await play(article: allArticle[index - 1])
   }
@@ -109,7 +105,7 @@ final class Player: NSObject, ObservableObject {
       return
     }
 
-    stop()
+    reset()
 
     await play(article: allArticle[index + 1])
   }
@@ -151,7 +147,7 @@ final class Player: NSObject, ObservableObject {
     let cacheDir = URL(string: FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask)[0])!
     let fileURL = cacheDir.appendingPathComponent("v1-\(playingArticleID)")
     #endif
-    
+
     if let cachedPCMBuffer = readCachedAudioData(from: fileURL).pcmBuffer {
       play(pcmBuffer: cachedPCMBuffer)
     } else {
