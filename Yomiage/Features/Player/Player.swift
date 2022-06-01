@@ -10,7 +10,7 @@ final class Player: NSObject, ObservableObject {
 
   @Published private(set) var playingArticle: Article?
 
-  var allArticle: Set<Article> = []
+  var allArticle: [Article] = []
   @Published var error: Error?
 
   private let audioEngine = AVAudioEngine()
@@ -54,7 +54,6 @@ final class Player: NSObject, ObservableObject {
   }
 
   @MainActor func play(article: Article, url: URL, kind: Article.Kind) async {
-
     do {
       let body: String
       switch kind {
@@ -84,6 +83,34 @@ final class Player: NSObject, ObservableObject {
     }
 
     playingArticle = nil
+  }
+
+  func backword() async {
+    guard
+      let playingArticle = playingArticle,
+      let index = allArticle.firstIndex(of: playingArticle),
+      index > 0
+    else {
+      return
+    }
+
+    stop()
+
+    await play(article: allArticle[index - 1])
+  }
+
+  func forward() async {
+    guard
+      let playingArticle = playingArticle,
+      let index = allArticle.firstIndex(of: playingArticle),
+      allArticle.count >= index + 1
+    else {
+      return
+    }
+
+    stop()
+
+    await play(article: allArticle[index + 1])
   }
 
   func setupRemoteTransportControls() {
