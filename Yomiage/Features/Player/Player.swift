@@ -147,11 +147,11 @@ final class Player: NSObject, ObservableObject {
     utterance.rate = rate
     utterance.pitchMultiplier = pitch
 
-    let fileURL = URL(string: "file:///tmp/\(playingArticleID)")!
+    let fileURL = URL(string: "file:///tmp/v3/\(playingArticleID)")!
 
-//    if let cachedPCMBuffer = readPCMBuffer(url: fileURL) {
-//      play(pcmBuffer: cachedPCMBuffer)
-//    } else {
+    if let cachedPCMBuffer = readPCMBuffer(from: fileURL) {
+      play(pcmBuffer: cachedPCMBuffer)
+    } else {
       synthesizer.write(utterance) { [weak self] buffer in
         print("in synthesizer.write(utterance)")
         guard let pcmBuffer = buffer as? AVAudioPCMBuffer else {
@@ -162,15 +162,9 @@ final class Player: NSObject, ObservableObject {
         }
 
         self?.play(pcmBuffer: pcmBuffer)
-
-        do {
-          let file = try AVAudioFile(forWriting: fileURL, settings: pcmBuffer.format.settings, commonFormat: .pcmFormatInt16, interleaved: false)
-          try file.write(from: pcmBuffer)
-        } catch {
-          print(error)
-        }
+        self?.writePCMBuffer(toURL: fileURL, buffer: pcmBuffer)
       }
-//    }
+    }
   }
 
 
@@ -209,7 +203,16 @@ final class Player: NSObject, ObservableObject {
     playerNode.play()
   }
 
-  private func readPCMBuffer(url: URL) -> AVAudioPCMBuffer? {
+  func writePCMBuffer(toURL url: URL, buffer: AVAudioPCMBuffer) {
+    do {
+      let output = try AVAudioFile(forWriting: url, settings: buffer.format.settings, commonFormat: .pcmFormatInt16, interleaved: false)
+      try output.write(from: buffer)
+    } catch {
+      print(error)
+    }
+  }
+
+  private func readPCMBuffer(from url: URL) -> AVAudioPCMBuffer? {
     guard let input = try? AVAudioFile(forReading: url, commonFormat: .pcmFormatInt16, interleaved: false) else {
       return nil
     }
