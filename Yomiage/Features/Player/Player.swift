@@ -17,6 +17,7 @@ final class Player: NSObject, ObservableObject {
   private let playerNode = AVAudioPlayerNode()
   private let outputAudioFormat = AVAudioFormat(commonFormat: .pcmFormatFloat32, sampleRate: 22050, channels: 1, interleaved: false)!
   private let synthesizer = AVSpeechSynthesizer()
+  
   private var canceller: Set<AnyCancellable> = []
   private var progress: Progress?
 
