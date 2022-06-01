@@ -48,8 +48,6 @@ final class Player: NSObject, ObservableObject {
 
     synthesizer.delegate = self
 
-    try? AVAudioSession.sharedInstance().setActive(false)
-
     audioEngine.attach(playerNode)
 
     let outputAudioFormat = AVAudioFormat(commonFormat: .pcmFormatFloat32, sampleRate: 22050, channels: 1, interleaved: false)!
@@ -68,8 +66,6 @@ final class Player: NSObject, ObservableObject {
       case .medium:
         body = try await loadMediumBody(url: url)
       }
-
-      try AVAudioSession.sharedInstance().setActive(true)
 
       playingArticle = article
       speak(text: body)
