@@ -59,6 +59,7 @@ final class Player: NSObject, ObservableObject {
   }
 
   @MainActor func play(article: Article, url: URL, kind: Article.Kind) async {
+
     do {
       let body: String
       switch kind {
@@ -67,6 +68,8 @@ final class Player: NSObject, ObservableObject {
       case .medium:
         body = try await loadMediumBody(url: url)
       }
+
+      try AVAudioSession.sharedInstance().setActive(true)
 
       playingArticle = article
       speak(text: body)
