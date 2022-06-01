@@ -144,15 +144,9 @@ final class Player: NSObject, ObservableObject {
     utterance.rate = rate
     utterance.pitchMultiplier = pitch
 
-    #if DEBUG
-    let tmpDir = URL(string: NSTemporaryDirectory())!
-    let fileURL = tmpDir.appendingPathComponent("v7-\(playingArticleID)")
-    #else
-    let cacheDir = URL(string: FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask)[0])!
-    let fileURL = cacheDir.appendingPathComponent("v1-\(playingArticleID)")
-    #endif
-
-    if let cachedPCMBuffer = readCachedAudioData(from: fileURL).pcmBuffer {
+    if let readOnlyFile = try? AVAudioFile(forReading: cachedAudioFileURL(playingArticleID: playingArticleID), commonFormat: .pcmFormatInt16, interleaved: false),
+       let cachedPCMBuffer = AVAudioPCMBuffer(pcmFormat: readOnlyFile.processingFormat, frameCapacity: AVAudioFrameCount(readOnlyFile.length)),
+       (try? readOnlyFile.read(into: cachedPCMBuffer)) != nil {
       play(pcmBuffer: cachedPCMBuffer)
     } else {
       synthesizer.write(utterance) { [weak self] buffer in
@@ -167,7 +161,7 @@ final class Player: NSObject, ObservableObject {
 
         do {
           if self?.writingAudioFile == nil {
-            self?.writingAudioFile = try AVAudioFile(forWriting: fileURL, settings: pcmBuffer.format.settings, commonFormat: .pcmFormatInt16, interleaved: false)
+            self?.writingAudioFile = try AVAudioFile(forWriting: writingAudioFileURL(playingArticleID: playingArticleID), settings: pcmBuffer.format.settings, commonFormat: .pcmFormatInt16, interleaved: false)
           }
           try self?.writingAudioFile?.write(from: pcmBuffer)
         } catch {
@@ -176,7 +170,6 @@ final class Player: NSObject, ObservableObject {
       }
     }
   }
-
 
   // Ref: https://stackoverflow.com/questions/56999334/boost-increase-volume-of-text-to-speech-avspeechutterance-to-make-it-louder
   private func play(pcmBuffer: AVAudioPCMBuffer) {
@@ -211,21 +204,6 @@ final class Player: NSObject, ObservableObject {
       fatalError(error.localizedDescription)
     }
     playerNode.play()
-  }
-
-  private func readCachedAudioData(from url: URL) -> (file: AVAudioFile?, pcmBuffer: AVAudioPCMBuffer?) {
-    guard let file = try? AVAudioFile(forReading: url, commonFormat: .pcmFormatInt16, interleaved: false) else {
-      return (nil, nil)
-    }
-    guard let buffer = AVAudioPCMBuffer(pcmFormat: file.processingFormat, frameCapacity: AVAudioFrameCount(file.length)) else {
-      return (file, nil)
-    }
-    do {
-      try file.read(into: buffer)
-      return (file, buffer)
-    } catch {
-      return (file, nil)
-    }
   }
 
   private func reflectProperty() {
@@ -323,3 +301,15 @@ extension Player: AVSpeechSynthesizerDelegate {
     )
   }
 }
+
+// MARK: - Utility
+private func cachedAudioFileURL(playingArticleID: String) -> URL {
+  let cacheDir = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask)[0]
+  return cacheDir.appendingPathComponent("v1-cached-\(playingArticleID)")
+}
+
+private func writingAudioFileURL(playingArticleID: String) -> URL {
+  let tmpDir = URL(string: NSTemporaryDirectory())!
+  return tmpDir.appendingPathComponent("v1-writing-\(playingArticleID)")
+}
+
