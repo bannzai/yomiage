@@ -168,7 +168,6 @@ final class Player: NSObject, ObservableObject {
     )!
     try! converter?.convert(to: convertedBuffer, from: pcmBuffer)
 
-    activateAudioSession()
     playerNode.scheduleBuffer(convertedBuffer, at: nil)
 
     do {
