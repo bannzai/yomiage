@@ -104,8 +104,6 @@ final class Player: NSObject, ObservableObject {
     utterance.rate = rate
     utterance.pitchMultiplier = pitch
 
-    synthesizer.speak(utterance)
-
     // TODO: Pass from argument
     let playingArticleID = playingArticle!.id!
     let fileURL = URL(string: "file:///tmp/\(playingArticleID)")!
