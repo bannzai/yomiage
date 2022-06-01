@@ -13,6 +13,7 @@ final class Player: NSObject, ObservableObject {
   var allArticle: Set<Article> = []
   @Published var error: Error?
 
+  private let audioEngine = AVAudioEngine()
   private let synthesizer = AVSpeechSynthesizer()
   private var canceller: Set<AnyCancellable> = []
   private var progress: Progress?
@@ -105,22 +106,56 @@ final class Player: NSObject, ObservableObject {
 
     synthesizer.speak(utterance)
 
-    let fileURL = URL(string: "file:///tmp/\(playingArticle!.id!)")!
-    synthesizer.write(utterance) { buffer in
-      guard let pcmBuffer = buffer as? AVAudioPCMBuffer else {
-        return
-      }
-      if pcmBuffer.frameLength == 0 {
-        return
-      }
+    // TODO: Pass from argument
+    let playingArticleID = playingArticle!.id!
+    let fileURL = URL(string: "file:///tmp/\(playingArticleID)")!
 
-      do {
-        let output = try AVAudioFile(forWriting: fileURL, settings: pcmBuffer.format.settings, commonFormat: .pcmFormatInt16, interleaved: false)
-        try output.write(from: pcmBuffer)
-      } catch {
-        self.error = error
+    if let cachedPCMBuffer = readPCMBuffer(url: fileURL) {
+      play(pcmBuffer: cachedPCMBuffer)
+    } else {
+      synthesizer.write(utterance) { [weak self] buffer in
+        guard let pcmBuffer = buffer as? AVAudioPCMBuffer else {
+          return
+        }
+        if pcmBuffer.frameLength == 0 {
+          return
+        }
+
+        self?.play(pcmBuffer: pcmBuffer)
+
+        // Cache to file systems
+        do {
+          let file = try AVAudioFile(forWriting: fileURL, settings: pcmBuffer.format.settings, commonFormat: .pcmFormatInt16, interleaved: false)
+          try file.write(from: pcmBuffer)
+        } catch { }
       }
     }
+  }
+
+  private func play(pcmBuffer: AVAudioPCMBuffer) {
+    let playerNode = AVAudioPlayerNode()
+    playerNode.scheduleBuffer(pcmBuffer, at: nil)
+
+    audioEngine.attach(playerNode)
+    audioEngine.connect(playerNode, to: audioEngine.outputNode, format: pcmBuffer.format)
+
+    playerNode.scheduleBuffer(pcmBuffer, at: nil)
+  }
+
+  private func readPCMBuffer(url: URL) -> AVAudioPCMBuffer? {
+    guard let input = try? AVAudioFile(forReading: url, commonFormat: .pcmFormatInt16, interleaved: false) else {
+      return nil
+    }
+    guard let buffer = AVAudioPCMBuffer(pcmFormat: input.processingFormat, frameCapacity: AVAudioFrameCount(input.length)) else {
+      return nil
+    }
+    do {
+      try input.read(into: buffer)
+    } catch {
+      return nil
+    }
+
+    return buffer
   }
 
   private func reset() {
