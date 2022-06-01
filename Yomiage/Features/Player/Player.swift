@@ -30,21 +30,21 @@ final class Player: NSObject, ObservableObject {
       .sink { [weak self] volume in
         UserDefaults.standard.set(volume, forKey: UserDefaultsKeys.playerVolume)
 
-        self?.reset()
+        self?.reflectProperty()
       }.store(in: &canceller)
     $rate
       .debounce(for: 0.5, scheduler: DispatchQueue.main)
       .sink { [weak self] rate in
         UserDefaults.standard.set(rate, forKey: UserDefaultsKeys.playerRate)
 
-        self?.reset()
+        self?.reflectProperty()
       }.store(in: &canceller)
     $pitch
       .debounce(for: 0.5, scheduler: DispatchQueue.main)
       .sink { [weak self] pitch in
         UserDefaults.standard.set(pitch, forKey: UserDefaultsKeys.playerPitch)
 
-        self?.reset()
+        self?.reflectProperty()
       }.store(in: &canceller)
 
     synthesizer.delegate = self
@@ -83,20 +83,7 @@ final class Player: NSObject, ObservableObject {
   }
 
   func stop() {
-    if synthesizer.isSpeaking {
-      synthesizer.stopSpeaking(at: .immediate)
-    }
-    if audioEngine.isRunning {
-      audioEngine.stop()
-    }
-    if playerNode.isPlaying {
-      playerNode.stop()
-    }
-    if writingAudioFile != nil {
-      writingAudioFile = nil
-    }
-
-    playingArticle = nil
+    reset()
   }
 
   func backword() async {
@@ -172,10 +159,10 @@ final class Player: NSObject, ObservableObject {
         self?.play(pcmBuffer: pcmBuffer)
 
         do {
-          if writingAudioFile == nil {
-            writingAudioFile = try AVAudioFile(forWriting: fileURL, settings: pcmBuffer.format.settings, commonFormat: .pcmFormatInt16, interleaved: false)
+          if self?.writingAudioFile == nil {
+            self?.writingAudioFile = try AVAudioFile(forWriting: fileURL, settings: pcmBuffer.format.settings, commonFormat: .pcmFormatInt16, interleaved: false)
           }
-          try writingAudioFile?.write(from: pcmBuffer)
+          try self?.writingAudioFile?.write(from: pcmBuffer)
         } catch {
           print(error)
         }
@@ -234,7 +221,7 @@ final class Player: NSObject, ObservableObject {
     }
   }
 
-  private func reset() {
+  private func reflectProperty() {
     // NOTE: After update @Published property(volume,rate,pitch), other @Published property cannot be updated. So should run to the next run loop.
     DispatchQueue.main.async {
       // NOTE: Keep vlaue for avoid flushing after synthesizer.stopSpeaking -> speechSynthesizer(:didCancel).
@@ -250,6 +237,23 @@ final class Player: NSObject, ObservableObject {
         self.speak(text: remainingText)
       }
     }
+  }
+
+  private func reset() {
+    if synthesizer.isSpeaking {
+      synthesizer.stopSpeaking(at: .immediate)
+    }
+    if audioEngine.isRunning {
+      audioEngine.stop()
+    }
+    if playerNode.isPlaying {
+      playerNode.stop()
+    }
+
+    progress = nil
+    playingArticle = nil
+    writingAudioFile = nil
+    MPNowPlayingInfoCenter.default().nowPlayingInfo = nil
   }
 }
 
@@ -281,9 +285,7 @@ extension Player: AVSpeechSynthesizerDelegate {
   func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didFinish utterance: AVSpeechUtterance) {
     print(#function)
 
-    progress = nil
-    playingArticle = nil
-    MPNowPlayingInfoCenter.default().nowPlayingInfo = nil
+    reset()
   }
   func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didCancel utterance: AVSpeechUtterance) {
     print(#function)
