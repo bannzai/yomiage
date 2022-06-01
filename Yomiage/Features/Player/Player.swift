@@ -53,7 +53,11 @@ final class Player: NSObject, ObservableObject {
     audioEngine.prepare()
   }
 
-  @MainActor func play(article: Article, url: URL, kind: Article.Kind) async {
+  @MainActor func play(article: Article) async {
+    guard let pageURL = URL(string: article.pageURL), let kind = article.typedKind else {
+      return
+    }
+
     do {
       let body: String
       switch kind {
