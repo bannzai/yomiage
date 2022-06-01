@@ -153,8 +153,9 @@ final class Player: NSObject, ObservableObject {
     utterance.rate = rate
     utterance.pitchMultiplier = pitch
 
-    let fileURL = URL(string: "file:///tmp/v6-\(playingArticleID)")!
+    let fileURL = URL(string: "file:///tmp/v7-\(playingArticleID)")!
 
+    var writingAudioFile: AVAudioFile?
     if let cachedPCMBuffer = readCachedAudioData(from: fileURL).pcmBuffer {
       play(pcmBuffer: cachedPCMBuffer)
     } else {
@@ -169,15 +170,11 @@ final class Player: NSObject, ObservableObject {
         self?.play(pcmBuffer: pcmBuffer)
 
         do {
-          if let cachedAudioData = self?.readCachedAudioData(from: fileURL),
-             let cachedFile = cachedAudioData.file,
-             let cachedPCMBuffer = cachedAudioData.pcmBuffer {
-            print("framePosition: \(cachedFile.framePosition)", "length: \(cachedFile.length)")
-            try cachedFile.write(from: pcmBuffer)
-          } else {
-            let output = try AVAudioFile(forWriting: fileURL, settings: pcmBuffer.format.settings, commonFormat: .pcmFormatInt16, interleaved: false)
-            try output.write(from: pcmBuffer)
+          if writingAudioFile == nil {
+            writingAudioFile = try AVAudioFile(forWriting: fileURL, settings: pcmBuffer.format.settings, commonFormat: .pcmFormatInt16, interleaved: false)
           }
+
+          try writingAudioFile?.write(from: pcmBuffer)
         } catch {
           print(error)
         }
