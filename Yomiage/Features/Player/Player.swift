@@ -108,6 +108,14 @@ final class Player: NSObject, ObservableObject {
     let playingArticleID = playingArticle!.id!
     let fileURL = URL(string: "file:///tmp/\(playingArticleID)")!
 
+    do {
+      let audioSession = AVAudioSession.sharedInstance()
+      try audioSession.setCategory(.playback)
+      try audioSession.setActive(true)
+    } catch {
+      fatalError(error.localizedDescription)
+    }
+
     if let cachedPCMBuffer = readPCMBuffer(url: fileURL) {
       play(pcmBuffer: cachedPCMBuffer)
     } else {
@@ -122,22 +130,48 @@ final class Player: NSObject, ObservableObject {
         self?.play(pcmBuffer: pcmBuffer)
 
         // Cache to file systems
-        do {
-          let file = try AVAudioFile(forWriting: fileURL, settings: pcmBuffer.format.settings, commonFormat: .pcmFormatInt16, interleaved: false)
-          try file.write(from: pcmBuffer)
-        } catch { }
+//        do {
+//          let file = try AVAudioFile(forWriting: fileURL, settings: pcmBuffer.format.settings, commonFormat: .pcmFormatInt16, interleaved: false)
+//          try file.write(from: pcmBuffer)
+//        } catch { }
       }
     }
   }
 
   private func play(pcmBuffer: AVAudioPCMBuffer) {
+    // Ref: https://stackoverflow.com/questions/56999334/boost-increase-volume-of-text-to-speech-avspeechutterance-to-make-it-louder
+    let outputFormat = AVAudioFormat(commonFormat: AVAudioCommonFormat.pcmFormatFloat32, sampleRate: 22050, channels: 1, interleaved: false)!
+    let converter = AVAudioConverter(
+      from: AVAudioFormat(
+        commonFormat: AVAudioCommonFormat.pcmFormatInt16,
+        sampleRate: 22050,
+        channels: 1,
+        interleaved: false
+      )!,
+      to: outputFormat
+    )
+    let convertedBuffer = AVAudioPCMBuffer(
+      pcmFormat: AVAudioFormat(
+        commonFormat: AVAudioCommonFormat.pcmFormatFloat32,
+        sampleRate: pcmBuffer.format.sampleRate,
+        channels: pcmBuffer.format.channelCount,
+        interleaved: false)!,
+      frameCapacity: pcmBuffer.frameCapacity
+    )!
+    try! converter?.convert(to: convertedBuffer, from: pcmBuffer)
+
     let playerNode = AVAudioPlayerNode()
-    playerNode.scheduleBuffer(pcmBuffer, at: nil)
 
     audioEngine.attach(playerNode)
-    audioEngine.connect(playerNode, to: audioEngine.outputNode, format: pcmBuffer.format)
+    audioEngine.connect(playerNode, to: audioEngine.outputNode, format: outputFormat)
+    playerNode.scheduleBuffer(convertedBuffer, at: nil)
 
-    playerNode.scheduleBuffer(pcmBuffer, at: nil)
+    do {
+      try audioEngine.start()
+    } catch {
+      fatalError(error.localizedDescription)
+    }
+    playerNode.play()
   }
 
   private func readPCMBuffer(url: URL) -> AVAudioPCMBuffer? {
