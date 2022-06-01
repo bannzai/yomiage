@@ -15,7 +15,7 @@ final class Player: NSObject, ObservableObject {
 
   private let audioEngine = AVAudioEngine()
   private let playerNode = AVAudioPlayerNode()
-  private let outputAudioFormat = AVAudioFormat(commonFormat: .pcmFormatFloat32, sampleRate: 22050, channels: 1, interleaved: false)!
+  private var outputAudioFormat: AVAudioFormat!
 
   private let synthesizer = AVSpeechSynthesizer()
   private var canceller: Set<AnyCancellable> = []
@@ -48,6 +48,7 @@ final class Player: NSObject, ObservableObject {
 
     synthesizer.delegate = self
 
+    outputAudioFormat = audioEngine.mainMixerNode.outputFormat(forBus: 0)
     audioEngine.attach(playerNode)
     audioEngine.connect(playerNode, to: audioEngine.mainMixerNode, format: outputAudioFormat)
     audioEngine.prepare()
