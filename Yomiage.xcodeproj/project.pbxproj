@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		2008CF7A28478BC3004F09E5 /* PlayerBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2008CF7928478BC3004F09E5 /* PlayerBar.swift */; };
+		2008CF7C2847A191004F09E5 /* AVAudioPCMBuffer+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2008CF7B2847A191004F09E5 /* AVAudioPCMBuffer+.swift */; };
 		201C6BD028263D7400195179 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 201C6BCF28263D7400195179 /* GoogleService-Info.plist */; };
 		2037DF942826557C00F43B11 /* FirebaseAnalytics+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2037DF932826557C00F43B11 /* FirebaseAnalytics+.swift */; };
 		2037DF9628265C8600F43B11 /* Timeout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2037DF9528265C8600F43B11 /* Timeout.swift */; };
@@ -82,6 +83,7 @@
 
 /* Begin PBXFileReference section */
 		2008CF7928478BC3004F09E5 /* PlayerBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerBar.swift; sourceTree = "<group>"; };
+		2008CF7B2847A191004F09E5 /* AVAudioPCMBuffer+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AVAudioPCMBuffer+.swift"; sourceTree = "<group>"; };
 		201C6BC828253C0200195179 /* Base.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Base.xcconfig; sourceTree = "<group>"; };
 		201C6BC928253C1100195179 /* Development.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Development.xcconfig; sourceTree = "<group>"; };
 		201C6BCA28253C1900195179 /* Production.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Production.xcconfig; sourceTree = "<group>"; };
@@ -399,6 +401,7 @@
 				2037DF932826557C00F43B11 /* FirebaseAnalytics+.swift */,
 				2037DF992828A07900F43B11 /* Crashlytics+.swift */,
 				2037DF9528265C8600F43B11 /* Timeout.swift */,
+				2008CF7B2847A191004F09E5 /* AVAudioPCMBuffer+.swift */,
 			);
 			path = StdLib;
 			sourceTree = "<group>";
@@ -621,6 +624,7 @@
 				20FF79532820DCD7001D062E /* Player.swift in Sources */,
 				20FF7913281F7686001D062E /* UserDatabase.swift in Sources */,
 				20FF7932281FB4CB001D062E /* AddArticleHTMLLoader.swift in Sources */,
+				2008CF7C2847A191004F09E5 /* AVAudioPCMBuffer+.swift in Sources */,
 				20FF7941281FC369001D062E /* LoadWebView.swift in Sources */,
 				20FF791E281F878A001D062E /* UniversalErrorView.swift in Sources */,
 				20FF78C8281F4C53001D062E /* YomiageApp.swift in Sources */,
