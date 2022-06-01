@@ -150,7 +150,7 @@ final class Player: NSObject, ObservableObject {
     utterance.rate = rate
     utterance.pitchMultiplier = pitch
 
-    let fileURL = URL(string: "file:///tmp/v3/\(playingArticleID)")!
+    let fileURL = URL(string: "file:///tmp/v3-\(playingArticleID)")!
 
     if let cachedPCMBuffer = readPCMBuffer(from: fileURL) {
       play(pcmBuffer: cachedPCMBuffer)
