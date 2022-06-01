@@ -119,8 +119,6 @@ final class Player: NSObject, ObservableObject {
     let playingArticleID = playingArticle!.id!
     let fileURL = URL(string: "file:///tmp/\(playingArticleID)")!
 
-    setupAudio(format: outputAudioFormat, globalGain: 0)
-
     synthesizer.write(utterance) { [weak self] buffer in
       print("in synthesizer.write(utterance)")
       guard let pcmBuffer = buffer as? AVAudioPCMBuffer else {
