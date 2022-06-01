@@ -7,7 +7,7 @@ struct MediumArticle: View {
   let mediumArticle: Article.Medium?
 
   var body: some View {
-    if let mediumArticle = mediumArticle, let url = URL(string: article.pageURL) {
+    if let mediumArticle = mediumArticle {
       ZStack {
         ArticleRowLayout(
           thumbnailImage: {
@@ -48,7 +48,7 @@ struct MediumArticle: View {
               AsyncButton {
                 analytics.logEvent("medium_article_start_play", parameters: ["article_id": String(describing: article.id)])
 
-                await player.play(article: article, url: url, kind: .medium)
+                await player.play(article: article)
                 player.configurePlayingCenter(title: mediumArticle.title)
               } label: {
                 Image(systemName: "play.fill")
