@@ -13,8 +13,14 @@ final class Player: NSObject, ObservableObject {
   var allArticle: Set<Article> = []
   @Published var error: Error?
 
-  private let audioEngine = AVAudioEngine()
-  private let synthesizer = AVSpeechSynthesizer()
+  var engine = AVAudioEngine()
+  var player = AVAudioPlayerNode()
+  var eqEffect = AVAudioUnitEQ()
+  var converter = AVAudioConverter(from: AVAudioFormat(commonFormat: AVAudioCommonFormat.pcmFormatInt16, sampleRate: 22050, channels: 1, interleaved: false)!, to: AVAudioFormat(commonFormat: AVAudioCommonFormat.pcmFormatFloat32, sampleRate: 22050, channels: 1, interleaved: false)!)
+  let synthesizer = AVSpeechSynthesizer()
+  var bufferCounter: Int = 0
+
+  let audioSession = AVAudioSession.sharedInstance()
   private var canceller: Set<AnyCancellable> = []
   private var progress: Progress?
 
@@ -108,16 +114,11 @@ final class Player: NSObject, ObservableObject {
     let playingArticleID = playingArticle!.id!
     let fileURL = URL(string: "file:///tmp/\(playingArticleID)")!
 
-    do {
-      let audioSession = AVAudioSession.sharedInstance()
-      try audioSession.setCategory(.playback)
-      try audioSession.setActive(true)
-    } catch {
-      fatalError(error.localizedDescription)
-    }
+    let outputFormat = AVAudioFormat(commonFormat: AVAudioCommonFormat.pcmFormatFloat32, sampleRate: 22050, channels: 1, interleaved: false)!
+    setupAudio(format: outputFormat, globalGain: 0)
 
     if let cachedPCMBuffer = readPCMBuffer(url: fileURL) {
-      play(pcmBuffer: cachedPCMBuffer)
+
     } else {
       synthesizer.write(utterance) { [weak self] buffer in
         guard let pcmBuffer = buffer as? AVAudioPCMBuffer else {
@@ -127,7 +128,14 @@ final class Player: NSObject, ObservableObject {
           return
         }
 
-        self?.play(pcmBuffer: pcmBuffer)
+        do {
+          let file = try AVAudioFile(forWriting: fileURL, settings: pcmBuffer.format.settings, commonFormat: .pcmFormatInt16, interleaved: false)
+          try file.write(from: pcmBuffer)
+          self?.play(audioFile: file)
+        } catch {
+          fatalError(error.localizedDescription)
+        }
+
 
         // Cache to file systems
 //        do {
@@ -138,40 +146,71 @@ final class Player: NSObject, ObservableObject {
     }
   }
 
-  private func play(pcmBuffer: AVAudioPCMBuffer) {
-    // Ref: https://stackoverflow.com/questions/56999334/boost-increase-volume-of-text-to-speech-avspeechutterance-to-make-it-louder
-    let outputFormat = AVAudioFormat(commonFormat: AVAudioCommonFormat.pcmFormatFloat32, sampleRate: 22050, channels: 1, interleaved: false)!
-    let converter = AVAudioConverter(
-      from: AVAudioFormat(
-        commonFormat: AVAudioCommonFormat.pcmFormatInt16,
-        sampleRate: 22050,
-        channels: 1,
-        interleaved: false
-      )!,
-      to: outputFormat
-    )
-    let convertedBuffer = AVAudioPCMBuffer(
-      pcmFormat: AVAudioFormat(
-        commonFormat: AVAudioCommonFormat.pcmFormatFloat32,
-        sampleRate: pcmBuffer.format.sampleRate,
-        channels: pcmBuffer.format.channelCount,
-        interleaved: false)!,
-      frameCapacity: pcmBuffer.frameCapacity
-    )!
-    try! converter?.convert(to: convertedBuffer, from: pcmBuffer)
 
-    let playerNode = AVAudioPlayerNode()
-
-    audioEngine.attach(playerNode)
-    audioEngine.connect(playerNode, to: audioEngine.outputNode, format: outputFormat)
-    playerNode.scheduleBuffer(convertedBuffer, at: nil)
-
+  func activateAudioSession() {
     do {
-      try audioEngine.start()
+      try audioSession.setCategory(.playback, mode: .voicePrompt, options: [.mixWithOthers, .duckOthers])
+      try audioSession.setActive(true, options: .notifyOthersOnDeactivation)
     } catch {
-      fatalError(error.localizedDescription)
+      print("An error has occurred while setting the AVAudioSession.")
     }
-    playerNode.play()
+  }
+  func play(audioFile file: AVAudioFile) {
+    self.player.scheduleFile(file, at: nil, completionHandler: nil)
+    let utterance = AVSpeechUtterance(string: "This is to test if iOS is able to boost the voice output above the 100% limit.")
+    synthesizer.write(utterance) { buffer in
+      guard let pcmBuffer = buffer as? AVAudioPCMBuffer, pcmBuffer.frameLength > 0 else {
+        print("could not create buffer or buffer empty")
+        return
+      }
+
+      // QUIRCK Need to convert the buffer to different format because AVAudioEngine does not support the format returned from AVSpeechSynthesizer
+      let convertedBuffer = AVAudioPCMBuffer(pcmFormat: AVAudioFormat(commonFormat: AVAudioCommonFormat.pcmFormatFloat32, sampleRate: pcmBuffer.format.sampleRate, channels: pcmBuffer.format.channelCount, interleaved: false)!, frameCapacity: pcmBuffer.frameCapacity)!
+      do {
+        try self.converter!.convert(to: convertedBuffer, from: pcmBuffer)
+        self.bufferCounter += 1
+        self.player.scheduleBuffer(convertedBuffer, completionCallbackType: .dataPlayedBack, completionHandler: { (type) -> Void in
+          DispatchQueue.main.async {
+            self.bufferCounter -= 1
+            print(self.bufferCounter)
+            if self.bufferCounter == 0 {
+              self.player.stop()
+              self.engine.stop()
+              try! self.audioSession.setActive(false, options: [])
+            }
+          }
+
+        })
+
+        self.converter!.reset()
+        //self.player.prepare(withFrameCount: convertedBuffer.frameLength)
+      }
+      catch let error {
+        print(error.localizedDescription)
+      }
+    }
+    activateAudioSession()
+    if !self.engine.isRunning {
+      try! self.engine.start()
+    }
+    if !self.player.isPlaying {
+      self.player.play()
+    }
+  }
+
+  func setupAudio(format: AVAudioFormat, globalGain: Float) {
+    // QUIRCK: Connecting the equalizer to the engine somehow starts the shared audioSession, and if that audiosession is not configured with .mixWithOthers and if it's not deactivated afterwards, this will stop any background music that was already playing. So first configure the audio session, then setup the engine and then deactivate the session again.
+    try? self.audioSession.setCategory(.playback, options: .mixWithOthers)
+
+    eqEffect.globalGain = globalGain
+    engine.attach(player)
+    engine.attach(eqEffect)
+    engine.connect(player, to: eqEffect, format: format)
+    engine.connect(eqEffect, to: engine.mainMixerNode, format: format)
+    engine.prepare()
+
+    try? self.audioSession.setActive(false)
+
   }
 
   private func readPCMBuffer(url: URL) -> AVAudioPCMBuffer? {
