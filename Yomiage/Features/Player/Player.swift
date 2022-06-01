@@ -85,6 +85,9 @@ final class Player: NSObject, ObservableObject {
     if synthesizer.isSpeaking {
       synthesizer.stopSpeaking(at: .immediate)
     }
+    if audioEngine.isRunning {
+      audioEngine.stop()
+    }
 
     playingArticle = nil
   }
