@@ -51,7 +51,6 @@ final class Player: NSObject, ObservableObject {
     audioEngine.attach(playerNode)
     audioEngine.connect(playerNode, to: audioEngine.mainMixerNode, format: outputAudioFormat)
     audioEngine.prepare()
-
   }
 
   @MainActor func play(article: Article, url: URL, kind: Article.Kind) async {
