@@ -144,9 +144,18 @@ final class Player: NSObject, ObservableObject {
     utterance.rate = rate
     utterance.pitchMultiplier = pitch
 
+    func read(file: AVAudioFile, into buffer: AVAudioPCMBuffer) -> Bool {
+      do {
+        try file.read(into: buffer)
+        return true
+      } catch {
+        print(error)
+        return false
+      }
+    }
     if let readOnlyFile = try? AVAudioFile(forReading: cachedAudioFileURL(playingArticleID: playingArticleID), commonFormat: .pcmFormatInt16, interleaved: false),
        let cachedPCMBuffer = AVAudioPCMBuffer(pcmFormat: readOnlyFile.processingFormat, frameCapacity: AVAudioFrameCount(readOnlyFile.length)),
-       (try? readOnlyFile.read(into: cachedPCMBuffer)) != nil {
+       read(file: readOnlyFile, into: cachedPCMBuffer) {
       play(pcmBuffer: cachedPCMBuffer)
     } else {
       synthesizer.write(utterance) { [weak self] buffer in
@@ -273,16 +282,16 @@ extension Player: AVSpeechSynthesizerDelegate {
     // Migrate temporary file to cache file when did finish speech
     do {
       if let playingArticleID = playingArticle?.id,
-         let writingAudioFile = writingAudioFile,
-         let cachedPCMBuffer = AVAudioPCMBuffer(pcmFormat: writingAudioFile.processingFormat, frameCapacity: AVAudioFrameCount(writingAudioFile.length)) {
-        let cachedAudioFile = try AVAudioFile(forWriting: writingAudioFileURL(playingArticleID: playingArticleID), settings: cachedPCMBuffer.format.settings, commonFormat: .pcmFormatInt16, interleaved: false)
+         let wroteAudioFile = try? AVAudioFile(forReading: writingAudioFileURL(playingArticleID: playingArticleID), commonFormat: .pcmFormatInt16, interleaved: false),
+         let cachedPCMBuffer = AVAudioPCMBuffer(pcmFormat: wroteAudioFile.processingFormat, frameCapacity: AVAudioFrameCount(wroteAudioFile.length)) {
+        try wroteAudioFile.read(into: cachedPCMBuffer)
+
+        let cachedAudioFile = try AVAudioFile(forWriting: cachedAudioFileURL(playingArticleID: playingArticleID), settings: cachedPCMBuffer.format.settings, commonFormat: .pcmFormatInt16, interleaved: false)
         try cachedAudioFile.write(from: cachedPCMBuffer)
       }
     } catch {
       print(error)
     }
-
-
 
     reset()
   }
