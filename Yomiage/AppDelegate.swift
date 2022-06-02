@@ -13,6 +13,8 @@ final class AppDelegate: NSObject, UIApplicationDelegate {
     UINavigationBar.setupAppearance()
     UISlider.setupAppearance()
 
+    UIApplication.shared.beginReceivingRemoteControlEvents()
+
     return true
   }
 }
