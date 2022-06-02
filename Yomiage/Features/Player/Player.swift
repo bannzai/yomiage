@@ -149,6 +149,7 @@ final class Player: NSObject, ObservableObject {
         try file.read(into: buffer)
         return true
       } catch {
+        // Ignore error
         print(error)
         return false
       }
@@ -178,6 +179,7 @@ final class Player: NSObject, ObservableObject {
           }
           try self?.writingAudioFile?.write(from: pcmBuffer)
         } catch {
+          // Ignore error
           print(error)
         }
       }
@@ -294,6 +296,7 @@ extension Player: AVSpeechSynthesizerDelegate {
         try cachedAudioFile.write(from: cachedPCMBuffer)
       }
     } catch {
+      // Ignore error
       print(error)
     }
 
