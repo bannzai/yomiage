@@ -156,7 +156,11 @@ final class Player: NSObject, ObservableObject {
     if let readOnlyFile = try? AVAudioFile(forReading: cachedAudioFileURL(playingArticleID: playingArticleID), commonFormat: .pcmFormatInt16, interleaved: false),
        let cachedPCMBuffer = AVAudioPCMBuffer(pcmFormat: readOnlyFile.processingFormat, frameCapacity: AVAudioFrameCount(readOnlyFile.length)),
        read(file: readOnlyFile, into: cachedPCMBuffer) {
-      play(pcmBuffer: cachedPCMBuffer)
+      play(pcmBuffer: cachedPCMBuffer) { [weak self] in
+        DispatchQueue.main.async {
+          self?.reset()
+        }
+      }
     } else {
       synthesizer.write(utterance) { [weak self] buffer in
         guard let pcmBuffer = buffer as? AVAudioPCMBuffer else {
@@ -166,7 +170,7 @@ final class Player: NSObject, ObservableObject {
           return
         }
 
-        self?.play(pcmBuffer: pcmBuffer)
+        self?.play(pcmBuffer: pcmBuffer, completionHandler: nil)
 
         do {
           if self?.writingAudioFile == nil {
@@ -181,7 +185,7 @@ final class Player: NSObject, ObservableObject {
   }
 
   // Ref: https://stackoverflow.com/questions/56999334/boost-increase-volume-of-text-to-speech-avspeechutterance-to-make-it-louder
-  private func play(pcmBuffer: AVAudioPCMBuffer) {
+  private func play(pcmBuffer: AVAudioPCMBuffer, completionHandler: (() -> Void)?) {
     // NOTE: SpeechSynthesizer PCM format is pcmFormatInt16
     // it must be convert to .pcmFormatFloat32 if use pcmFormatInt16 to crash
     // ref: https://developer.apple.com/forums/thread/27674
@@ -205,7 +209,7 @@ final class Player: NSObject, ObservableObject {
     )!
     try! converter?.convert(to: convertedBuffer, from: pcmBuffer)
 
-    playerNode.scheduleBuffer(convertedBuffer, at: nil)
+    playerNode.scheduleBuffer(convertedBuffer, at: nil, completionHandler: completionHandler)
 
     do {
       try audioEngine.start()
