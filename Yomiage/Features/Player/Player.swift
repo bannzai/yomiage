@@ -54,7 +54,7 @@ final class Player: NSObject, ObservableObject {
     audioEngine.prepare()
   }
 
-  @MainActor func play(article: Article) async {
+  @MainActor func start(article: Article) async {
     guard let pageURL = URL(string: article.pageURL), let kind = article.typedKind else {
       return
     }
@@ -97,7 +97,7 @@ final class Player: NSObject, ObservableObject {
 
     reset()
 
-    await play(article: allArticle[index - 1])
+    await start(article: allArticle[index - 1])
   }
 
   func forward() async {
@@ -111,7 +111,7 @@ final class Player: NSObject, ObservableObject {
 
     reset()
 
-    await play(article: allArticle[index + 1])
+    await start(article: allArticle[index + 1])
   }
 
   func setupRemoteTransportControls() {

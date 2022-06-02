@@ -48,7 +48,7 @@ struct MediumArticle: View {
               AsyncButton {
                 analytics.logEvent("medium_article_start_play", parameters: ["article_id": String(describing: article.id)])
 
-                await player.play(article: article)
+                await player.start(article: article)
                 player.configurePlayingCenter(title: mediumArticle.title)
               } label: {
                 Image(systemName: "play.fill")

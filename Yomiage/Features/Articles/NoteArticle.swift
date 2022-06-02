@@ -48,7 +48,7 @@ struct NoteArticle: View {
               AsyncButton {
                 analytics.logEvent("note_article_start_play", parameters: ["article_id": String(describing: article.id)])
                 
-                await player.play(article: article)
+                await player.start(article: article)
                 player.configurePlayingCenter(title: noteArticle.title)
               } label: {
 
