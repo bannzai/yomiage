@@ -271,17 +271,17 @@ extension Player: AVSpeechSynthesizerDelegate {
     print(#function)
 
     // Migrate temporary file to cache file when did finish speech
-    if let playingArticleID = playingArticle?.id {
-      do {
-        let wroteAudioFile = try AVAudioFile(forReading: writingAudioFileURL(playingArticleID: playingArticleID), commonFormat: .pcmFormatInt16, interleaved: false)
-        if let cachedPCMBuffer = AVAudioPCMBuffer(pcmFormat: wroteAudioFile.processingFormat, frameCapacity: AVAudioFrameCount(wroteAudioFile.length)) {
-          let cachedAudioFile = try AVAudioFile(forWriting: writingAudioFileURL(playingArticleID: playingArticleID), settings: cachedPCMBuffer.format.settings, commonFormat: .pcmFormatInt16, interleaved: false)
-          try cachedAudioFile.write(from: cachedPCMBuffer)
-        }
-      } catch {
-        print(error)
+    do {
+      if let playingArticleID = playingArticle?.id,
+         let writingAudioFile = writingAudioFile,
+         let cachedPCMBuffer = AVAudioPCMBuffer(pcmFormat: writingAudioFile.processingFormat, frameCapacity: AVAudioFrameCount(writingAudioFile.length)) {
+        let cachedAudioFile = try AVAudioFile(forWriting: writingAudioFileURL(playingArticleID: playingArticleID), settings: cachedPCMBuffer.format.settings, commonFormat: .pcmFormatInt16, interleaved: false)
+        try cachedAudioFile.write(from: cachedPCMBuffer)
       }
+    } catch {
+      print(error)
     }
+
 
 
     reset()
