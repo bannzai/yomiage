@@ -86,32 +86,40 @@ final class Player: NSObject, ObservableObject {
     reset()
   }
 
-  func backword() async {
+  func backword(previousArticle: Article) async {
+    reset()
+
+    await start(article: previousArticle)
+  }
+
+  func forward(nextArticle: Article) async {
+    reset()
+
+    await start(article: nextArticle)
+  }
+
+  func previousArticle() -> Article? {
     guard
       let playingArticle = playingArticle,
       let index = allArticle.firstIndex(of: playingArticle),
       index > 0
     else {
-      return
+      return nil
     }
 
-    reset()
-
-    await start(article: allArticle[index - 1])
+    return allArticle[index - 1]
   }
 
-  func forward() async {
+  func nextArticle() -> Article? {
     guard
       let playingArticle = playingArticle,
       let index = allArticle.firstIndex(of: playingArticle),
       allArticle.count >= index + 1
     else {
-      return
+      return nil
     }
 
-    reset()
-
-    await start(article: allArticle[index + 1])
+    return allArticle[index + 1]
   }
 
   func setupRemoteTransportControls() {
@@ -129,6 +137,24 @@ final class Player: NSObject, ObservableObject {
       }
 
       self.synthesizer.pauseSpeaking(at: .immediate)
+      return .success
+    }
+    MPRemoteCommandCenter.shared().nextTrackCommand.addTarget { event in
+      guard let nextArticle = self.nextArticle() else {
+        return .commandFailed
+      }
+      Task { @MainActor in
+        await self.forward(nextArticle: nextArticle)
+      }
+      return .success
+    }
+    MPRemoteCommandCenter.shared().previousTrackCommand.addTarget { event in
+      guard let previousArticle = self.previousArticle() else {
+        return .commandFailed
+      }
+      Task { @MainActor in
+        await self.backword(previousArticle: previousArticle)
+      }
       return .success
     }
   }

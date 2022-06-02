@@ -23,7 +23,9 @@ struct PlayerBar: View {
         AsyncButton {
           analytics.logEvent("player_bar_backword_button_pressed", parameters: ["article_id": String(describing: article.id)])
 
-          await player.backword()
+          if let previousArticle = player.previousArticle() {
+            await player.backword(previousArticle: previousArticle)
+          }
         } label: {
           Image(systemName: "backward.frame.fill")
             .padding()
@@ -45,7 +47,9 @@ struct PlayerBar: View {
         AsyncButton {
           analytics.logEvent("player_bar_forward_button_pressed", parameters: ["article_id": String(describing: article.id)])
 
-          await player.forward()
+          if let nextArticle = player.nextArticle() {
+            await player.forward(nextArticle: nextArticle)
+          }
         } label: {
           Image(systemName: "forward.frame.fill")
             .padding()
