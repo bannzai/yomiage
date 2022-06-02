@@ -52,23 +52,30 @@ final class Player: NSObject, ObservableObject {
     audioEngine.attach(playerNode)
     audioEngine.connect(playerNode, to: audioEngine.mainMixerNode, format: outputAudioFormat)
     audioEngine.prepare()
+
+    setupRemoteTransportControls()
   }
 
   @MainActor func start(article: Article) async {
-    guard let pageURL = URL(string: article.pageURL), let kind = article.typedKind else {
+    guard let pageURL = URL(string: article.pageURL), let kind = article.kindWithValue else {
       return
     }
 
     do {
+      let title: String
       let body: String
       switch kind {
-      case .note:
+      case let .note(note):
+        title = note.title
         body = try await loadNoteBody(url: pageURL)
-      case .medium:
+      case let .medium(medium):
+        title = medium.title
         body = try await loadMediumBody(url: pageURL)
       }
 
       playingArticle = article
+
+      configurePlayingCenter(title: title)
       speak(text: body)
     } catch {
       self.error = error
