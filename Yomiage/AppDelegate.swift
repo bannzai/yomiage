@@ -26,7 +26,7 @@ private extension AppDelegate {
   func setupAudio() {
     do {
       try AVAudioSession.sharedInstance().setCategory(.playback)
-      try AVAudioSession.sharedInstance().setActive(true)
+      try AVAudioSession.sharedInstance().setActive(true, options: .notifyOthersOnDeactivation)
     } catch {
       print(error)
     }
