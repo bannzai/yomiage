@@ -8,9 +8,8 @@ final class Player: NSObject, ObservableObject {
   @Published var rate = UserDefaults.standard.float(forKey: UserDefaultsKeys.playerRate)
   @Published var pitch = UserDefaults.standard.float(forKey: UserDefaultsKeys.playerPitch)
 
-  @Published private(set) var playingArticle: Article?
-
   var allArticle: [Article] = []
+  @Published private(set) var playingArticle: Article?
   @Published var error: Error?
 
   private let audioEngine = AVAudioEngine()
@@ -121,7 +120,7 @@ final class Player: NSObject, ObservableObject {
     guard
       let playingArticle = playingArticle,
       let index = allArticle.firstIndex(of: playingArticle),
-      allArticle.count >= index + 1
+      allArticle.count > index + 1
     else {
       return nil
     }
