@@ -120,7 +120,7 @@ final class Player: NSObject, ObservableObject {
     guard
       let playingArticle = playingArticle,
       let index = allArticle.firstIndex(of: playingArticle),
-      allArticle.count > index
+      allArticle.count > index + 1
     else {
       return nil
     }
