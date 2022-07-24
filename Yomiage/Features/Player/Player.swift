@@ -29,21 +29,21 @@ final class Player: NSObject, ObservableObject {
       .sink { [weak self] volume in
         UserDefaults.standard.set(volume, forKey: UserDefaultsKeys.playerVolume)
 
-        self?.reflectProperty()
+        self?.reload()
       }.store(in: &canceller)
     $rate
       .debounce(for: 0.5, scheduler: DispatchQueue.main)
       .sink { [weak self] rate in
         UserDefaults.standard.set(rate, forKey: UserDefaultsKeys.playerRate)
 
-        self?.reflectProperty()
+        self?.reload()
       }.store(in: &canceller)
     $pitch
       .debounce(for: 0.5, scheduler: DispatchQueue.main)
       .sink { [weak self] pitch in
         UserDefaults.standard.set(pitch, forKey: UserDefaultsKeys.playerPitch)
 
-        self?.reflectProperty()
+        self?.reload()
       }.store(in: &canceller)
 
     synthesizer.delegate = self
@@ -254,7 +254,7 @@ final class Player: NSObject, ObservableObject {
     playerNode.play()
   }
 
-  private func reflectProperty() {
+  private func reload() {
     // NOTE: After update @Published property(volume,rate,pitch), other @Published property cannot be updated. So should run to the next run loop.
     DispatchQueue.main.async {
       // NOTE: Keep vlaue for avoid flushing after synthesizer.stopSpeaking -> speechSynthesizer(:didCancel).
