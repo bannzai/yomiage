@@ -16,6 +16,7 @@ final class Player: NSObject, ObservableObject {
     private static let outputAudioFormat = AVAudioFormat(commonFormat: .pcmFormatFloat32, sampleRate: 22050, channels: 1, interleaved: false)!
   }
 
+  // Audio Player components
   private let synthesizer = AVSpeechSynthesizer()
   private let audioEngine = AVAudioEngine()
   private let playerNode = AVAudioPlayerNode()
