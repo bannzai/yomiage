@@ -24,28 +24,24 @@ final class UserDatabase {
   }
 }
 
+enum SnapshotReason<T> {
+  case added(T)
+  case modified(T)
+  case removed(T)
+}
+typealias StreamData<T> = (all: [T], reasons: [SnapshotReason<T>])
 extension Query {
-  enum SnapshotReason<T> {
-    case initial(T)
-    case added(T)
-    case modified(T)
-    case removed(T)
-  }
-  func stream<T: Decodable>() -> AsyncThrowingStream<[SnapshotReason<T>], Error> {
+  func stream<T: Decodable>() -> AsyncThrowingStream<StreamData<T>, Error> {
     .init { continuation in
       let registration = addSnapshotListener { snapshot, error in
         if let error = error {
           continuation.finish(throwing: error)
         } else if let snapshot = snapshot {
           do {
-            if snapshot.documentChanges.isEmpty {
-              continuation.yield(
-                try snapshot.documents
-                  .map { .initial(try $0.data(as: T.self)) }
-              )
-            } else {
-              continuation.yield(
-                try snapshot.documentChanges
+            continuation.yield(
+              (
+                all: try snapshot.documents.map { try $0.data(as: T.self) },
+                reasons: try snapshot.documentChanges
                   .map {
                     let data = try $0.document.data(as: T.self)
                     switch $0.type {
@@ -58,8 +54,7 @@ extension Query {
                     }
                   }
               )
-
-            }
+            )
           } catch {
             continuation.finish(throwing: error)
           }
