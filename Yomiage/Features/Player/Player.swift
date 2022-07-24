@@ -27,7 +27,7 @@ final class Player: NSObject, ObservableObject {
   private let playerNode = AVAudioPlayerNode()
 
   // Temporary state on playing article
-  // To clear all together, call`clearTemporaryPlayingState()`
+  // To clear all together, call`clearAllTemporaryPlayingProgressState()`
   // It is not contains playingArticle because keep last played article and displyaing and possible to replay it on `remote control center`, `PlayerBar`
   private var progress: Progress?
   private var writingAudioFile: AVAudioFile?
@@ -290,7 +290,7 @@ extension Player {
     return allArticle[index + 1]
   }
 
-  private func reset() {
+  private func stopAudioComponents() {
     if synthesizer.isSpeaking {
       synthesizer.stopSpeaking(at: .immediate)
     }
@@ -300,14 +300,14 @@ extension Player {
     if playerNode.isPlaying {
       playerNode.stop()
     }
-
-    playingArticle = nil
-
-    MPNowPlayingInfoCenter.default().nowPlayingInfo = nil
     MPNowPlayingInfoCenter.default().playbackState = .stopped
   }
 
-  private func clearTemporaryPlayingState() {
+  private func clearPlayingState() {
+    MPNowPlayingInfoCenter.default().nowPlayingInfo = nil
+  }
+
+  private func clearAllTemporaryPlayingProgressState() {
     progress = nil
     writingAudioFile = nil
   }
