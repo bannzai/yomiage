@@ -17,8 +17,8 @@ final class Player: NSObject, ObservableObject {
   var allArticle: [Article] = []
   private var canceller: Set<AnyCancellable> = []
 
-  enum Const {
-    private static let outputAudioFormat = AVAudioFormat(commonFormat: .pcmFormatFloat32, sampleRate: 22050, channels: 1, interleaved: false)!
+  private enum Const {
+    static let outputAudioFormat = AVAudioFormat(commonFormat: .pcmFormatFloat32, sampleRate: 22050, channels: 1, interleaved: false)!
   }
 
   // Audio Player components
