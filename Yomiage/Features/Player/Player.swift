@@ -15,7 +15,7 @@ final class Player: NSObject, ObservableObject {
 
   // @Published state for Player events
   @Published private(set) var spoken: Void = ()
-  @Published private(set) var stopped: Void = ()
+  @Published private(set) var paused: Void = ()
 
   // Non @Published statuses
   var allArticle: [Article] = []
@@ -100,10 +100,10 @@ final class Player: NSObject, ObservableObject {
     }
   }
 
-  func stop() {
-    stopAudioComponents()
+  func pause() {
+    pauseAudioComponents()
     clearAllTemporaryPlayingProgressState()
-    stopped = ()
+    paused = ()
   }
 
   func backword() async {
@@ -111,7 +111,7 @@ final class Player: NSObject, ObservableObject {
       return
     }
 
-    stopAudioComponents()
+    pauseAudioComponents()
     clearAllTemporaryPlayingProgressState()
     await start(article: previousArticle)
   }
@@ -121,7 +121,7 @@ final class Player: NSObject, ObservableObject {
       return
     }
 
-    stopAudioComponents()
+    pauseAudioComponents()
     clearAllTemporaryPlayingProgressState()
     await start(article: nextArticle)
   }
@@ -191,7 +191,7 @@ extension Player {
        read(file: readOnlyFile, into: cachedPCMBuffer) {
       speak(pcmBuffer: cachedPCMBuffer) { [weak self] in
         DispatchQueue.main.async {
-          self?.stopAudioComponents()
+          self?.pauseAudioComponents()
           self?.clearAllTemporaryPlayingProgressState()
         }
       }
@@ -303,15 +303,15 @@ extension Player {
     return allArticle[index + 1]
   }
 
-  private func stopAudioComponents() {
+  private func pauseAudioComponents() {
     if synthesizer.isSpeaking {
-      synthesizer.stopSpeaking(at: .immediate)
+      synthesizer.pauseSpeaking(at: .immediate)
     }
     if audioEngine.isRunning {
-      audioEngine.stop()
+      audioEngine.pause()
     }
     if playerNode.isPlaying {
-      playerNode.stop()
+      playerNode.pause()
     }
   }
 
@@ -369,7 +369,7 @@ extension Player: AVSpeechSynthesizerDelegate {
       print(error)
     }
 
-    stopAudioComponents()
+    pauseAudioComponents()
     clearAllTemporaryPlayingProgressState()
   }
   func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didCancel utterance: AVSpeechUtterance) {
