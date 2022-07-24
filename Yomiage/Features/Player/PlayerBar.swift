@@ -23,9 +23,7 @@ struct PlayerBar: View {
         AsyncButton {
           analytics.logEvent("player_bar_backword_button_pressed", parameters: ["article_id": String(describing: article.id)])
 
-          if let previousArticle = player.previousArticle() {
-            await player.backword(previousArticle: previousArticle)
-          }
+          await player.backword()
         } label: {
           Image(systemName: "backward.frame.fill")
             .padding()
@@ -34,22 +32,33 @@ struct PlayerBar: View {
         }
         Spacer()
 
-        Button {
-          analytics.logEvent("player_bar_play_button_pressed", parameters: ["article_id": String(describing: article.id)])
+        if player.isPlaying {
+          Button {
+            analytics.logEvent("player_bar_pause_button_pressed", parameters: ["article_id": String(describing: article.id)])
 
-          player.stop()
-        } label: {
-          Image(systemName: "stop.fill")
-            .padding()
+            player.pause()
+          } label: {
+            Image(systemName: "pause.fill")
+              .padding()
+          }
+        } else {
+          Button {
+            analytics.logEvent("player_bar_play_button_pressed", parameters: ["article_id": String(describing: article.id)])
+
+            Task { @MainActor in
+              await player.start(article: article)
+            }
+          } label: {
+            Image(systemName: "play.fill")
+              .padding()
+          }
         }
         Spacer()
 
         AsyncButton {
           analytics.logEvent("player_bar_forward_button_pressed", parameters: ["article_id": String(describing: article.id)])
 
-          if let nextArticle = player.nextArticle() {
-            await player.forward(nextArticle: nextArticle)
-          }
+          await player.forward()
         } label: {
           Image(systemName: "forward.frame.fill")
             .padding()

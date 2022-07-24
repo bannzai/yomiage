@@ -9,7 +9,7 @@ struct ArticlesPage: View {
   @State private var error: Error?
 
   var body: some View {
-    StreamView(stream: articleDatastore.articlesStream()) { articles in
+    StreamView(stream: articleDatastore.articlesStream()) { (articles, changes) in
       if articles.isEmpty {
         VStack(spacing: 0) {
           Text("記事を追加しましょう")
@@ -61,8 +61,8 @@ struct ArticlesPage: View {
           }
           .listStyle(.plain)
 
-          if let playingArticle = player.playingArticle {
-            PlayerBar(article: playingArticle)
+          if let targetArticle = player.targetArticle {
+            PlayerBar(article: targetArticle)
           }
         }
         .navigationBarHidden(false)
@@ -106,18 +106,13 @@ struct ArticlesPage: View {
             }
           }
         })
-        .onAppear {
-          articles.forEach { article in
-            if !player.allArticle.contains(article) {
-              player.allArticle.append(article)
-            }
-          }
-        }
       }
     } errorContent: { error, reload in
       UniversalErrorView(error: error, reload: reload)
     } loading: {
       ProgressView()
+    } onListen: { (articles, changes) in
+      player.allArticle = articles
     }
     .sheet(isPresented: $playerSettingSheetIsPresented, detents: [.medium()]) {
       PlayerSettingSheet()

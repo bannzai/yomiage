@@ -33,13 +33,13 @@ struct MediumArticle: View {
             Text(mediumArticle.author)
           },
           playButton: {
-            if player.playingArticle == article {
+            if let playerTargetArticle = player.targetArticle, playerTargetArticle == article, player.isPlaying {
               Button {
-                analytics.logEvent("medium_article_stop_play", parameters: ["article_id": String(describing: article.id)])
+                analytics.logEvent("medium_article_pause_play", parameters: ["article_id": String(describing: article.id)])
 
-                player.stop()
+                player.pause()
               } label: {
-                Image(systemName: "stop.fill")
+                Image(systemName: "pause.fill")
                   .frame(width: 14, height: 14)
                   .foregroundColor(.label)
                   .padding()
@@ -49,7 +49,6 @@ struct MediumArticle: View {
                 analytics.logEvent("medium_article_start_play", parameters: ["article_id": String(describing: article.id)])
 
                 await player.start(article: article)
-                player.configurePlayingCenter(title: mediumArticle.title)
               } label: {
                 Image(systemName: "play.fill")
                   .frame(width: 14, height: 14)
