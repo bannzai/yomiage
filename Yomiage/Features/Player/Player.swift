@@ -4,13 +4,18 @@ import AVFoundation
 import MediaPlayer
 
 final class Player: NSObject, ObservableObject {
+  // @Published state for audio controls
   @Published var volume = UserDefaults.standard.float(forKey: UserDefaultsKeys.playerVolume)
   @Published var rate = UserDefaults.standard.float(forKey: UserDefaultsKeys.playerRate)
   @Published var pitch = UserDefaults.standard.float(forKey: UserDefaultsKeys.playerPitch)
 
-  var allArticle: [Article] = []
+  // @Published state for database entity
   @Published private(set) var playingArticle: Article?
   @Published var error: Error?
+
+  // Non @Published statuses
+  var allArticle: [Article] = []
+  private var canceller: Set<AnyCancellable> = []
 
   enum Const {
     private static let outputAudioFormat = AVAudioFormat(commonFormat: .pcmFormatFloat32, sampleRate: 22050, channels: 1, interleaved: false)!
@@ -20,8 +25,6 @@ final class Player: NSObject, ObservableObject {
   private let synthesizer = AVSpeechSynthesizer()
   private let audioEngine = AVAudioEngine()
   private let playerNode = AVAudioPlayerNode()
-
-  private var canceller: Set<AnyCancellable> = []
 
   // Temporary state on playing article
   // To clear all together, call`clearTemporaryPlayingState()`
