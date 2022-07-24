@@ -28,6 +28,7 @@ final class Player: NSObject, ObservableObject {
 
   // Temporary state on playing article
   // To clear all together, call`clearTemporaryPlayingState()`
+  // It is not contains playingArticle because keep last played article and displyaing and possible to replay it on `remote control center`, `PlayerBar`
   private var progress: Progress?
   private var writingAudioFile: AVAudioFile?
 
