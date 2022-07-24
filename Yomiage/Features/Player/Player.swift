@@ -14,8 +14,8 @@ final class Player: NSObject, ObservableObject {
   @Published var error: Error?
 
   // @Published state for Player events
-  @Published private(set) var spoken: PassthroughSubject<Void, Never> = .init()
-  @Published private(set) var stopped: PassthroughSubject<Void, Never> = .init()
+  @Published private(set) var spoken: Void = ()
+  @Published private(set) var stopped: Void = ()
 
   // Non @Published statuses
   var allArticle: [Article] = []
@@ -103,7 +103,7 @@ final class Player: NSObject, ObservableObject {
   func stop() {
     stopAudioComponents()
     clearAllTemporaryPlayingProgressState()
-    stopped.send()
+    stopped = ()
   }
 
   func backword() async {
@@ -205,7 +205,7 @@ extension Player {
         }
 
         self?.speak(pcmBuffer: pcmBuffer, completionHandler: nil)
-        self?.spoken.send()
+        self?.spoken = ()
 
         do {
           if self?.writingAudioFile == nil {
