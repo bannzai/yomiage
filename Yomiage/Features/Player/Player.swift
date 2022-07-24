@@ -12,12 +12,18 @@ final class Player: NSObject, ObservableObject {
   @Published private(set) var playingArticle: Article?
   @Published var error: Error?
 
+  enum Const {
+    private static let outputAudioFormat = AVAudioFormat(commonFormat: .pcmFormatFloat32, sampleRate: 22050, channels: 1, interleaved: false)!
+  }
+
+  private let synthesizer = AVSpeechSynthesizer()
   private let audioEngine = AVAudioEngine()
   private let playerNode = AVAudioPlayerNode()
-  private let outputAudioFormat = AVAudioFormat(commonFormat: .pcmFormatFloat32, sampleRate: 22050, channels: 1, interleaved: false)!
-  private let synthesizer = AVSpeechSynthesizer()
 
   private var canceller: Set<AnyCancellable> = []
+
+  // Temporary state on playing article
+  // To clear all together, call`clearTemporaryPlayingState()`
   private var progress: Progress?
   private var writingAudioFile: AVAudioFile?
 
@@ -49,7 +55,7 @@ final class Player: NSObject, ObservableObject {
     synthesizer.delegate = self
 
     audioEngine.attach(playerNode)
-    audioEngine.connect(playerNode, to: audioEngine.mainMixerNode, format: outputAudioFormat)
+    audioEngine.connect(playerNode, to: audioEngine.mainMixerNode, format: Const.outputAudioFormat)
     audioEngine.prepare()
 
     setupRemoteTransportControls()
@@ -207,11 +213,11 @@ extension Player {
         channels: 1,
         interleaved: false
       )!,
-      to: outputAudioFormat
+      to: Const.outputAudioFormat
     )
     let convertedBuffer = AVAudioPCMBuffer(
       pcmFormat: AVAudioFormat(
-        commonFormat: outputAudioFormat.commonFormat,
+        commonFormat: Const.outputAudioFormat.commonFormat,
         sampleRate: pcmBuffer.format.sampleRate,
         channels: pcmBuffer.format.channelCount,
         interleaved: false
@@ -279,8 +285,6 @@ extension Player {
     return allArticle[index + 1]
   }
 
-
-
   private func reset() {
     if synthesizer.isSpeaking {
       synthesizer.stopSpeaking(at: .immediate)
@@ -292,12 +296,15 @@ extension Player {
       playerNode.stop()
     }
 
-    progress = nil
     playingArticle = nil
-    writingAudioFile = nil
 
     MPNowPlayingInfoCenter.default().nowPlayingInfo = nil
     MPNowPlayingInfoCenter.default().playbackState = .stopped
+  }
+
+  private func clearTemporaryPlayingState() {
+    progress = nil
+    writingAudioFile = nil
   }
 }
 
