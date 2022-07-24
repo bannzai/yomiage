@@ -218,16 +218,15 @@ extension Player {
       )!,
       frameCapacity: pcmBuffer.frameCapacity
     )!
-    try! converter?.convert(to: convertedBuffer, from: pcmBuffer)
-
-    playerNode.scheduleBuffer(convertedBuffer, at: nil, completionHandler: completionHandler)
 
     do {
+      try converter?.convert(to: convertedBuffer, from: pcmBuffer)
+      playerNode.scheduleBuffer(convertedBuffer, at: nil, completionHandler: completionHandler)
       try audioEngine.start()
+      playerNode.play()
     } catch {
       fatalError(error.localizedDescription)
     }
-    playerNode.play()
   }
 
   private func configurePlayingCenter(title: String) {
