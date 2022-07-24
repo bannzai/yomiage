@@ -82,22 +82,7 @@ final class Player: NSObject, ObservableObject {
   }
 
   func stop() {
-    if synthesizer.isSpeaking {
-      synthesizer.stopSpeaking(at: .immediate)
-    }
-    if audioEngine.isRunning {
-      audioEngine.stop()
-    }
-    if playerNode.isPlaying {
-      playerNode.stop()
-    }
-
-    progress = nil
-    playingArticle = nil
-    writingAudioFile = nil
-
-    MPNowPlayingInfoCenter.default().nowPlayingInfo = nil
-    MPNowPlayingInfoCenter.default().playbackState = .stopped
+    reset()
   }
 
   func backword() async {
@@ -105,7 +90,7 @@ final class Player: NSObject, ObservableObject {
       return
     }
 
-    stop()
+    reset()
     await start(article: previousArticle)
   }
 
@@ -114,7 +99,7 @@ final class Player: NSObject, ObservableObject {
       return
     }
 
-    stop()
+    reset()
     await start(article: nextArticle)
   }
 
@@ -183,7 +168,7 @@ extension Player {
        read(file: readOnlyFile, into: cachedPCMBuffer) {
       play(pcmBuffer: cachedPCMBuffer) { [weak self] in
         DispatchQueue.main.async {
-          self?.stop()
+          self?.reset()
         }
       }
     } else {
@@ -294,6 +279,27 @@ extension Player {
 
     return allArticle[index + 1]
   }
+
+
+
+  private func reset() {
+    if synthesizer.isSpeaking {
+      synthesizer.stopSpeaking(at: .immediate)
+    }
+    if audioEngine.isRunning {
+      audioEngine.stop()
+    }
+    if playerNode.isPlaying {
+      playerNode.stop()
+    }
+
+    progress = nil
+    playingArticle = nil
+    writingAudioFile = nil
+
+    MPNowPlayingInfoCenter.default().nowPlayingInfo = nil
+    MPNowPlayingInfoCenter.default().playbackState = .stopped
+  }
 }
 
 extension Player: AVAudioPlayerDelegate {
@@ -339,7 +345,7 @@ extension Player: AVSpeechSynthesizerDelegate {
       print(error)
     }
 
-    stop()
+    reset()
   }
   func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didCancel utterance: AVSpeechUtterance) {
     print(#function)
