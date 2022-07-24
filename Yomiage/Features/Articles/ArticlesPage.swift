@@ -61,8 +61,8 @@ struct ArticlesPage: View {
           }
           .listStyle(.plain)
 
-          if let playingArticle = player.playingArticle {
-            PlayerBar(article: playingArticle)
+          if let targetArticle = player.targetArticle {
+            PlayerBar(article: targetArticle)
           }
         }
         .navigationBarHidden(false)

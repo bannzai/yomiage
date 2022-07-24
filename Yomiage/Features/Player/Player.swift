@@ -10,7 +10,7 @@ final class Player: NSObject, ObservableObject {
   @Published var pitch = UserDefaults.standard.float(forKey: UserDefaultsKeys.playerPitch)
 
   // @Published state for database entity
-  @Published private(set) var playingArticle: Article?
+  @Published private(set) var targetArticle: Article?
   @Published var error: Error?
 
   // Non @Published statuses
@@ -28,7 +28,7 @@ final class Player: NSObject, ObservableObject {
 
   // Temporary state on playing article
   // To clear all together, call`clearAllTemporaryPlayingProgressState()`
-  // It is not contains playingArticle because keep last played article and displyaing and possible to replay it on `remote control center`, `PlayerBar`
+  // It is not contains targetArticle because keep last played article and displyaing and possible to replay it on `remote control center`, `PlayerBar`
   private var progress: Progress?
   private var writingAudioFile: AVAudioFile?
 
@@ -83,7 +83,7 @@ final class Player: NSObject, ObservableObject {
         body = try await loadMediumBody(url: pageURL)
       }
 
-      playingArticle = article
+      targetArticle = article
 
       configurePlayingCenter(title: title)
       speak(text: body)
@@ -158,7 +158,7 @@ final class Player: NSObject, ObservableObject {
 extension Player {
 // MARK: - Private
   private func speak(text: String) {
-    guard let playingArticleID = playingArticle?.id else {
+    guard let targetArticleID = targetArticle?.id else {
       return
     }
 
@@ -177,7 +177,7 @@ extension Player {
         return false
       }
     }
-    if let readOnlyFile = try? AVAudioFile(forReading: cachedAudioFileURL(playingArticleID: playingArticleID), commonFormat: .pcmFormatInt16, interleaved: false),
+    if let readOnlyFile = try? AVAudioFile(forReading: cachedAudioFileURL(targetArticleID: targetArticleID), commonFormat: .pcmFormatInt16, interleaved: false),
        let cachedPCMBuffer = AVAudioPCMBuffer(pcmFormat: readOnlyFile.processingFormat, frameCapacity: AVAudioFrameCount(readOnlyFile.length)),
        read(file: readOnlyFile, into: cachedPCMBuffer) {
       play(pcmBuffer: cachedPCMBuffer) { [weak self] in
@@ -199,7 +199,7 @@ extension Player {
 
         do {
           if self?.writingAudioFile == nil {
-            self?.writingAudioFile = try AVAudioFile(forWriting: writingAudioFileURL(playingArticleID: playingArticleID), settings: pcmBuffer.format.settings, commonFormat: .pcmFormatInt16, interleaved: false)
+            self?.writingAudioFile = try AVAudioFile(forWriting: writingAudioFileURL(targetArticleID: targetArticleID), settings: pcmBuffer.format.settings, commonFormat: .pcmFormatInt16, interleaved: false)
           }
           try self?.writingAudioFile?.write(from: pcmBuffer)
         } catch {
@@ -272,8 +272,8 @@ extension Player {
 
   private func previousArticle() -> Article? {
     guard
-      let playingArticle = playingArticle,
-      let index = allArticle.firstIndex(of: playingArticle),
+      let targetArticle = targetArticle,
+      let index = allArticle.firstIndex(of: targetArticle),
       index > 0
     else {
       return nil
@@ -284,8 +284,8 @@ extension Player {
 
   private func nextArticle() -> Article? {
     guard
-      let playingArticle = playingArticle,
-      let index = allArticle.firstIndex(of: playingArticle),
+      let targetArticle = targetArticle,
+      let index = allArticle.firstIndex(of: targetArticle),
       allArticle.count > index + 1
     else {
       return nil
@@ -308,7 +308,7 @@ extension Player {
   }
 
   private func clearPlayingState() {
-    playingArticle = nil
+    targetArticle = nil
     MPNowPlayingInfoCenter.default().nowPlayingInfo = nil
   }
 
@@ -348,12 +348,12 @@ extension Player: AVSpeechSynthesizerDelegate {
 
     // Migrate temporary file to cache file when did finish speech
     do {
-      if let playingArticleID = playingArticle?.id,
-         let wroteAudioFile = try? AVAudioFile(forReading: writingAudioFileURL(playingArticleID: playingArticleID), commonFormat: .pcmFormatInt16, interleaved: false),
+      if let targetArticleID = targetArticle?.id,
+         let wroteAudioFile = try? AVAudioFile(forReading: writingAudioFileURL(targetArticleID: targetArticleID), commonFormat: .pcmFormatInt16, interleaved: false),
          let cachedPCMBuffer = AVAudioPCMBuffer(pcmFormat: wroteAudioFile.processingFormat, frameCapacity: AVAudioFrameCount(wroteAudioFile.length)) {
         try wroteAudioFile.read(into: cachedPCMBuffer)
 
-        let cachedAudioFile = try AVAudioFile(forWriting: cachedAudioFileURL(playingArticleID: playingArticleID), settings: cachedPCMBuffer.format.settings, commonFormat: .pcmFormatInt16, interleaved: false)
+        let cachedAudioFile = try AVAudioFile(forWriting: cachedAudioFileURL(targetArticleID: targetArticleID), settings: cachedPCMBuffer.format.settings, commonFormat: .pcmFormatInt16, interleaved: false)
         try cachedAudioFile.write(from: cachedPCMBuffer)
       }
     } catch {
@@ -395,13 +395,13 @@ extension Player: AVSpeechSynthesizerDelegate {
 }
 
 // MARK: - Utility
-private func cachedAudioFileURL(playingArticleID: String) -> URL {
+private func cachedAudioFileURL(targetArticleID: String) -> URL {
   let cacheDir = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask)[0]
-  return cacheDir.appendingPathComponent("v1-cached-\(playingArticleID)")
+  return cacheDir.appendingPathComponent("v1-cached-\(targetArticleID)")
 }
 
-private func writingAudioFileURL(playingArticleID: String) -> URL {
+private func writingAudioFileURL(targetArticleID: String) -> URL {
   let tmpDir = URL(string: NSTemporaryDirectory())!
-  return tmpDir.appendingPathComponent("v1-writing-\(playingArticleID)")
+  return tmpDir.appendingPathComponent("v1-writing-\(targetArticleID)")
 }
 

@@ -33,7 +33,7 @@ struct MediumArticle: View {
             Text(mediumArticle.author)
           },
           playButton: {
-            if player.playingArticle == article {
+            if player.targetArticle == article {
               Button {
                 analytics.logEvent("medium_article_stop_play", parameters: ["article_id": String(describing: article.id)])
 
