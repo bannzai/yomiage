@@ -33,7 +33,7 @@ struct NoteArticle: View {
             Text(noteArticle.author)
           },
           playButton: {
-            if player.targetArticle == article {
+            if let playerTargetArticle = player.targetArticle, playerTargetArticle == article, player.isPlaying {
               Button {
                 analytics.logEvent("note_article_stop_play", parameters: ["article_id": String(describing: article.id)])
 

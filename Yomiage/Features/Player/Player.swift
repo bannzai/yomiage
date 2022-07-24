@@ -15,6 +15,7 @@ final class Player: NSObject, ObservableObject {
 
   // @Published state for Player events
   @Published private(set) var spoken: PassthroughSubject<Void, Never> = .init()
+  @Published private(set) var stopped: PassthroughSubject<Void, Never> = .init()
 
   // Non @Published statuses
   var allArticle: [Article] = []
@@ -102,6 +103,7 @@ final class Player: NSObject, ObservableObject {
   func stop() {
     stopAudioComponents()
     clearAllTemporaryPlayingProgressState()
+    stopped.send()
   }
 
   func backword() async {
