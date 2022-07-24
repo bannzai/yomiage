@@ -157,8 +157,10 @@ final class Player: NSObject, ObservableObject {
       return .success
     }
   }
+}
 
-  // MARK: - Private
+extension Player {
+// MARK: - Private
   private func speak(text: String) {
     guard let playingArticleID = playingArticle?.id else {
       return
