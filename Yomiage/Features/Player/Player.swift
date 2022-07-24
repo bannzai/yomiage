@@ -81,14 +81,6 @@ final class Player: NSObject, ObservableObject {
     }
   }
 
-  func configurePlayingCenter(title: String) {
-    MPNowPlayingInfoCenter.default().nowPlayingInfo = [
-      MPMediaItemPropertyTitle: title,
-      MPNowPlayingInfoPropertyPlaybackRate: rate
-    ]
-    MPNowPlayingInfoCenter.default().playbackState = .playing
-  }
-
   func stop() {
     reset()
   }
@@ -252,6 +244,14 @@ final class Player: NSObject, ObservableObject {
       fatalError(error.localizedDescription)
     }
     playerNode.play()
+  }
+
+  private func configurePlayingCenter(title: String) {
+    MPNowPlayingInfoCenter.default().nowPlayingInfo = [
+      MPMediaItemPropertyTitle: title,
+      MPNowPlayingInfoPropertyPlaybackRate: rate
+    ]
+    MPNowPlayingInfoCenter.default().playbackState = .playing
   }
 
   private func reloadWhenUpdatedProperty() {
