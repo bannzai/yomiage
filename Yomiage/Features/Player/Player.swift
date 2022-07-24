@@ -259,7 +259,6 @@ extension Player {
       MPMediaItemPropertyTitle: title,
       MPNowPlayingInfoPropertyPlaybackRate: rate
     ]
-    MPNowPlayingInfoCenter.default().playbackState = .playing
   }
 
   private func reloadWhenUpdatedProperty() {
@@ -314,7 +313,6 @@ extension Player {
     if playerNode.isPlaying {
       playerNode.stop()
     }
-    MPNowPlayingInfoCenter.default().playbackState = .stopped
   }
 
   private func clearPlayingState() {
