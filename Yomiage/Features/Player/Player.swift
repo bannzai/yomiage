@@ -361,7 +361,8 @@ extension Player: AVSpeechSynthesizerDelegate {
       print(error)
     }
 
-    reset()
+    stopAudioComponents()
+    clearAllTemporaryPlayingProgressState()
   }
   func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didCancel utterance: AVSpeechUtterance) {
     print(#function)
