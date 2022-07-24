@@ -85,40 +85,22 @@ final class Player: NSObject, ObservableObject {
     reset()
   }
 
-  func backword(previousArticle: Article) async {
-    reset()
+  func backword() async {
+    guard let previousArticle = self.previousArticle() else {
+      return
+    }
 
+    reset()
     await start(article: previousArticle)
   }
 
-  func forward(nextArticle: Article) async {
+  func forward() async {
+    guard let nextArticle = self.nextArticle() else {
+      return
+    }
+
     reset()
-
     await start(article: nextArticle)
-  }
-
-  func previousArticle() -> Article? {
-    guard
-      let playingArticle = playingArticle,
-      let index = allArticle.firstIndex(of: playingArticle),
-      index > 0
-    else {
-      return nil
-    }
-
-    return allArticle[index - 1]
-  }
-
-  func nextArticle() -> Article? {
-    guard
-      let playingArticle = playingArticle,
-      let index = allArticle.firstIndex(of: playingArticle),
-      allArticle.count > index + 1
-    else {
-      return nil
-    }
-
-    return allArticle[index + 1]
   }
 
   func setupRemoteTransportControls() {
@@ -139,20 +121,20 @@ final class Player: NSObject, ObservableObject {
       return .success
     }
     MPRemoteCommandCenter.shared().nextTrackCommand.addTarget { event in
-      guard let nextArticle = self.nextArticle() else {
+      guard let _ = self.nextArticle() else {
         return .commandFailed
       }
       Task { @MainActor in
-        await self.forward(nextArticle: nextArticle)
+        await self.forward()
       }
       return .success
     }
     MPRemoteCommandCenter.shared().previousTrackCommand.addTarget { event in
-      guard let previousArticle = self.previousArticle() else {
+      guard let _ = self.previousArticle() else {
         return .commandFailed
       }
       Task { @MainActor in
-        await self.backword(previousArticle: previousArticle)
+        await self.backword()
       }
       return .success
     }
@@ -273,6 +255,32 @@ extension Player {
       }
     }
   }
+
+  private func previousArticle() -> Article? {
+    guard
+      let playingArticle = playingArticle,
+      let index = allArticle.firstIndex(of: playingArticle),
+      index > 0
+    else {
+      return nil
+    }
+
+    return allArticle[index - 1]
+  }
+
+  private func nextArticle() -> Article? {
+    guard
+      let playingArticle = playingArticle,
+      let index = allArticle.firstIndex(of: playingArticle),
+      allArticle.count > index + 1
+    else {
+      return nil
+    }
+
+    return allArticle[index + 1]
+  }
+
+
 
   private func reset() {
     if synthesizer.isSpeaking {
