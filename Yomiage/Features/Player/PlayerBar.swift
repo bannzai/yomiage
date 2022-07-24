@@ -32,13 +32,26 @@ struct PlayerBar: View {
         }
         Spacer()
 
-        Button {
-          analytics.logEvent("player_bar_stop_button_pressed", parameters: ["article_id": String(describing: article.id)])
+        if player.isPlaying {
+          Button {
+            analytics.logEvent("player_bar_stop_button_pressed", parameters: ["article_id": String(describing: article.id)])
 
-          player.stop()
-        } label: {
-          Image(systemName: "stop.fill")
-            .padding()
+            player.stop()
+          } label: {
+            Image(systemName: "stop.fill")
+              .padding()
+          }
+        } else {
+          Button {
+            analytics.logEvent("player_bar_play_button_pressed", parameters: ["article_id": String(describing: article.id)])
+
+            Task { @MainActor in
+              await player.start(article: article)
+            }
+          } label: {
+            Image(systemName: "play.fill")
+              .padding()
+          }
         }
         Spacer()
 

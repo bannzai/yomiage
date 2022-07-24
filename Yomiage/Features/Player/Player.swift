@@ -13,6 +13,9 @@ final class Player: NSObject, ObservableObject {
   @Published private(set) var targetArticle: Article?
   @Published var error: Error?
 
+  // @Published state for Player events
+  @Published private(set) var spoken: PassthroughSubject<Void, Never> = .init()
+
   // Non @Published statuses
   var allArticle: [Article] = []
   private var canceller: Set<AnyCancellable> = []
@@ -31,6 +34,10 @@ final class Player: NSObject, ObservableObject {
   // It is not contains targetArticle because keep last played article and displyaing and possible to replay it on `remote control center`, `PlayerBar`
   private var progress: Progress?
   private var writingAudioFile: AVAudioFile?
+
+  var isPlaying: Bool {
+    playerNode.isPlaying
+  }
 
   override init() {
     super.init()
@@ -86,7 +93,7 @@ final class Player: NSObject, ObservableObject {
       targetArticle = article
 
       configurePlayingCenter(title: title)
-      speak(text: body)
+      play(text: body)
     } catch {
       self.error = error
     }
@@ -157,7 +164,7 @@ final class Player: NSObject, ObservableObject {
 
 extension Player {
 // MARK: - Private
-  private func speak(text: String) {
+  private func play(text: String) {
     guard let targetArticleID = targetArticle?.id else {
       return
     }
@@ -180,7 +187,7 @@ extension Player {
     if let readOnlyFile = try? AVAudioFile(forReading: cachedAudioFileURL(targetArticleID: targetArticleID), commonFormat: .pcmFormatInt16, interleaved: false),
        let cachedPCMBuffer = AVAudioPCMBuffer(pcmFormat: readOnlyFile.processingFormat, frameCapacity: AVAudioFrameCount(readOnlyFile.length)),
        read(file: readOnlyFile, into: cachedPCMBuffer) {
-      play(pcmBuffer: cachedPCMBuffer) { [weak self] in
+      speak(pcmBuffer: cachedPCMBuffer) { [weak self] in
         DispatchQueue.main.async {
           self?.stopAudioComponents()
           self?.clearAllTemporaryPlayingProgressState()
@@ -195,7 +202,8 @@ extension Player {
           return
         }
 
-        self?.play(pcmBuffer: pcmBuffer, completionHandler: nil)
+        self?.speak(pcmBuffer: pcmBuffer, completionHandler: nil)
+        self?.spoken.send()
 
         do {
           if self?.writingAudioFile == nil {
@@ -211,7 +219,7 @@ extension Player {
   }
 
   // Ref: https://stackoverflow.com/questions/56999334/boost-increase-volume-of-text-to-speech-avspeechutterance-to-make-it-louder
-  private func play(pcmBuffer: AVAudioPCMBuffer, completionHandler: (() -> Void)?) {
+  private func speak(pcmBuffer: AVAudioPCMBuffer, completionHandler: (() -> Void)?) {
     // NOTE: SpeechSynthesizer PCM format is pcmFormatInt16
     // it must be convert to .pcmFormatFloat32 if use pcmFormatInt16 to crash
     // ref: https://developer.apple.com/forums/thread/27674
@@ -265,7 +273,7 @@ extension Player {
       self.synthesizer.stopSpeaking(at: .word)
 
       if let remainingText = _remainingText {
-        self.speak(text: remainingText)
+        self.play(text: remainingText)
       }
     }
   }
