@@ -34,11 +34,11 @@ struct PlayerBar: View {
 
         if player.isPlaying {
           Button {
-            analytics.logEvent("player_bar_stop_button_pressed", parameters: ["article_id": String(describing: article.id)])
+            analytics.logEvent("player_bar_pause_button_pressed", parameters: ["article_id": String(describing: article.id)])
 
-            player.stop()
+            player.pause()
           } label: {
-            Image(systemName: "stop.fill")
+            Image(systemName: "pause.fill")
               .padding()
           }
         } else {

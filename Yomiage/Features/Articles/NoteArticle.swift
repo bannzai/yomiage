@@ -35,11 +35,11 @@ struct NoteArticle: View {
           playButton: {
             if let playerTargetArticle = player.targetArticle, playerTargetArticle == article, player.isPlaying {
               Button {
-                analytics.logEvent("note_article_stop_play", parameters: ["article_id": String(describing: article.id)])
+                analytics.logEvent("note_article_pause_play", parameters: ["article_id": String(describing: article.id)])
 
-                player.stop()
+                player.pause()
               } label: {
-                Image(systemName: "stop.fill")
+                Image(systemName: "pause.fill")
                   .frame(width: 14, height: 14)
                   .foregroundColor(.label)
                   .padding()
