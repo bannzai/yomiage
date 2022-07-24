@@ -93,7 +93,8 @@ final class Player: NSObject, ObservableObject {
   }
 
   func stop() {
-    reset()
+    stopAudioComponents()
+    clearAllTemporaryPlayingProgressState()
   }
 
   func backword() async {
@@ -101,7 +102,8 @@ final class Player: NSObject, ObservableObject {
       return
     }
 
-    reset()
+    stopAudioComponents()
+    clearAllTemporaryPlayingProgressState()
     await start(article: previousArticle)
   }
 
@@ -110,7 +112,8 @@ final class Player: NSObject, ObservableObject {
       return
     }
 
-    reset()
+    stopAudioComponents()
+    clearAllTemporaryPlayingProgressState()
     await start(article: nextArticle)
   }
 
@@ -179,7 +182,8 @@ extension Player {
        read(file: readOnlyFile, into: cachedPCMBuffer) {
       play(pcmBuffer: cachedPCMBuffer) { [weak self] in
         DispatchQueue.main.async {
-          self?.reset()
+          self?.stopAudioComponents()
+          self?.clearAllTemporaryPlayingProgressState()
         }
       }
     } else {
@@ -304,6 +308,7 @@ extension Player {
   }
 
   private func clearPlayingState() {
+    playingArticle = nil
     MPNowPlayingInfoCenter.default().nowPlayingInfo = nil
   }
 

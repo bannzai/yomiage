@@ -33,7 +33,7 @@ struct PlayerBar: View {
         Spacer()
 
         Button {
-          analytics.logEvent("player_bar_play_button_pressed", parameters: ["article_id": String(describing: article.id)])
+          analytics.logEvent("player_bar_stop_button_pressed", parameters: ["article_id": String(describing: article.id)])
 
           player.stop()
         } label: {
