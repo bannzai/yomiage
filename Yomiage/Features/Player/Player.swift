@@ -31,7 +31,6 @@ final class Player: NSObject, ObservableObject {
   private let playerNode = AVAudioPlayerNode()
 
   // Temporary state on playing article
-  // To clear all together, call`clearAllTemporaryPlayingProgressState()`
   // It is not contains targetArticle because keep last played article and displyaing and possible to replay it on `remote control center`, `PlayerBar`
   private var progress: Progress?
   private var writingAudioFile: AVAudioFile?
@@ -102,7 +101,6 @@ final class Player: NSObject, ObservableObject {
 
   func pause() {
     pauseAudioComponents()
-    clearAllTemporaryPlayingProgressState()
     paused = ()
   }
 
@@ -112,7 +110,6 @@ final class Player: NSObject, ObservableObject {
     }
 
     pauseAudioComponents()
-    clearAllTemporaryPlayingProgressState()
     await start(article: previousArticle)
   }
 
@@ -122,7 +119,6 @@ final class Player: NSObject, ObservableObject {
     }
 
     pauseAudioComponents()
-    clearAllTemporaryPlayingProgressState()
     await start(article: nextArticle)
   }
 
@@ -192,7 +188,6 @@ extension Player {
       speak(pcmBuffer: cachedPCMBuffer) { [weak self] in
         DispatchQueue.main.async {
           self?.pauseAudioComponents()
-          self?.clearAllTemporaryPlayingProgressState()
         }
       }
     } else {
@@ -319,11 +314,6 @@ extension Player {
     targetArticle = nil
     MPNowPlayingInfoCenter.default().nowPlayingInfo = nil
   }
-
-  private func clearAllTemporaryPlayingProgressState() {
-    progress = nil
-    writingAudioFile = nil
-  }
 }
 
 extension Player: AVAudioPlayerDelegate {
@@ -370,7 +360,6 @@ extension Player: AVSpeechSynthesizerDelegate {
     }
 
     pauseAudioComponents()
-    clearAllTemporaryPlayingProgressState()
   }
   func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didCancel utterance: AVSpeechUtterance) {
     print(#function)
