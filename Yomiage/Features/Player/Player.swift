@@ -86,6 +86,7 @@ final class Player: NSObject, ObservableObject {
       MPMediaItemPropertyTitle: title,
       MPNowPlayingInfoPropertyPlaybackRate: rate
     ]
+    MPNowPlayingInfoCenter.default().playbackState = .playing
   }
 
   func stop() {
@@ -285,7 +286,9 @@ final class Player: NSObject, ObservableObject {
     progress = nil
     playingArticle = nil
     writingAudioFile = nil
+
     MPNowPlayingInfoCenter.default().nowPlayingInfo = nil
+    MPNowPlayingInfoCenter.default().playbackState = .stopped
   }
 }
 
