@@ -309,11 +309,6 @@ extension Player {
       playerNode.pause()
     }
   }
-
-  private func clearPlayingState() {
-    targetArticle = nil
-    MPNowPlayingInfoCenter.default().nowPlayingInfo = nil
-  }
 }
 
 extension Player: AVAudioPlayerDelegate {
