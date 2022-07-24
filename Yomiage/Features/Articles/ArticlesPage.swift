@@ -106,18 +106,17 @@ struct ArticlesPage: View {
             }
           }
         })
-        .onAppear {
-          articles.forEach { article in
-            if !player.allArticle.contains(article) {
-              player.allArticle.append(article)
-            }
-          }
-        }
       }
     } errorContent: { error, reload in
       UniversalErrorView(error: error, reload: reload)
     } loading: {
       ProgressView()
+    } onListen: { articles in
+      articles.forEach { article in
+        if !player.allArticle.contains(article) {
+          player.allArticle.append(article)
+        }
+      }
     }
     .sheet(isPresented: $playerSettingSheetIsPresented, detents: [.medium()]) {
       PlayerSettingSheet()
