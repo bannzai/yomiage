@@ -100,7 +100,6 @@ final class Player: NSObject, ObservableObject {
 
   func pause() {
     pauseAudioComponents()
-    paused = ()
   }
 
   func backword() async {
@@ -300,6 +299,7 @@ extension Player {
     if playerNode.isPlaying {
       playerNode.pause()
     }
+    paused = ()
   }
 
   private func stopAudioComponents() {
