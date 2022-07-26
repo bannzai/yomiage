@@ -124,6 +124,7 @@ final class Player: NSObject, ObservableObject {
 
   func setupRemoteTransportControls() {
     MPRemoteCommandCenter.shared().playCommand.addTarget { [self] event in
+      print("#playCommand", "isPlaying: \(isPlaying)")
       if isPlaying {
         return .commandFailed
       }
@@ -132,6 +133,7 @@ final class Player: NSObject, ObservableObject {
       return .success
     }
     MPRemoteCommandCenter.shared().pauseCommand.addTarget { [self] event in
+      print("#pauseCommand", "isPlaying: \(isPlaying)")
       if !isPlaying {
         return .commandFailed
       }
@@ -140,6 +142,7 @@ final class Player: NSObject, ObservableObject {
       return .success
     }
     MPRemoteCommandCenter.shared().nextTrackCommand.addTarget { [self] event in
+      print("#nextTrackCommand", "nextArticle: \(String(describing: nextArticle()))")
       guard let _ = nextArticle() else {
         return .commandFailed
       }
@@ -149,6 +152,7 @@ final class Player: NSObject, ObservableObject {
       return .success
     }
     MPRemoteCommandCenter.shared().previousTrackCommand.addTarget { [self] event in
+      print("#previousTrackCommand", "previousArticle: \(String(describing: previousArticle()))")
       guard let _ = previousArticle() else {
         return .commandFailed
       }
@@ -266,10 +270,14 @@ extension Player {
   }
 
   private func replayAudioComponent() {
-    guard let remainingText = progress?.remainingText else {
-      return
+    do {
+      synthesizer.continueSpeaking()
+      try audioEngine.start()
+      playerNode.play()
+    } catch {
+      // Ignore error
+      print(error)
     }
-    play(text: remainingText)
   }
 
   private func pauseAudioComponents() {
@@ -283,6 +291,15 @@ extension Player {
     if playerNode.isPlaying {
       playerNode.pause()
     }
+  }
+
+  private func stopAudioComponents() {
+    // NOTE: syntesizer is broken when call synthesizer.stopSpeaking when synthesizer is not speaking
+    if synthesizer.isSpeaking || synthesizer.isPaused {
+      synthesizer.stopSpeaking(at: .immediate)
+    }
+    audioEngine.stop()
+    playerNode.stop()
   }
 }
 
