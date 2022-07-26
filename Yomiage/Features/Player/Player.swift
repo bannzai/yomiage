@@ -123,37 +123,37 @@ final class Player: NSObject, ObservableObject {
   }
 
   func setupRemoteTransportControls() {
-    MPRemoteCommandCenter.shared().playCommand.addTarget { event in
-      if !self.synthesizer.isPaused {
+    MPRemoteCommandCenter.shared().playCommand.addTarget { [self] event in
+      if isPlaying {
         return .commandFailed
       }
 
-      self.synthesizer.continueSpeaking()
+      pauseAudioComponents()
       return .success
     }
-    MPRemoteCommandCenter.shared().pauseCommand.addTarget { event in
-      if self.synthesizer.isPaused {
+    MPRemoteCommandCenter.shared().pauseCommand.addTarget { [self] event in
+      if !isPlaying {
         return .commandFailed
       }
 
-      self.synthesizer.pauseSpeaking(at: .immediate)
+      pauseAudioComponents()
       return .success
     }
-    MPRemoteCommandCenter.shared().nextTrackCommand.addTarget { event in
-      guard let _ = self.nextArticle() else {
+    MPRemoteCommandCenter.shared().nextTrackCommand.addTarget { [self] event in
+      guard let _ = nextArticle() else {
         return .commandFailed
       }
       Task { @MainActor in
-        await self.forward()
+        await forward()
       }
       return .success
     }
-    MPRemoteCommandCenter.shared().previousTrackCommand.addTarget { event in
-      guard let _ = self.previousArticle() else {
+    MPRemoteCommandCenter.shared().previousTrackCommand.addTarget { [self] event in
+      guard let _ = previousArticle() else {
         return .commandFailed
       }
       Task { @MainActor in
-        await self.backword()
+        await backword()
       }
       return .success
     }
