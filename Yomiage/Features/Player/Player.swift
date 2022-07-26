@@ -128,7 +128,7 @@ final class Player: NSObject, ObservableObject {
         return .commandFailed
       }
 
-      pauseAudioComponents()
+      replayAudioComponent()
       return .success
     }
     MPRemoteCommandCenter.shared().pauseCommand.addTarget { [self] event in
@@ -294,7 +294,12 @@ extension Player {
     return allArticle[index + 1]
   }
 
-  private func replayAudioComponent() {}
+  private func replayAudioComponent() {
+    guard let remainingText = progress?.remainingText else {
+      return
+    }
+    play(text: remainingText)
+  }
 
   private func pauseAudioComponents() {
     // NOTE: syntesizer is broken when call synthesizer.stopSpeaking when synthesizer is not speaking
