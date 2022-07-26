@@ -182,33 +182,21 @@ extension Player {
         return false
       }
     }
-    if let readOnlyFile = try? AVAudioFile(forReading: cachedAudioFileURL(targetArticleID: targetArticleID), commonFormat: .pcmFormatInt16, interleaved: false),
-       let cachedPCMBuffer = AVAudioPCMBuffer(pcmFormat: readOnlyFile.processingFormat, frameCapacity: AVAudioFrameCount(readOnlyFile.length)),
-       read(file: readOnlyFile, into: cachedPCMBuffer) {
-      speak(pcmBuffer: cachedPCMBuffer) { [weak self] in
-        DispatchQueue.main.async {
-          self?.pauseAudioComponents()
-        }
+    //     TODO: Call speak if cache is exists
+    //        speakFromCache(targetArticleID: targetArticleID)
+    synthesizer.write(utterance) { [weak self] buffer in
+      guard let pcmBuffer = buffer as? AVAudioPCMBuffer else {
+        return
       }
-    } else {
-      synthesizer.write(utterance) { [weak self] buffer in
-        guard let pcmBuffer = buffer as? AVAudioPCMBuffer else {
-          return
-        }
-        if pcmBuffer.frameLength == 0 {
-          return
-        }
-
-        self?.speak(pcmBuffer: pcmBuffer, completionHandler: nil)
-        self?.spoken = ()
-
-        do {
-          try self?.proceedWriteCache(targetArticleID: targetArticleID, into: pcmBuffer)
-        } catch {
-          // Ignore error
-          print(error)
-        }
+      if pcmBuffer.frameLength == 0 {
+        return
       }
+
+      self?.speak(pcmBuffer: pcmBuffer, completionHandler: nil)
+      self?.spoken = ()
+
+      //         TODO: Call write cache
+      //        try self?.proceedWriteCache(targetArticleID: targetArticleID, into: pcmBuffer)
     }
   }
 
