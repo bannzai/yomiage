@@ -241,9 +241,9 @@ extension Player {
   }
 
   private func reloadWhenUpdatedPlayerSetting() {
-    // NOTE: After update @Published property(volume,rate,pitch), other @Published property cannot be updated. So should run to the next run loop.
+    // NOTE: 対象となる@Publishedなプロパティ(volume,rate,pitch)の更新はobjectWillChangeのタイミングで行われる。なので、更新後の値をプロパティアクセスからは取得できない。次のRunLoopで処理でプロパティアクセスするようにすることで更新後の値が取得できる
     DispatchQueue.main.async { [self] in
-      // NOTE: Keep vlaue for avoid flushing after synthesizer.stopSpeaking -> speechSynthesizer(:didCancel).
+      // NOTE: 各関数の副作用の影響を受けないタイミングで、残りのテキストを一時変数に保持している
       let _remainingText = progress?.remainingText
 
       stopAudioComponents()
@@ -375,7 +375,8 @@ extension Player: AVSpeechSynthesizerDelegate {
   }
 }
 
-// TODO: Cache
+// TODO: Cacheの見直し。今まではplayやdidFinish等のタイミングで書き込んでいたが、そこに組み込むのは難しい。なのでダウンロードボタンを別途設けてこの機能たちを使っていく
+// TODO: v1 -> v2
 // MARK: - Cache
 //extension Player {
 //  func speakFromCache(targetArticleID: String) {
