@@ -14,6 +14,7 @@ final class Player: NSObject, ObservableObject {
   @Published var error: Error?
 
   // @Published state for Player events
+  // Update View for each timing
   @Published private(set) var spoken: Void = ()
   @Published private(set) var paused: Void = ()
 
