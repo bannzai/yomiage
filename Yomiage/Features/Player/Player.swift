@@ -298,6 +298,8 @@ extension Player {
     return allArticle[index + 1]
   }
 
+  private func replayAudioComponent() {}
+
   private func pauseAudioComponents() {
     if synthesizer.isSpeaking {
       synthesizer.pauseSpeaking(at: .immediate)
