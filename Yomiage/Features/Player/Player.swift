@@ -328,20 +328,8 @@ extension Player: AVSpeechSynthesizerDelegate {
   func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didFinish utterance: AVSpeechUtterance) {
     print(#function)
 
-    // Migrate temporary file to cache file when did finish speech
-    do {
-      if let targetArticleID = targetArticle?.id,
-         let wroteAudioFile = try? AVAudioFile(forReading: writingAudioFileURL(targetArticleID: targetArticleID), commonFormat: .pcmFormatInt16, interleaved: false),
-         let cachedPCMBuffer = AVAudioPCMBuffer(pcmFormat: wroteAudioFile.processingFormat, frameCapacity: AVAudioFrameCount(wroteAudioFile.length)) {
-        try wroteAudioFile.read(into: cachedPCMBuffer)
-
-        let cachedAudioFile = try AVAudioFile(forWriting: cachedAudioFileURL(targetArticleID: targetArticleID), settings: cachedPCMBuffer.format.settings, commonFormat: .pcmFormatInt16, interleaved: false)
-        try cachedAudioFile.write(from: cachedPCMBuffer)
-      }
-    } catch {
-      // Ignore error
-      print(error)
-    }
+//     TODO: Migrate Cache
+//    migrateCache()
 
     pauseAudioComponents()
   }
@@ -375,46 +363,62 @@ extension Player: AVSpeechSynthesizerDelegate {
   }
 }
 
-// TODO: Cache
-//// MARK: - Cache
-//extension Player {
-//  func speakFromCache(targetArticleID: String) {
-//    if let readOnlyFile = try? AVAudioFile(forReading: cachedAudioFileURL(targetArticleID: targetArticleID), commonFormat: .pcmFormatInt16, interleaved: false),
-//       let cachedPCMBuffer = AVAudioPCMBuffer(pcmFormat: readOnlyFile.processingFormat, frameCapacity: AVAudioFrameCount(readOnlyFile.length)),
-//       readCache(file: readOnlyFile, into: cachedPCMBuffer) {
-//      speak(pcmBuffer: cachedPCMBuffer) { [weak self] in
-//        DispatchQueue.main.async {
-//          self?.pauseAudioComponents()
-//        }
-//      }
-//    }
-//  }
-//
-//  func proceedWriteCache(targetArticleID: String, into pcmBuffer: AVAudioPCMBuffer) throws {
-//    if writingAudioFile == nil {
-//      writingAudioFile = try AVAudioFile(forWriting: writingAudioFileURL(targetArticleID: targetArticleID), settings: pcmBuffer.format.settings, commonFormat: .pcmFormatInt16, interleaved: false)
-//    }
-//    try writingAudioFile?.write(from: pcmBuffer)
-//  }
-//
-//  func readCache(file: AVAudioFile, into buffer: AVAudioPCMBuffer) -> Bool {
-//    do {
-//      try file.read(into: buffer)
-//      return true
-//    } catch {
-//      // Ignore error
-//      print(error)
-//      return false
-//    }
-//  }
-//
-//  private func cachedAudioFileURL(targetArticleID: String) -> URL {
-//    let cacheDir = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask)[0]
-//    return cacheDir.appendingPathComponent("v1-cached-\(targetArticleID)")
-//  }
-//
-//  private func writingAudioFileURL(targetArticleID: String) -> URL {
-//    let tmpDir = URL(string: NSTemporaryDirectory())!
-//    return tmpDir.appendingPathComponent("v1-writing-\(targetArticleID)")
-//  }
-//}
+// MARK: - Cache
+extension Player {
+  func speakFromCache(targetArticleID: String) {
+    if let readOnlyFile = try? AVAudioFile(forReading: cachedAudioFileURL(targetArticleID: targetArticleID), commonFormat: .pcmFormatInt16, interleaved: false),
+       let cachedPCMBuffer = AVAudioPCMBuffer(pcmFormat: readOnlyFile.processingFormat, frameCapacity: AVAudioFrameCount(readOnlyFile.length)),
+       readCache(file: readOnlyFile, into: cachedPCMBuffer) {
+      speak(pcmBuffer: cachedPCMBuffer) { [weak self] in
+        DispatchQueue.main.async {
+          self?.pauseAudioComponents()
+        }
+      }
+    }
+  }
+
+  func proceedWriteCache(targetArticleID: String, into pcmBuffer: AVAudioPCMBuffer) throws {
+    if writingAudioFile == nil {
+      writingAudioFile = try AVAudioFile(forWriting: writingAudioFileURL(targetArticleID: targetArticleID), settings: pcmBuffer.format.settings, commonFormat: .pcmFormatInt16, interleaved: false)
+    }
+    try writingAudioFile?.write(from: pcmBuffer)
+  }
+  
+  func readCache(file: AVAudioFile, into buffer: AVAudioPCMBuffer) -> Bool {
+    do {
+      try file.read(into: buffer)
+      return true
+    } catch {
+      // Ignore error
+      print(error)
+      return false
+    }
+  }
+
+  func migrateCache() {
+    // Migrate temporary file to cache file when did finish speech
+    do {
+      if let targetArticleID = targetArticle?.id,
+         let wroteAudioFile = try? AVAudioFile(forReading: writingAudioFileURL(targetArticleID: targetArticleID), commonFormat: .pcmFormatInt16, interleaved: false),
+         let cachedPCMBuffer = AVAudioPCMBuffer(pcmFormat: wroteAudioFile.processingFormat, frameCapacity: AVAudioFrameCount(wroteAudioFile.length)) {
+        try wroteAudioFile.read(into: cachedPCMBuffer)
+
+        let cachedAudioFile = try AVAudioFile(forWriting: cachedAudioFileURL(targetArticleID: targetArticleID), settings: cachedPCMBuffer.format.settings, commonFormat: .pcmFormatInt16, interleaved: false)
+        try cachedAudioFile.write(from: cachedPCMBuffer)
+      }
+    } catch {
+      // Ignore error
+      print(error)
+    }
+  }
+
+  private func cachedAudioFileURL(targetArticleID: String) -> URL {
+    let cacheDir = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask)[0]
+    return cacheDir.appendingPathComponent("v1-cached-\(targetArticleID)")
+  }
+
+  private func writingAudioFileURL(targetArticleID: String) -> URL {
+    let tmpDir = URL(string: NSTemporaryDirectory())!
+    return tmpDir.appendingPathComponent("v1-writing-\(targetArticleID)")
+  }
+}
