@@ -47,21 +47,21 @@ final class Player: NSObject, ObservableObject {
       .sink { [weak self] volume in
         UserDefaults.standard.set(volume, forKey: UserDefaultsKeys.playerVolume)
 
-        self?.reloadWhenUpdatedProperty()
+        self?.reloadWhenUpdatedPlayerSetting()
       }.store(in: &canceller)
     $rate
       .debounce(for: 0.5, scheduler: DispatchQueue.main)
       .sink { [weak self] rate in
         UserDefaults.standard.set(rate, forKey: UserDefaultsKeys.playerRate)
 
-        self?.reloadWhenUpdatedProperty()
+        self?.reloadWhenUpdatedPlayerSetting()
       }.store(in: &canceller)
     $pitch
       .debounce(for: 0.5, scheduler: DispatchQueue.main)
       .sink { [weak self] pitch in
         UserDefaults.standard.set(pitch, forKey: UserDefaultsKeys.playerPitch)
 
-        self?.reloadWhenUpdatedProperty()
+        self?.reloadWhenUpdatedPlayerSetting()
       }.store(in: &canceller)
 
     synthesizer.delegate = self
@@ -256,18 +256,14 @@ extension Player {
     ]
   }
 
-  private func reloadWhenUpdatedProperty() {
+  private func reloadWhenUpdatedPlayerSetting() {
     // NOTE: After update @Published property(volume,rate,pitch), other @Published property cannot be updated. So should run to the next run loop.
     DispatchQueue.main.async {
       // NOTE: Keep vlaue for avoid flushing after synthesizer.stopSpeaking -> speechSynthesizer(:didCancel).
       let _remainingText = self.progress?.remainingText
 
-      // NOTE: syntesizer is broken when call synthesizer.stopSpeaking when synthesizer is not speaking
-      guard self.synthesizer.isSpeaking else {
-        return
-      }
-      self.synthesizer.stopSpeaking(at: .word)
-
+      pauseAudioComponents()
+      
       if let remainingText = _remainingText {
         self.play(text: remainingText)
       }
@@ -301,6 +297,7 @@ extension Player {
   private func replayAudioComponent() {}
 
   private func pauseAudioComponents() {
+    // NOTE: syntesizer is broken when call synthesizer.stopSpeaking when synthesizer is not speaking
     if synthesizer.isSpeaking {
       synthesizer.pauseSpeaking(at: .immediate)
     }
