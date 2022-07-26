@@ -163,10 +163,6 @@ final class Player: NSObject, ObservableObject {
 extension Player {
 // MARK: - Private
   private func play(text: String) {
-    guard let targetArticleID = targetArticle?.id else {
-      return
-    }
-
     let utterance = AVSpeechUtterance(string: text)
     utterance.volume = volume
     utterance.rate = rate
