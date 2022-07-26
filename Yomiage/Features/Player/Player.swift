@@ -258,14 +258,14 @@ extension Player {
 
   private func reloadWhenUpdatedPlayerSetting() {
     // NOTE: After update @Published property(volume,rate,pitch), other @Published property cannot be updated. So should run to the next run loop.
-    DispatchQueue.main.async {
+    DispatchQueue.main.async { [self] in
       // NOTE: Keep vlaue for avoid flushing after synthesizer.stopSpeaking -> speechSynthesizer(:didCancel).
-      let _remainingText = self.progress?.remainingText
+      let _remainingText = progress?.remainingText
 
       pauseAudioComponents()
-      
+
       if let remainingText = _remainingText {
-        self.play(text: remainingText)
+        play(text: remainingText)
       }
     }
   }
