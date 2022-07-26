@@ -168,16 +168,6 @@ extension Player {
     utterance.rate = rate
     utterance.pitchMultiplier = pitch
 
-    func read(file: AVAudioFile, into buffer: AVAudioPCMBuffer) -> Bool {
-      do {
-        try file.read(into: buffer)
-        return true
-      } catch {
-        // Ignore error
-        print(error)
-        return false
-      }
-    }
     //     TODO: Call speak if cache is exists
     //        speakFromCache(targetArticleID: targetArticleID)
     synthesizer.write(utterance) { [weak self] buffer in
