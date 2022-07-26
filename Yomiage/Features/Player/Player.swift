@@ -66,9 +66,7 @@ final class Player: NSObject, ObservableObject {
       }.store(in: &canceller)
 
     synthesizer.delegate = self
-
     resetAudioEngine()
-
     setupRemoteTransportControls()
   }
 
