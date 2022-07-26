@@ -66,9 +66,7 @@ final class Player: NSObject, ObservableObject {
 
     synthesizer.delegate = self
 
-    audioEngine.attach(playerNode)
-    audioEngine.connect(playerNode, to: audioEngine.mainMixerNode, format: Const.outputAudioFormat)
-    audioEngine.prepare()
+    resetAudioEngine()
 
     setupRemoteTransportControls()
   }
@@ -91,8 +89,9 @@ final class Player: NSObject, ObservableObject {
       }
 
       targetArticle = article
-
       configurePlayingCenter(title: title)
+      stopAudioComponents()
+      resetAudioEngine()
       play(text: body)
     } catch {
       self.error = error
@@ -120,6 +119,15 @@ final class Player: NSObject, ObservableObject {
 
     pauseAudioComponents()
     await start(article: nextArticle)
+  }
+
+  func resetAudioEngine() {
+    playerNode.reset()
+    audioEngine.reset()
+
+    audioEngine.attach(playerNode)
+    audioEngine.connect(playerNode, to: audioEngine.mainMixerNode, format: Const.outputAudioFormat)
+    audioEngine.prepare()
   }
 
   func setupRemoteTransportControls() {
