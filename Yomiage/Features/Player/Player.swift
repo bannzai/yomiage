@@ -262,7 +262,7 @@ extension Player {
       // NOTE: Keep vlaue for avoid flushing after synthesizer.stopSpeaking -> speechSynthesizer(:didCancel).
       let _remainingText = self.progress?.remainingText
 
-      // NOTE: call synthesizer.speak is not speaking and is broken synthesizer when synthesizer.isSpeaking
+      // NOTE: syntesizer is broken when call synthesizer.stopSpeaking when synthesizer is not speaking
       guard self.synthesizer.isSpeaking else {
         return
       }
