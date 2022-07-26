@@ -245,7 +245,7 @@ extension Player {
       // NOTE: Keep vlaue for avoid flushing after synthesizer.stopSpeaking -> speechSynthesizer(:didCancel).
       let _remainingText = progress?.remainingText
 
-      pauseAudioComponents()
+      stopAudioComponents()
 
       if let remainingText = _remainingText {
         play(text: remainingText)
