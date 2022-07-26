@@ -174,6 +174,7 @@ final class Player: NSObject, ObservableObject {
 
 extension Player {
 // MARK: - Private
+  // NOTE: synthesizer.writeを呼び出す前に必ずsynthesizerは止まっている(!isPlaying && !isPaused)必要がある
   private func play(text: String) {
     let utterance = AVSpeechUtterance(string: text)
     utterance.volume = volume
@@ -201,7 +202,7 @@ extension Player {
   // Ref: https://stackoverflow.com/questions/56999334/boost-increase-volume-of-text-to-speech-avspeechutterance-to-make-it-louder
   private func speak(pcmBuffer: AVAudioPCMBuffer, completionHandler: (() -> Void)?) {
     // NOTE: SpeechSynthesizer PCM format is pcmFormatInt16
-    // it must be convert to .pcmFormatFloat32 if use pcmFormatInt16 to crash
+    // it must be convert to .pcmFormatFloat32 if use pcmFormatInt16
     // ref: https://developer.apple.com/forums/thread/27674
     let converter = AVAudioConverter(
       from: AVAudioFormat(
