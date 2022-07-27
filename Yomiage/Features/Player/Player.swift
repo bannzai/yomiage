@@ -39,6 +39,7 @@ final class Player: NSObject, ObservableObject {
     playerNode.isPlaying
   }
 
+
   override init() {
     super.init()
 
@@ -70,6 +71,14 @@ final class Player: NSObject, ObservableObject {
   }
 
   @MainActor func start(article: Article) async {
+    if targetArticle == article {
+      let targetArticleIsInProgress = progress != nil
+      if targetArticleIsInProgress {
+        replayAudioComponent()
+        return
+      }
+    }
+
     guard let pageURL = URL(string: article.pageURL), let kind = article.kindWithValue else {
       return
     }
