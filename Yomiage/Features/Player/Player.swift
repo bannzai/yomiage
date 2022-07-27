@@ -342,11 +342,15 @@ extension Player: AVSpeechSynthesizerDelegate {
 //     TODO: Migrate Cache
 //    migrateCache()
 
-    pauseAudioComponents()
+    stopAudioComponents()
+    targetArticle = nil
+    progress = nil
   }
   func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didCancel utterance: AVSpeechUtterance) {
     print(#function)
 
+    stopAudioComponents()
+    targetArticle = nil
     progress = nil
   }
 
