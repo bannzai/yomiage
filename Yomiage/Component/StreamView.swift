@@ -12,6 +12,7 @@ struct StreamView<Data, Loading: View, Error: View, Content: View>: View {
   @ViewBuilder let content: (Data) -> Content
   @ViewBuilder let errorContent: (_ error: Swift.Error, _ reload: @escaping ReloadStreamHandler) -> Error
   @ViewBuilder let loading: () -> Loading
+  var onListen: ((Data) -> Void)?
 
   var body: some View {
     Group {
@@ -38,6 +39,7 @@ struct StreamView<Data, Loading: View, Error: View, Content: View>: View {
     do {
       for try await data in stream {
         self.data = data
+        onListen?(data)
 
         if isLoading {
           isLoading = false

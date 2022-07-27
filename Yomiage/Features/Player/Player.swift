@@ -4,22 +4,41 @@ import AVFoundation
 import MediaPlayer
 
 final class Player: NSObject, ObservableObject {
+  // @Published state for audio controls
   @Published var volume = UserDefaults.standard.float(forKey: UserDefaultsKeys.playerVolume)
   @Published var rate = UserDefaults.standard.float(forKey: UserDefaultsKeys.playerRate)
   @Published var pitch = UserDefaults.standard.float(forKey: UserDefaultsKeys.playerPitch)
 
-  var allArticle: [Article] = []
-  @Published private(set) var playingArticle: Article?
+  // @Published state for database entity
+  @Published private(set) var targetArticle: Article?
   @Published var error: Error?
 
+  // @Published state for Player events
+  // Update View for each timing
+  @Published private(set) var spoken: Void = ()
+  @Published private(set) var paused: Void = ()
+
+  // Non @Published statuses
+  var allArticle: [Article] = []
+  private var canceller: Set<AnyCancellable> = []
+
+  private enum Const {
+    static let outputAudioFormat = AVAudioFormat(commonFormat: .pcmFormatFloat32, sampleRate: 22050, channels: 1, interleaved: false)!
+  }
+
+  // Audio Player components
+  private let synthesizer = AVSpeechSynthesizer()
   private let audioEngine = AVAudioEngine()
   private let playerNode = AVAudioPlayerNode()
-  private let outputAudioFormat = AVAudioFormat(commonFormat: .pcmFormatFloat32, sampleRate: 22050, channels: 1, interleaved: false)!
-  private let synthesizer = AVSpeechSynthesizer()
 
-  private var canceller: Set<AnyCancellable> = []
+  // Temporary state on playing article
   private var progress: Progress?
   private var writingAudioFile: AVAudioFile?
+
+  var isPlaying: Bool {
+    playerNode.isPlaying
+  }
+
 
   override init() {
     super.init()
@@ -29,33 +48,37 @@ final class Player: NSObject, ObservableObject {
       .sink { [weak self] volume in
         UserDefaults.standard.set(volume, forKey: UserDefaultsKeys.playerVolume)
 
-        self?.reflectProperty()
+        self?.reloadWhenUpdatedPlayerSetting()
       }.store(in: &canceller)
     $rate
       .debounce(for: 0.5, scheduler: DispatchQueue.main)
       .sink { [weak self] rate in
         UserDefaults.standard.set(rate, forKey: UserDefaultsKeys.playerRate)
 
-        self?.reflectProperty()
+        self?.reloadWhenUpdatedPlayerSetting()
       }.store(in: &canceller)
     $pitch
       .debounce(for: 0.5, scheduler: DispatchQueue.main)
       .sink { [weak self] pitch in
         UserDefaults.standard.set(pitch, forKey: UserDefaultsKeys.playerPitch)
 
-        self?.reflectProperty()
+        self?.reloadWhenUpdatedPlayerSetting()
       }.store(in: &canceller)
 
     synthesizer.delegate = self
-
-    audioEngine.attach(playerNode)
-    audioEngine.connect(playerNode, to: audioEngine.mainMixerNode, format: outputAudioFormat)
-    audioEngine.prepare()
-
+    resetAudioEngine()
     setupRemoteTransportControls()
   }
 
   @MainActor func start(article: Article) async {
+    if targetArticle == article {
+      let targetArticleIsInProgress = progress != nil
+      if targetArticleIsInProgress {
+        replayAudioComponent()
+        return
+      }
+    }
+
     guard let pageURL = URL(string: article.pageURL), let kind = article.kindWithValue else {
       return
     }
@@ -72,156 +95,120 @@ final class Player: NSObject, ObservableObject {
         body = try await loadMediumBody(url: pageURL)
       }
 
-      playingArticle = article
-
+      targetArticle = article
       configurePlayingCenter(title: title)
-      speak(text: body)
+      stopAudioComponents()
+      resetAudioEngine()
+      play(text: body)
     } catch {
       self.error = error
     }
   }
 
-  func configurePlayingCenter(title: String) {
-    MPNowPlayingInfoCenter.default().nowPlayingInfo = [
-      MPMediaItemPropertyTitle: title,
-      MPNowPlayingInfoPropertyPlaybackRate: rate
-    ]
+  func pause() {
+    pauseAudioComponents()
   }
 
-  func stop() {
-    reset()
-  }
-
-  func backword(previousArticle: Article) async {
-    reset()
-
-    await start(article: previousArticle)
-  }
-
-  func forward(nextArticle: Article) async {
-    reset()
-
-    await start(article: nextArticle)
-  }
-
-  func previousArticle() -> Article? {
-    guard
-      let playingArticle = playingArticle,
-      let index = allArticle.firstIndex(of: playingArticle),
-      index > 0
-    else {
-      return nil
-    }
-
-    return allArticle[index - 1]
-  }
-
-  func nextArticle() -> Article? {
-    guard
-      let playingArticle = playingArticle,
-      let index = allArticle.firstIndex(of: playingArticle),
-      allArticle.count > index + 1
-    else {
-      return nil
-    }
-
-    return allArticle[index + 1]
-  }
-
-  func setupRemoteTransportControls() {
-    MPRemoteCommandCenter.shared().playCommand.addTarget { event in
-      if !self.synthesizer.isPaused {
-        return .commandFailed
-      }
-
-      self.synthesizer.continueSpeaking()
-      return .success
-    }
-    MPRemoteCommandCenter.shared().pauseCommand.addTarget { event in
-      if self.synthesizer.isPaused {
-        return .commandFailed
-      }
-
-      self.synthesizer.pauseSpeaking(at: .immediate)
-      return .success
-    }
-    MPRemoteCommandCenter.shared().nextTrackCommand.addTarget { event in
-      guard let nextArticle = self.nextArticle() else {
-        return .commandFailed
-      }
-      Task { @MainActor in
-        await self.forward(nextArticle: nextArticle)
-      }
-      return .success
-    }
-    MPRemoteCommandCenter.shared().previousTrackCommand.addTarget { event in
-      guard let previousArticle = self.previousArticle() else {
-        return .commandFailed
-      }
-      Task { @MainActor in
-        await self.backword(previousArticle: previousArticle)
-      }
-      return .success
-    }
-  }
-
-  // MARK: - Private
-  private func speak(text: String) {
-    guard let playingArticleID = playingArticle?.id else {
+  func backword() async {
+    guard let previousArticle = self.previousArticle() else {
       return
     }
 
+    pauseAudioComponents()
+    await start(article: previousArticle)
+  }
+
+  func forward() async {
+    guard let nextArticle = self.nextArticle() else {
+      return
+    }
+
+    pauseAudioComponents()
+    await start(article: nextArticle)
+  }
+
+  func resetAudioEngine() {
+    playerNode.reset()
+    audioEngine.reset()
+
+    audioEngine.attach(playerNode)
+    audioEngine.connect(playerNode, to: audioEngine.mainMixerNode, format: Const.outputAudioFormat)
+    audioEngine.prepare()
+  }
+
+  func setupRemoteTransportControls() {
+    MPRemoteCommandCenter.shared().playCommand.addTarget { [self] event in
+      print("#playCommand", "isPlaying: \(isPlaying)")
+      if isPlaying {
+        return .commandFailed
+      }
+
+      replayAudioComponent()
+      return .success
+    }
+    MPRemoteCommandCenter.shared().pauseCommand.addTarget { [self] event in
+      print("#pauseCommand", "isPlaying: \(isPlaying)")
+      if !isPlaying {
+        return .commandFailed
+      }
+
+      pauseAudioComponents()
+      return .success
+    }
+    MPRemoteCommandCenter.shared().nextTrackCommand.addTarget { [self] event in
+      print("#nextTrackCommand", "nextArticle: \(String(describing: nextArticle()))")
+      guard let _ = nextArticle() else {
+        return .commandFailed
+      }
+      Task { @MainActor in
+        await forward()
+      }
+      return .success
+    }
+    MPRemoteCommandCenter.shared().previousTrackCommand.addTarget { [self] event in
+      print("#previousTrackCommand", "previousArticle: \(String(describing: previousArticle()))")
+      guard let _ = previousArticle() else {
+        return .commandFailed
+      }
+      Task { @MainActor in
+        await backword()
+      }
+      return .success
+    }
+  }
+}
+
+extension Player {
+// MARK: - Private
+  // NOTE: synthesizer.writeを呼び出す前に必ずsynthesizerは止まっている(!isPlaying && !isPaused)必要がある => stopAudioComponentsを事前に呼び出す
+  private func play(text: String) {
     let utterance = AVSpeechUtterance(string: text)
     utterance.volume = volume
     utterance.rate = rate
     utterance.pitchMultiplier = pitch
 
-    func read(file: AVAudioFile, into buffer: AVAudioPCMBuffer) -> Bool {
-      do {
-        try file.read(into: buffer)
-        return true
-      } catch {
-        // Ignore error
-        print(error)
-        return false
+    //     TODO: Call speak if cache is exists
+    //        speakFromCache(targetArticleID: targetArticleID)
+    synthesizer.write(utterance) { [weak self] buffer in
+      guard let pcmBuffer = buffer as? AVAudioPCMBuffer else {
+        return
       }
-    }
-    if let readOnlyFile = try? AVAudioFile(forReading: cachedAudioFileURL(playingArticleID: playingArticleID), commonFormat: .pcmFormatInt16, interleaved: false),
-       let cachedPCMBuffer = AVAudioPCMBuffer(pcmFormat: readOnlyFile.processingFormat, frameCapacity: AVAudioFrameCount(readOnlyFile.length)),
-       read(file: readOnlyFile, into: cachedPCMBuffer) {
-      play(pcmBuffer: cachedPCMBuffer) { [weak self] in
-        DispatchQueue.main.async {
-          self?.reset()
-        }
+      if pcmBuffer.frameLength == 0 {
+        return
       }
-    } else {
-      synthesizer.write(utterance) { [weak self] buffer in
-        guard let pcmBuffer = buffer as? AVAudioPCMBuffer else {
-          return
-        }
-        if pcmBuffer.frameLength == 0 {
-          return
-        }
 
-        self?.play(pcmBuffer: pcmBuffer, completionHandler: nil)
+      self?.speak(pcmBuffer: pcmBuffer, completionHandler: nil)
+      self?.spoken = ()
 
-        do {
-          if self?.writingAudioFile == nil {
-            self?.writingAudioFile = try AVAudioFile(forWriting: writingAudioFileURL(playingArticleID: playingArticleID), settings: pcmBuffer.format.settings, commonFormat: .pcmFormatInt16, interleaved: false)
-          }
-          try self?.writingAudioFile?.write(from: pcmBuffer)
-        } catch {
-          // Ignore error
-          print(error)
-        }
-      }
+      //         TODO: Call write cache
+      //        try self?.proceedWriteCache(targetArticleID: targetArticleID, into: pcmBuffer)
     }
   }
 
   // Ref: https://stackoverflow.com/questions/56999334/boost-increase-volume-of-text-to-speech-avspeechutterance-to-make-it-louder
-  private func play(pcmBuffer: AVAudioPCMBuffer, completionHandler: (() -> Void)?) {
+  private func speak(pcmBuffer: AVAudioPCMBuffer, completionHandler: (() -> Void)?) {
     // NOTE: SpeechSynthesizer PCM format is pcmFormatInt16
-    // it must be convert to .pcmFormatFloat32 if use pcmFormatInt16 to crash
+    // it must be convert to .pcmFormatFloat32 if use pcmFormatInt16
     // ref: https://developer.apple.com/forums/thread/27674
     let converter = AVAudioConverter(
       from: AVAudioFormat(
@@ -230,62 +217,105 @@ final class Player: NSObject, ObservableObject {
         channels: 1,
         interleaved: false
       )!,
-      to: outputAudioFormat
+      to: Const.outputAudioFormat
     )
     let convertedBuffer = AVAudioPCMBuffer(
       pcmFormat: AVAudioFormat(
-        commonFormat: outputAudioFormat.commonFormat,
+        commonFormat: Const.outputAudioFormat.commonFormat,
         sampleRate: pcmBuffer.format.sampleRate,
         channels: pcmBuffer.format.channelCount,
         interleaved: false
       )!,
       frameCapacity: pcmBuffer.frameCapacity
     )!
-    try! converter?.convert(to: convertedBuffer, from: pcmBuffer)
-
-    playerNode.scheduleBuffer(convertedBuffer, at: nil, completionHandler: completionHandler)
 
     do {
+      try converter?.convert(to: convertedBuffer, from: pcmBuffer)
+      playerNode.scheduleBuffer(convertedBuffer, at: nil, completionHandler: completionHandler)
       try audioEngine.start()
+      playerNode.play()
     } catch {
       fatalError(error.localizedDescription)
     }
-    playerNode.play()
   }
 
-  private func reflectProperty() {
-    // NOTE: After update @Published property(volume,rate,pitch), other @Published property cannot be updated. So should run to the next run loop.
-    DispatchQueue.main.async {
-      // NOTE: Keep vlaue for avoid flushing after synthesizer.stopSpeaking -> speechSynthesizer(:didCancel).
-      let _remainingText = self.progress?.remainingText
+  private func configurePlayingCenter(title: String) {
+    MPNowPlayingInfoCenter.default().nowPlayingInfo = [
+      MPMediaItemPropertyTitle: title,
+      MPNowPlayingInfoPropertyPlaybackRate: rate
+    ]
+  }
 
-      // NOTE: call synthesizer.speak is not speaking and is broken synthesizer when synthesizer.isSpeaking
-      guard self.synthesizer.isSpeaking else {
-        return
-      }
-      self.synthesizer.stopSpeaking(at: .word)
+  private func reloadWhenUpdatedPlayerSetting() {
+    // NOTE: 対象となる@Publishedなプロパティ(volume,rate,pitch)の更新はobjectWillChangeのタイミングで行われる。なので、更新後の値をプロパティアクセスからは取得できない。次のRunLoopで処理でプロパティアクセスするようにすることで更新後の値が取得できる
+    DispatchQueue.main.async { [self] in
+      // NOTE: 各関数の副作用の影響を受けないタイミングで、残りのテキストを一時変数に保持している
+      let _remainingText = progress?.remainingText
+
+      stopAudioComponents()
 
       if let remainingText = _remainingText {
-        self.speak(text: remainingText)
+        play(text: remainingText)
       }
     }
   }
 
-  private func reset() {
-    if synthesizer.isSpeaking {
-      synthesizer.stopSpeaking(at: .immediate)
-    }
-    if audioEngine.isRunning {
-      audioEngine.stop()
-    }
-    if playerNode.isPlaying {
-      playerNode.stop()
+  private func previousArticle() -> Article? {
+    guard
+      let targetArticle = targetArticle,
+      let index = allArticle.firstIndex(of: targetArticle),
+      index > 0
+    else {
+      return nil
     }
 
-    progress = nil
-    playingArticle = nil
-    writingAudioFile = nil
-    MPNowPlayingInfoCenter.default().nowPlayingInfo = nil
+    return allArticle[index - 1]
+  }
+
+  private func nextArticle() -> Article? {
+    guard
+      let targetArticle = targetArticle,
+      let index = allArticle.firstIndex(of: targetArticle),
+      allArticle.count > index + 1
+    else {
+      return nil
+    }
+
+    return allArticle[index + 1]
+  }
+
+  private func replayAudioComponent() {
+    do {
+      synthesizer.continueSpeaking()
+      try audioEngine.start()
+      playerNode.play()
+    } catch {
+      // Ignore error
+      print(error)
+    }
+  }
+
+  private func pauseAudioComponents() {
+    // NOTE: syntesizer is broken when call synthesizer.stopSpeaking when synthesizer is not speaking
+    if synthesizer.isSpeaking {
+      synthesizer.pauseSpeaking(at: .immediate)
+    }
+    if audioEngine.isRunning {
+      audioEngine.pause()
+    }
+    if playerNode.isPlaying {
+      playerNode.pause()
+    }
+    paused = ()
+  }
+
+  private func stopAudioComponents() {
+    // NOTE: syntesizer is broken when call synthesizer.stopSpeaking when synthesizer is not speaking
+    if synthesizer.isSpeaking || synthesizer.isPaused {
+      synthesizer.stopSpeaking(at: .immediate)
+    }
+    audioEngine.stop()
+    playerNode.stop()
   }
 }
 
@@ -317,26 +347,16 @@ extension Player: AVSpeechSynthesizerDelegate {
   func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didFinish utterance: AVSpeechUtterance) {
     print(#function)
 
-    // Migrate temporary file to cache file when did finish speech
-    do {
-      if let playingArticleID = playingArticle?.id,
-         let wroteAudioFile = try? AVAudioFile(forReading: writingAudioFileURL(playingArticleID: playingArticleID), commonFormat: .pcmFormatInt16, interleaved: false),
-         let cachedPCMBuffer = AVAudioPCMBuffer(pcmFormat: wroteAudioFile.processingFormat, frameCapacity: AVAudioFrameCount(wroteAudioFile.length)) {
-        try wroteAudioFile.read(into: cachedPCMBuffer)
+//     TODO: Migrate Cache
+//    migrateCache()
 
-        let cachedAudioFile = try AVAudioFile(forWriting: cachedAudioFileURL(playingArticleID: playingArticleID), settings: cachedPCMBuffer.format.settings, commonFormat: .pcmFormatInt16, interleaved: false)
-        try cachedAudioFile.write(from: cachedPCMBuffer)
-      }
-    } catch {
-      // Ignore error
-      print(error)
-    }
-
-    reset()
+    stopAudioComponents()
+    progress = nil
   }
   func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didCancel utterance: AVSpeechUtterance) {
     print(#function)
 
+    stopAudioComponents()
     progress = nil
   }
 
@@ -364,14 +384,64 @@ extension Player: AVSpeechSynthesizerDelegate {
   }
 }
 
-// MARK: - Utility
-private func cachedAudioFileURL(playingArticleID: String) -> URL {
-  let cacheDir = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask)[0]
-  return cacheDir.appendingPathComponent("v1-cached-\(playingArticleID)")
-}
-
-private func writingAudioFileURL(playingArticleID: String) -> URL {
-  let tmpDir = URL(string: NSTemporaryDirectory())!
-  return tmpDir.appendingPathComponent("v1-writing-\(playingArticleID)")
-}
-
+// TODO: Cacheの見直し。今まではplayやdidFinish等のタイミングで書き込んでいたが、そこに組み込むのは難しい。なのでダウンロードボタンを別途設けてこの機能たちを使っていく
+// TODO: v1 -> v2
+// MARK: - Cache
+//extension Player {
+//  func speakFromCache(targetArticleID: String) {
+//    if let readOnlyFile = try? AVAudioFile(forReading: cachedAudioFileURL(targetArticleID: targetArticleID), commonFormat: .pcmFormatInt16, interleaved: false),
+//       let cachedPCMBuffer = AVAudioPCMBuffer(pcmFormat: readOnlyFile.processingFormat, frameCapacity: AVAudioFrameCount(readOnlyFile.length)),
+//       readCache(file: readOnlyFile, into: cachedPCMBuffer) {
+//      speak(pcmBuffer: cachedPCMBuffer) { [weak self] in
+//        DispatchQueue.main.async {
+//          self?.pauseAudioComponents()
+//        }
+//      }
+//    }
+//  }
+//
+//  func proceedWriteCache(targetArticleID: String, into pcmBuffer: AVAudioPCMBuffer) throws {
+//    if writingAudioFile == nil {
+//      writingAudioFile = try AVAudioFile(forWriting: writingAudioFileURL(targetArticleID: targetArticleID), settings: pcmBuffer.format.settings, commonFormat: .pcmFormatInt16, interleaved: false)
+//    }
+//    try writingAudioFile?.write(from: pcmBuffer)
+//  }
+//
+//  func readCache(file: AVAudioFile, into buffer: AVAudioPCMBuffer) -> Bool {
+//    do {
+//      try file.read(into: buffer)
+//      return true
+//    } catch {
+//      // Ignore error
+//      print(error)
+//      return false
+//    }
+//  }
+//
+//  func migrateCache() {
+//    // Migrate temporary file to cache file when did finish speech
+//    do {
+//      if let targetArticleID = targetArticle?.id,
+//         let wroteAudioFile = try? AVAudioFile(forReading: writingAudioFileURL(targetArticleID: targetArticleID), commonFormat: .pcmFormatInt16, interleaved: false),
+//         let cachedPCMBuffer = AVAudioPCMBuffer(pcmFormat: wroteAudioFile.processingFormat, frameCapacity: AVAudioFrameCount(wroteAudioFile.length)) {
+//        try wroteAudioFile.read(into: cachedPCMBuffer)
+//
+//        let cachedAudioFile = try AVAudioFile(forWriting: cachedAudioFileURL(targetArticleID: targetArticleID), settings: cachedPCMBuffer.format.settings, commonFormat: .pcmFormatInt16, interleaved: false)
+//        try cachedAudioFile.write(from: cachedPCMBuffer)
+//      }
+//    } catch {
+//      // Ignore error
+//      print(error)
+//    }
+//  }
+//
+//  private func cachedAudioFileURL(targetArticleID: String) -> URL {
+//    let cacheDir = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask)[0]
+//    return cacheDir.appendingPathComponent("v1-cached-\(targetArticleID)")
+//  }
+//
+//  private func writingAudioFileURL(targetArticleID: String) -> URL {
+//    let tmpDir = URL(string: NSTemporaryDirectory())!
+//    return tmpDir.appendingPathComponent("v1-writing-\(targetArticleID)")
+//  }
+//}
