@@ -32,7 +32,6 @@ final class Player: NSObject, ObservableObject {
   private let playerNode = AVAudioPlayerNode()
 
   // Temporary state on playing article
-  // It is not contains targetArticle because keep last played article and displyaing and possible to replay it on `remote control center`, `PlayerBar`
   private var progress: Progress?
   private var writingAudioFile: AVAudioFile?
 
