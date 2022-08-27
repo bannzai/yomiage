@@ -37,7 +37,7 @@ final class AddArticleHTMLLoader: ObservableObject {
     let doc = try HTML(html: html, encoding: .utf8)
 
     // note.com
-    if let title = doc.at_xpath("//h1[contains(@class, 'o-noteContentText__title')]")?.text?.trimmingCharacters(in: .whitespacesAndNewlines),
+    if let title = doc.at_xpath("//h1[contains(@class, 'o-noteContentHeader__title')]")?.text?.trimmingCharacters(in: .whitespacesAndNewlines),
        let author = doc.at_xpath("//div[contains(@class, 'o-noteContentHeader__name')]/a")?.text?.trimmingCharacters(in: .whitespacesAndNewlines) {
       let eyeCatchImageURL: String? = doc.at_xpath("//img[contains(@class, 'o-noteEyecatch__image')]")?["src"]?.trimmingCharacters(in: .whitespacesAndNewlines)
 
