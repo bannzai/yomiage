@@ -4,7 +4,11 @@ import AVFoundation
 import MediaPlayer
 
 final class Player: NSObject, ObservableObject {
-  // @Published state for audio controls
+  private enum Const {
+    static let outputAudioFormat = AVAudioFormat(commonFormat: .pcmFormatFloat32, sampleRate: 22050, channels: 1, interleaved: false)!
+  }
+
+// @Published state for audio controls
   @Published var volume = UserDefaults.standard.float(forKey: UserDefaultsKeys.playerVolume)
   @Published var rate = UserDefaults.standard.float(forKey: UserDefaultsKeys.playerRate)
   @Published var pitch = UserDefaults.standard.float(forKey: UserDefaultsKeys.playerPitch)
@@ -21,10 +25,6 @@ final class Player: NSObject, ObservableObject {
   // Non @Published statuses
   var allArticle: [Article] = []
   private var canceller: Set<AnyCancellable> = []
-
-  private enum Const {
-    static let outputAudioFormat = AVAudioFormat(commonFormat: .pcmFormatFloat32, sampleRate: 22050, channels: 1, interleaved: false)!
-  }
 
   // Audio Player components
   private let synthesizer = AVSpeechSynthesizer()
