@@ -9,14 +9,15 @@ final class Player: NSObject, ObservableObject {
   @Published var rate = UserDefaults.standard.float(forKey: UserDefaultsKeys.playerRate)
   @Published var pitch = UserDefaults.standard.float(forKey: UserDefaultsKeys.playerPitch)
 
-  // @Published state for database entity
-  @Published private(set) var targetArticle: Article?
-  @Published var error: Error?
-
   // @Published state for Player events
   // Update View for each timing
   @Published private(set) var spoken: Void = ()
   @Published private(set) var paused: Void = ()
+
+  // @Published status for presentation
+  @Published private(set) var targetArticle: Article?
+  @Published var error: Error?
+
 
   // Non @Published statuses
   var allArticle: [Article] = []
