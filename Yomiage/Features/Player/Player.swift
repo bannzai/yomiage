@@ -344,6 +344,10 @@ extension Player {
 }
 
 extension Player: AVSpeechSynthesizerDelegate {
+  func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didStart utterance: AVSpeechUtterance) {
+    print(#function)
+  }
+
   func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didFinish utterance: AVSpeechUtterance) {
     print(#function)
 
@@ -354,6 +358,11 @@ extension Player: AVSpeechSynthesizerDelegate {
     //    stopAudioComponents()
     //    progress = nil
   }
+
+  func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didPause utterance: AVSpeechUtterance) {
+    print(#function)
+  }
+
   func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didCancel utterance: AVSpeechUtterance) {
     print(#function)
 
