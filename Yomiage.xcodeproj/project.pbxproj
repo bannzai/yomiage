@@ -13,6 +13,7 @@
 		2037DF9628265C8600F43B11 /* Timeout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2037DF9528265C8600F43B11 /* Timeout.swift */; };
 		2037DF9A2828A07900F43B11 /* Crashlytics+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2037DF992828A07900F43B11 /* Crashlytics+.swift */; };
 		203A88C32823FF3A00B4C12C /* AsyncButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203A88C22823FF3A00B4C12C /* AsyncButton.swift */; };
+		204B25F7297BCF1E000DCAF7 /* Async in Frameworks */ = {isa = PBXBuildFile; productRef = 204B25F6297BCF1E000DCAF7 /* Async */; };
 		20884DFD28223419008388AE /* ArticleRowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20884DFC28223419008388AE /* ArticleRowLayout.swift */; };
 		20884DFF28223644008388AE /* MediumArticle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20884DFE28223644008388AE /* MediumArticle.swift */; };
 		20CE8F8E2840ED7B0035D4E3 /* AppOtherSettingPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20CE8F8D2840ED7B0035D4E3 /* AppOtherSettingPage.swift */; };
@@ -147,6 +148,7 @@
 				20FF7903281F70A5001D062E /* FirebaseAnalyticsSwift-Beta in Frameworks */,
 				20FF7907281F70A5001D062E /* FirebaseCrashlytics in Frameworks */,
 				20FF7905281F70A5001D062E /* FirebaseAuth in Frameworks */,
+				204B25F7297BCF1E000DCAF7 /* Async in Frameworks */,
 				20FF790C281F7472001D062E /* FirebaseFirestoreSwift-Beta in Frameworks */,
 				20FF793F281FC321001D062E /* Kanna in Frameworks */,
 				20FF7909281F70A5001D062E /* FirebaseFirestore in Frameworks */,
@@ -444,6 +446,7 @@
 				20FF7908281F70A5001D062E /* FirebaseFirestore */,
 				20FF790B281F7472001D062E /* FirebaseFirestoreSwift-Beta */,
 				20FF793E281FC321001D062E /* Kanna */,
+				204B25F6297BCF1E000DCAF7 /* Async */,
 			);
 			productName = Yomiage;
 			productReference = 20FF78C4281F4C53001D062E /* Yomiage.app */;
@@ -520,6 +523,7 @@
 			packageReferences = (
 				20FF78FF281F70A5001D062E /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				20FF793D281FC321001D062E /* XCRemoteSwiftPackageReference "Kanna" */,
+				204B25F5297BCF1E000DCAF7 /* XCRemoteSwiftPackageReference "Async" */,
 			);
 			productRefGroup = 20FF78C5281F4C53001D062E /* Products */;
 			projectDirPath = "";
@@ -962,6 +966,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		204B25F5297BCF1E000DCAF7 /* XCRemoteSwiftPackageReference "Async" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/bannzai/Async";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.0.1;
+			};
+		};
 		20FF78FF281F70A5001D062E /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
@@ -981,6 +993,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		204B25F6297BCF1E000DCAF7 /* Async */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 204B25F5297BCF1E000DCAF7 /* XCRemoteSwiftPackageReference "Async" */;
+			productName = Async;
+		};
 		20FF7900281F70A5001D062E /* FirebaseAnalytics */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 20FF78FF281F70A5001D062E /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
