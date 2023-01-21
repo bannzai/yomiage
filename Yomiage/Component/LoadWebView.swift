@@ -130,10 +130,12 @@ private final class LoadWebView: WKWebView, WKNavigationDelegate {
     load(
       url: url,
       javaScript: javaScript) { result in
-        do {
-          continuation.resume(returning: try result.get())
-        } catch {
-          continuation.resume(throwing: error)
+        DispatchQueue.main.async {
+          do {
+            continuation.resume(returning: try result.get())
+          } catch {
+            continuation.resume(throwing: error)
+          }
         }
       }
   }
