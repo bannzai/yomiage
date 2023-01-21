@@ -10,6 +10,15 @@
       }
     },
     {
+      "identity" : "async",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/bannzai/Async",
+      "state" : {
+        "revision" : "617495dfd809222f0780d8521d5b7bd9ea0a807c",
+        "version" : "0.0.1"
+      }
+    },
+    {
       "identity" : "boringssl-swiftpm",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/firebase/boringssl-SwiftPM.git",
