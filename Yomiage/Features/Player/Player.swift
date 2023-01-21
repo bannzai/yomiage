@@ -39,7 +39,6 @@ final class Player: NSObject, ObservableObject {
     playerNode.isPlaying
   }
 
-
   override init() {
     super.init()
 
