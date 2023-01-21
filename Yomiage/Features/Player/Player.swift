@@ -190,6 +190,7 @@ extension Player {
     //     TODO: Call speak if cache is exists
     //        speakFromCache(targetArticleID: targetArticleID)
     synthesizer.write(utterance) { [weak self] buffer in
+      print("#synthesizer.write")
       guard let pcmBuffer = buffer as? AVAudioPCMBuffer else {
         return
       }
@@ -197,6 +198,7 @@ extension Player {
         return
       }
 
+      print("pcmBuffer.frameLength:", pcmBuffer.frameLength)
       self?.speak(pcmBuffer: pcmBuffer, completionHandler: nil)
       self?.spoken = ()
 
@@ -354,9 +356,9 @@ extension Player: AVSpeechSynthesizerDelegate {
 //     TODO: Migrate Cache
 //    migrateCache()
 
-    // FIXME: synthesizer.write 直後に呼ばれるので、実際に終わった場合とsynthesizer.writeを区別する制御が必要
-    //    stopAudioComponents()
-    //    progress = nil
+    // NOTE: synthesizer.write 直後にも呼ばれるので、実際に終わった場合とsynthesizer.writeを区別する制御が必要
+//      stopAudioComponents()
+//      progress = nil
   }
 
   func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didPause utterance: AVSpeechUtterance) {
