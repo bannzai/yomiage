@@ -213,7 +213,7 @@ extension Player {
   // Ref: https://stackoverflow.com/questions/56999334/boost-increase-volume-of-text-to-speech-avspeechutterance-to-make-it-louder
   private func speak(pcmBuffer: AVAudioPCMBuffer, completionHandler: (() -> Void)?) {
     // NOTE: SpeechSynthesizer PCM format is pcmFormatInt16
-    // it must be convert to .pcmFormatFloat32 if use pcmFormatInt16
+    // it must be convert to .pcmFormatFloat32
     // ref: https://developer.apple.com/forums/thread/27674
     let converter = AVAudioConverter(
       from: AVAudioFormat(
