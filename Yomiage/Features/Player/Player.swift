@@ -35,6 +35,9 @@ final class Player: NSObject, ObservableObject {
   private var progress: Progress?
   private var writingAudioFile: AVAudioFile?
 
+  // when synthesizer.write -> true, speechSynthesizer(_:didFinish:) -> false
+  private var synthesizerIsWriting = false
+
   var isPlaying: Bool {
     playerNode.isPlaying
   }
@@ -189,6 +192,7 @@ extension Player {
     //     TODO: Call speak if cache is exists
     //        speakFromCache(targetArticleID: targetArticleID)
     synthesizer.write(utterance) { [weak self] buffer in
+      self?.synthesizerIsWriting = true
       print("#synthesizer.write")
       guard let pcmBuffer = buffer as? AVAudioPCMBuffer else {
         return
@@ -352,6 +356,7 @@ extension Player: AVSpeechSynthesizerDelegate {
   func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didFinish utterance: AVSpeechUtterance) {
     print(#function)
 
+    synthesizerIsWriting = false
 //     TODO: Migrate Cache
 //    migrateCache()
 
