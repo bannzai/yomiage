@@ -350,8 +350,9 @@ extension Player: AVSpeechSynthesizerDelegate {
 //     TODO: Migrate Cache
 //    migrateCache()
 
-    stopAudioComponents()
-    progress = nil
+    // FIXME: synthesizer.write 直後に呼ばれるので、実際に終わった場合とsynthesizer.writeを区別する制御が必要
+    //    stopAudioComponents()
+    //    progress = nil
   }
   func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didCancel utterance: AVSpeechUtterance) {
     print(#function)
