@@ -180,8 +180,8 @@ final class Player: NSObject, ObservableObject {
   }
 }
 
-extension Player {
 // MARK: - Private
+extension Player {
   // NOTE: synthesizer.writeを呼び出す前に必ずsynthesizerは止まっている(!isPlaying && !isPaused)必要がある => stopAudioComponentsを事前に呼び出す
   private func play(text: String) {
     let utterance = AVSpeechUtterance(string: text)
@@ -322,10 +322,6 @@ extension Player {
     audioEngine.stop()
     playerNode.stop()
   }
-}
-
-extension Player: AVAudioPlayerDelegate {
-
 }
 
 extension Player {
