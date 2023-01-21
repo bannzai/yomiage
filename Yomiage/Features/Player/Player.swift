@@ -35,8 +35,8 @@ final class Player: NSObject, ObservableObject {
   private var progress: Progress?
   private var writingAudioFile: AVAudioFile?
 
-  // when synthesizer.write -> true, speechSynthesizer(_:didFinish:) -> false
-  private var synthesizerIsWriting = false
+  // when synthesizer.write -> true, speechSynthesizer(_:didFinish:) -> false. synthesizer.write is faster than speechSyntheSizer(_:didStart)
+  private var synthesizerIsWriting: CurrentValueSubject<Bool, Never> = .init(false)
 
   var isPlaying: Bool {
     playerNode.isPlaying
@@ -192,7 +192,7 @@ extension Player {
     //     TODO: Call speak if cache is exists
     //        speakFromCache(targetArticleID: targetArticleID)
     synthesizer.write(utterance) { [weak self] buffer in
-      self?.synthesizerIsWriting = true
+      self?.synthesizerIsWriting.send(true)
       print("#synthesizer.write")
       guard let pcmBuffer = buffer as? AVAudioPCMBuffer else {
         return
@@ -356,7 +356,7 @@ extension Player: AVSpeechSynthesizerDelegate {
   func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didFinish utterance: AVSpeechUtterance) {
     print(#function)
 
-    synthesizerIsWriting = false
+    synthesizerIsWriting.send(false)
 //     TODO: Migrate Cache
 //    migrateCache()
 
