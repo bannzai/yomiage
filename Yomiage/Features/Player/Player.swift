@@ -34,39 +34,40 @@ final class Player: NSObject, ObservableObject {
 
   override init() {}
 
+  // TODO: Rename to play(audioFile: AVAudioFile) and implement
   @MainActor func start(article: Article) async {
-    if targetArticle == article {
-      let targetArticleIsInProgress = progress != nil
-      if targetArticleIsInProgress {
-        replayAudioComponent()
-        return
-      }
-    }
-
-    guard let pageURL = URL(string: article.pageURL), let kind = article.kindWithValue else {
-      return
-    }
-
-    do {
-      let title: String
-      let body: String
-      switch kind {
-      case let .note(note):
-        title = note.title
-        body = try await loadNoteBody(url: pageURL)
-      case let .medium(medium):
-        title = medium.title
-        body = try await loadMediumBody(url: pageURL)
-      }
-
-      targetArticle = article
-      configurePlayingCenter(title: title, rate: UserDefaults.FloatKey.synthesizerRate.defaultValue)
-      stopAudioComponents()
-      resetAudioEngine()
-      play(text: body)
-    } catch {
-      self.error = error
-    }
+//    if targetArticle == article {
+//      let targetArticleIsInProgress = progress != nil
+//      if targetArticleIsInProgress {
+//        replayAudioComponent()
+//        return
+//      }
+//    }
+//
+//    guard let pageURL = URL(string: article.pageURL), let kind = article.kindWithValue else {
+//      return
+//    }
+//
+//    do {
+//      let title: String
+//      let body: String
+//      switch kind {
+//      case let .note(note):
+//        title = note.title
+//        body = try await loadNoteBody(url: pageURL)
+//      case let .medium(medium):
+//        title = medium.title
+//        body = try await loadMediumBody(url: pageURL)
+//      }
+//
+//      targetArticle = article
+//      configurePlayingCenter(title: title, rate: UserDefaults.FloatKey.synthesizerRate.defaultValue)
+//      stopAudioComponents()
+//      resetAudioEngine()
+//      play(text: body)
+//    } catch {
+//      self.error = error
+//    }
   }
 
   func pause() {
@@ -144,7 +145,7 @@ final class Player: NSObject, ObservableObject {
 
 // MARK: - Private
 extension Player {
-  // NOTE: synthesizer.writeを呼び出す前に必ずsynthesizerは止まっている(!isPlaying && !isPaused)必要がある => stopAudioComponentsを事前に呼び出す
+  // TODO: implement
   private func play(text: String) {}
 
   // Ref: https://stackoverflow.com/questions/56999334/boost-increase-volume-of-text-to-speech-avspeechutterance-to-make-it-louder
@@ -223,10 +224,6 @@ extension Player {
   }
 
   private func pauseAudioComponents() {
-    // NOTE: syntesizer is broken when call synthesizer.stopSpeaking when synthesizer is not speaking
-    if synthesizer.isSpeaking {
-      synthesizer.pauseSpeaking(at: .immediate)
-    }
     if audioEngine.isRunning {
       audioEngine.pause()
     }
@@ -237,10 +234,6 @@ extension Player {
   }
 
   private func stopAudioComponents() {
-    // NOTE: syntesizer is broken when call synthesizer.stopSpeaking when synthesizer is not speaking
-    if synthesizer.isSpeaking || synthesizer.isPaused {
-      synthesizer.stopSpeaking(at: .immediate)
-    }
     audioEngine.stop()
     playerNode.stop()
   }
