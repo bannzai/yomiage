@@ -22,16 +22,11 @@ final class Player: NSObject, ObservableObject {
   private var canceller: Set<AnyCancellable> = []
 
   // Audio Player components
-  private let synthesizer = AVSpeechSynthesizer()
   private let audioEngine = AVAudioEngine()
   private let playerNode = AVAudioPlayerNode()
 
   // Temporary state on playing article
-  private var progress: Progress?
   private var writingAudioFile: AVAudioFile?
-
-  // when synthesizer.write -> true, speechSynthesizer(_:didFinish:) -> false. synthesizer.write is faster than speechSyntheSizer(_:didStart)
-  private var synthesizerIsWriting: CurrentValueSubject<Bool, Never> = .init(false)
 
   var isPlaying: Bool {
     playerNode.isPlaying
@@ -193,20 +188,6 @@ extension Player {
     ]
   }
 
-  private func reloadWhenUpdatedPlayerSetting() {
-    // NOTE: 対象となる@Publishedなプロパティ(volume,rate,pitch)の更新はobjectWillChangeのタイミングで行われる。なので、更新後の値をプロパティアクセスからは取得できない。次のRunLoopで処理でプロパティアクセスするようにすることで更新後の値が取得できる
-    DispatchQueue.main.async { [self] in
-      // NOTE: 各関数の副作用の影響を受けないタイミングで、残りのテキストを一時変数に保持している
-      let _remainingText = progress?.remainingText
-
-      stopAudioComponents()
-
-      if let remainingText = _remainingText {
-        play(text: remainingText)
-      }
-    }
-  }
-
   private func previousArticle() -> Article? {
     guard
       let targetArticle = targetArticle,
@@ -233,7 +214,6 @@ extension Player {
 
   private func replayAudioComponent() {
     do {
-      synthesizer.continueSpeaking()
       try audioEngine.start()
       playerNode.play()
     } catch {
@@ -266,57 +246,6 @@ extension Player {
   }
 }
 
-extension Player: AVSpeechSynthesizerDelegate {
-  func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didStart utterance: AVSpeechUtterance) {
-    print(#function)
-  }
-
-  func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didFinish utterance: AVSpeechUtterance) {
-    print(#function)
-
-    synthesizerIsWriting.send(false)
-//     TODO: Migrate Cache
-//    migrateCache()
-
-    // NOTE: synthesizer.write 直後にも呼ばれるので、実際に終わった場合とsynthesizer.writeを区別する制御が必要
-//      stopAudioComponents()
-//      progress = nil
-  }
-
-  func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didPause utterance: AVSpeechUtterance) {
-    print(#function)
-  }
-
-  func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didCancel utterance: AVSpeechUtterance) {
-    print(#function)
-
-    stopAudioComponents()
-    progress = nil
-  }
-
-  private struct Progress {
-    let range: Range<String.Index>
-    let lastWord: String
-    let remainingText: String
-    let speechText: String
-  }
-  func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, willSpeakRangeOfSpeechString characterRange: NSRange, utterance: AVSpeechUtterance) {
-    print(#function)
-
-    guard let range = Range(characterRange, in: utterance.speechString) else {
-      return
-    }
-
-    let lastWord = String(utterance.speechString[range])
-    let remainingText = String(utterance.speechString.suffix(from: range.upperBound))
-    progress = .init(
-      range: range,
-      lastWord: lastWord,
-      remainingText: remainingText,
-      speechText: utterance.speechString
-    )
-  }
-}
 
 // TODO: Cacheの見直し。今まではplayやdidFinish等のタイミングで書き込んでいたが、そこに組み込むのは難しい。なのでダウンロードボタンを別途設けてこの機能たちを使っていく
 // TODO: v1 -> v2
