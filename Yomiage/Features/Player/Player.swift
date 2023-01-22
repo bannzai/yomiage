@@ -19,7 +19,6 @@ final class Player: NSObject, ObservableObject {
 
   // Non @Published statuses
   var allArticle: [Article] = []
-  private var canceller: Set<AnyCancellable> = []
 
   // Audio Player components
   private let audioEngine = AVAudioEngine()
