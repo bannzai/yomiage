@@ -10,6 +10,7 @@ final class Synthesizer: NSObject, ObservableObject {
   private let synthesizer = AVSpeechSynthesizer()
   private var progress: Progress?
   private var canceller: Set<AnyCancellable> = []
+  private var writingAudioFile: AVAudioFile?
 
   override init() {
     super.init()
@@ -58,6 +59,12 @@ final class Synthesizer: NSObject, ObservableObject {
     }
   }
   
+  func proceedWriteCache(targetArticleID: String, into pcmBuffer: AVAudioPCMBuffer) throws {
+    if writingAudioFile == nil {
+      writingAudioFile = try AVAudioFile(forWriting: writingAudioFileURL(targetArticleID: targetArticleID), settings: pcmBuffer.format.settings, commonFormat: .pcmFormatInt16, interleaved: false)
+    }
+    try writingAudioFile?.write(from: pcmBuffer)
+  }
 }
 
 // MARK: - Private
@@ -82,6 +89,13 @@ private extension Synthesizer {
         writeToAudioFile(text: remainingText)
       }
     }
+  }
+
+  func writingAudioFileURL(url: URL) -> URL {
+    let tmpDir = URL(string: NSTemporaryDirectory())!
+    return tmpDir
+      .appendingPathComponent("v1")
+      .appendingPathComponent(url.path(percentEncoded: false))
   }
 }
 

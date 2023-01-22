@@ -295,8 +295,4 @@ extension Player {
 //    return cacheDir.appendingPathComponent("v1-cached-\(targetArticleID)")
 //  }
 //
-//  private func writingAudioFileURL(targetArticleID: String) -> URL {
-//    let tmpDir = URL(string: NSTemporaryDirectory())!
-//    return tmpDir.appendingPathComponent("v1-writing-\(targetArticleID)")
-//  }
 //}
