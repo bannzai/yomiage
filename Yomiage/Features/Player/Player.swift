@@ -188,7 +188,10 @@ extension Player {
     utterance.volume = volume
     utterance.rate = rate
     utterance.pitchMultiplier = pitch
+    utterance.voice = .init(language: "ja-JP")
 
+    AVAudioFile(forWriting: <#T##URL#>, settings: <#T##[String : Any]#>, commonFormat: <#T##AVAudioCommonFormat#>, interleaved: <#T##Bool#>)
+    print("voice:", utterance.voice?.audioFileSettings)
     //     TODO: Call speak if cache is exists
     //        speakFromCache(targetArticleID: targetArticleID)
     synthesizer.write(utterance) { [weak self] buffer in
