@@ -6,6 +6,7 @@ final class Synthesizer: NSObject, ObservableObject {
   @Published var volume = UserDefaults.standard.floatOrDefault(forKey: .synthesizerVolume)
   @Published var rate = UserDefaults.standard.floatOrDefault(forKey: .synthesizerRate)
   @Published var pitch = UserDefaults.standard.floatOrDefault(forKey: .synthesizerPitch)
+  @Published var error: Error?
 
   private let synthesizer = AVSpeechSynthesizer()
   private var progress: Progress?
@@ -40,30 +41,45 @@ final class Synthesizer: NSObject, ObservableObject {
     synthesizer.delegate = self
   }
 
-  func writeToAudioFile(text: String) {
-    let utterance = AVSpeechUtterance(string: text)
+  func writeToAudioFile(article: Article) async {
+    guard let pageURL = URL(string: article.pageURL), let kind = article.typedKind else {
+      return
+    }
+
+    let body: String
+    do {
+      switch kind {
+      case .note:
+        body = try await loadNoteBody(url: pageURL)
+      case .medium:
+        body = try await loadMediumBody(url: pageURL)
+      }
+    } catch {
+      self.error = error
+    }
+
+    let utterance = AVSpeechUtterance(string: body)
     utterance.volume = volume
     utterance.rate = rate
     utterance.pitchMultiplier = pitch
     utterance.voice = .init(language: "ja-JP")
 
     synthesizer.write(utterance) { [weak self] buffer in
-      guard let pcmBuffer = buffer as? AVAudioPCMBuffer else {
+      guard let pcmBuffer = buffer as? AVAudioPCMBuffer, pcmBuffer.frameLength > 0 else {
         return
       }
-      if pcmBuffer.frameLength == 0 {
+      guard let self else {
         return
       }
-
-      // TODO: write
+      do {
+        if self.writingAudioFile == nil {
+          self.writingAudioFile = try AVAudioFile(forWriting: self.writingAudioFileURL(url: pageURL), settings: pcmBuffer.format.settings, commonFormat: .pcmFormatInt16, interleaved: false)
+        }
+        try self.writingAudioFile?.write(from: pcmBuffer)
+      } catch {
+        self.error = error
+      }
     }
-  }
-  
-  func proceedWriteCache(targetArticleID: String, into pcmBuffer: AVAudioPCMBuffer) throws {
-    if writingAudioFile == nil {
-      writingAudioFile = try AVAudioFile(forWriting: writingAudioFileURL(targetArticleID: targetArticleID), settings: pcmBuffer.format.settings, commonFormat: .pcmFormatInt16, interleaved: false)
-    }
-    try writingAudioFile?.write(from: pcmBuffer)
   }
 }
 
