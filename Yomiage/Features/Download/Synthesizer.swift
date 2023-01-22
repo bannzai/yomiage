@@ -7,10 +7,11 @@ final class Synthesizer: NSObject, ObservableObject {
   @Published var rate = UserDefaults.standard.floatOrDefault(forKey: .synthesizerRate)
   @Published var pitch = UserDefaults.standard.floatOrDefault(forKey: .synthesizerPitch)
 
-  @Published var proceedPageURL: URL?
   @Published var error: Error?
 
   private let synthesizer = AVSpeechSynthesizer()
+
+  private var proceedPageURL: URL?
   private var progress: Progress?
   private var canceller: Set<AnyCancellable> = []
   private var writingAudioFile: AVAudioFile?
