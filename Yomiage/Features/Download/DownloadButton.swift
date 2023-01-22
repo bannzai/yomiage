@@ -2,13 +2,19 @@ import SwiftUI
 
 struct DownloadButton: View {
   let article: Article
-  @StateObject var synthesizer = Synthesizer()
+
+  @StateObject private var synthesizer = Synthesizer()
+  @State private var error: Error?
 
   var body: some View {
     if let pageURL = URL(string: article.pageURL), let kind = article.typedKind {
       Button {
         Task { @MainActor in
-          downloadHTMLBody(kind: kind, pageURL: pageURL)
+          do {
+            try await downloadHTMLBody(kind: kind, pageURL: pageURL)
+          } catch {
+
+          }
         }
       } label: {
         <#code#>
