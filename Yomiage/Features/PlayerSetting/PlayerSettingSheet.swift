@@ -2,7 +2,7 @@ import SwiftUI
 
 struct PlayerSettingSheet: View {
   @Environment(\.dismiss) private var dismiss
-  @EnvironmentObject var player: Player
+  @EnvironmentObject var player: Synthesizer
 
   var body: some View {
     MediumSheetLayout {
