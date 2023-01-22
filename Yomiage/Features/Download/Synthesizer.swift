@@ -113,6 +113,7 @@ extension Synthesizer: AVSpeechSynthesizerDelegate {
     print(#function)
 
     stop()
+    proceedPageURL = nil
     progress = nil
   }
 
@@ -124,6 +125,7 @@ extension Synthesizer: AVSpeechSynthesizerDelegate {
     print(#function)
 
     stop()
+    proceedPageURL = nil
     progress = nil
   }
 
