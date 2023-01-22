@@ -3,6 +3,7 @@ import SwiftUI
 struct DownloadButton: View {
   let article: Article
 
+  @StateObject private var downloader = HTMLBodyDownloader()
   @StateObject private var synthesizer = Synthesizer()
   @State private var error: Error?
 
@@ -11,23 +12,24 @@ struct DownloadButton: View {
       Button {
         Task { @MainActor in
           do {
-            try await downloadHTMLBody(kind: kind, pageURL: pageURL)
+            let body = try await downloader(kind: kind, pageURL: pageURL)
+            synthesizer.writeToAudioFile(body: body, pageURL: pageURL)
           } catch {
-
+            self.error = error
           }
         }
       } label: {
-        <#code#>
+        if isLoading {
+          ProgressView()
+        } else {
+          Image(systemName: "arrow.down.circle")
+            .padding()
+        }
       }
     }
   }
-}
 
-func downloadHTMLBody(kind: Article.Kind, pageURL: URL) async throws -> String {
-  switch kind {
-  case .note:
-    return try await loadNoteBody(url: pageURL)
-  case .medium:
-    return try await loadMediumBody(url: pageURL)
+  private var isLoading: Bool {
+    downloader.isLoading || synthesizer.isLoading
   }
 }
