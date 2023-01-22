@@ -8,11 +8,6 @@ final class Player: NSObject, ObservableObject {
     static let outputAudioFormat = AVAudioFormat(commonFormat: .pcmFormatFloat32, sampleRate: 22050, channels: 1, interleaved: false)!
   }
 
-  // @Published state for audio controls
-  @Published var volume = UserDefaults.standard.float(forKey: UserDefaultsKeys.playerVolume)
-  @Published var rate = UserDefaults.standard.float(forKey: UserDefaultsKeys.playerRate)
-  @Published var pitch = UserDefaults.standard.float(forKey: UserDefaultsKeys.playerPitch)
-
   // @Published state for Player events
   // Update View for each timing
   @Published private(set) var spoken: Void = ()
@@ -42,35 +37,7 @@ final class Player: NSObject, ObservableObject {
     playerNode.isPlaying
   }
 
-  override init() {
-    super.init()
-
-    $volume
-      .debounce(for: 0.5, scheduler: DispatchQueue.main)
-      .sink { [weak self] volume in
-        UserDefaults.standard.set(volume, forKey: UserDefaultsKeys.playerVolume)
-
-        self?.reloadWhenUpdatedPlayerSetting()
-      }.store(in: &canceller)
-    $rate
-      .debounce(for: 0.5, scheduler: DispatchQueue.main)
-      .sink { [weak self] rate in
-        UserDefaults.standard.set(rate, forKey: UserDefaultsKeys.playerRate)
-
-        self?.reloadWhenUpdatedPlayerSetting()
-      }.store(in: &canceller)
-    $pitch
-      .debounce(for: 0.5, scheduler: DispatchQueue.main)
-      .sink { [weak self] pitch in
-        UserDefaults.standard.set(pitch, forKey: UserDefaultsKeys.playerPitch)
-
-        self?.reloadWhenUpdatedPlayerSetting()
-      }.store(in: &canceller)
-
-    synthesizer.delegate = self
-    resetAudioEngine()
-    setupRemoteTransportControls()
-  }
+  override init() {}
 
   @MainActor func start(article: Article) async {
     if targetArticle == article {
@@ -98,7 +65,7 @@ final class Player: NSObject, ObservableObject {
       }
 
       targetArticle = article
-      configurePlayingCenter(title: title)
+      configurePlayingCenter(title: title, rate: UserDefaults.FloatKey.synthesizerRate.defaultValue)
       stopAudioComponents()
       resetAudioEngine()
       play(text: body)
@@ -183,35 +150,7 @@ final class Player: NSObject, ObservableObject {
 // MARK: - Private
 extension Player {
   // NOTE: synthesizer.writeを呼び出す前に必ずsynthesizerは止まっている(!isPlaying && !isPaused)必要がある => stopAudioComponentsを事前に呼び出す
-  private func play(text: String) {
-    let utterance = AVSpeechUtterance(string: text)
-    utterance.volume = volume
-    utterance.rate = rate
-    utterance.pitchMultiplier = pitch
-    utterance.voice = .init(language: "ja-JP")
-
-    AVAudioFile(forWriting: <#T##URL#>, settings: <#T##[String : Any]#>, commonFormat: <#T##AVAudioCommonFormat#>, interleaved: <#T##Bool#>)
-    print("voice:", utterance.voice?.audioFileSettings)
-    //     TODO: Call speak if cache is exists
-    //        speakFromCache(targetArticleID: targetArticleID)
-    synthesizer.write(utterance) { [weak self] buffer in
-      self?.synthesizerIsWriting.send(true)
-      print("#synthesizer.write")
-      guard let pcmBuffer = buffer as? AVAudioPCMBuffer else {
-        return
-      }
-      if pcmBuffer.frameLength == 0 {
-        return
-      }
-
-      print("pcmBuffer.frameLength:", pcmBuffer.frameLength)
-      self?.speak(pcmBuffer: pcmBuffer, completionHandler: nil)
-      self?.spoken = ()
-
-      //         TODO: Call write cache
-      //        try self?.proceedWriteCache(targetArticleID: targetArticleID, into: pcmBuffer)
-    }
-  }
+  private func play(text: String) {}
 
   // Ref: https://stackoverflow.com/questions/56999334/boost-increase-volume-of-text-to-speech-avspeechutterance-to-make-it-louder
   private func speak(pcmBuffer: AVAudioPCMBuffer, completionHandler: (() -> Void)?) {
@@ -247,7 +186,7 @@ extension Player {
     }
   }
 
-  private func configurePlayingCenter(title: String) {
+  private func configurePlayingCenter(title: String, rate: Float) {
     MPNowPlayingInfoCenter.default().nowPlayingInfo = [
       MPMediaItemPropertyTitle: title,
       MPNowPlayingInfoPropertyPlaybackRate: rate
@@ -324,26 +263,6 @@ extension Player {
     }
     audioEngine.stop()
     playerNode.stop()
-  }
-}
-
-extension Player {
-  enum DefaultValues {
-    static let volume: Float = 0.5
-    static let rate: Float = 0.53
-    static let pitch: Float = 1.0
-
-    static func setup() {
-      if !UserDefaults.standard.dictionaryRepresentation().keys.contains(UserDefaultsKeys.playerVolume) {
-        UserDefaults.standard.set(volume, forKey: UserDefaultsKeys.playerVolume)
-      }
-      if !UserDefaults.standard.dictionaryRepresentation().keys.contains(UserDefaultsKeys.playerRate) {
-        UserDefaults.standard.set(rate, forKey: UserDefaultsKeys.playerRate)
-      }
-      if !UserDefaults.standard.dictionaryRepresentation().keys.contains(UserDefaultsKeys.playerPitch) {
-        UserDefaults.standard.set(pitch, forKey: UserDefaultsKeys.playerPitch)
-      }
-    }
   }
 }
 
