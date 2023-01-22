@@ -7,6 +7,7 @@ final class Synthesizer: NSObject, ObservableObject {
   @Published var rate = UserDefaults.standard.floatOrDefault(forKey: .synthesizerRate)
   @Published var pitch = UserDefaults.standard.floatOrDefault(forKey: .synthesizerPitch)
 
+  @Published var finished: Void = ()
   @Published var error: Error?
 
   private let synthesizer = AVSpeechSynthesizer()
@@ -115,6 +116,7 @@ extension Synthesizer: AVSpeechSynthesizerDelegate {
     stop()
     proceedPageURL = nil
     progress = nil
+    finished = ()
   }
 
   func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didPause utterance: AVSpeechUtterance) {
