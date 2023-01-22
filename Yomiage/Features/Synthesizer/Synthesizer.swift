@@ -6,6 +6,8 @@ final class Synthesizer: NSObject, ObservableObject {
   @Published var volume = UserDefaults.standard.floatOrDefault(forKey: .synthesizerVolume)
   @Published var rate = UserDefaults.standard.floatOrDefault(forKey: .synthesizerRate)
   @Published var pitch = UserDefaults.standard.floatOrDefault(forKey: .synthesizerPitch)
+
+  @Published var proceedPageURL: URL?
   @Published var error: Error?
 
   private let synthesizer = AVSpeechSynthesizer()
@@ -41,22 +43,8 @@ final class Synthesizer: NSObject, ObservableObject {
     synthesizer.delegate = self
   }
 
-  func writeToAudioFile(article: Article) async {
-    guard let pageURL = URL(string: article.pageURL), let kind = article.typedKind else {
-      return
-    }
-
-    let body: String
-    do {
-      switch kind {
-      case .note:
-        body = try await loadNoteBody(url: pageURL)
-      case .medium:
-        body = try await loadMediumBody(url: pageURL)
-      }
-    } catch {
-      self.error = error
-    }
+  func writeToAudioFile(body: String, pageURL: URL) {
+    proceedPageURL = pageURL
 
     let utterance = AVSpeechUtterance(string: body)
     utterance.volume = volume
@@ -101,8 +89,8 @@ private extension Synthesizer {
 
       stop()
 
-      if let remainingText = _remainingText {
-        writeToAudioFile(text: remainingText)
+      if let remainingText = _remainingText, let proceedPageURL {
+        writeToAudioFile(body: remainingText, pageURL: proceedPageURL)
       }
     }
   }
