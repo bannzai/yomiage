@@ -31,9 +31,9 @@ struct PlayerSettingSheet: View {
   }
 
   enum Range {
-    static let volume = ClosedRange<Float>(uncheckedBounds: (lower: 0, upper: 1))
-    static let rate = ClosedRange<Float>(uncheckedBounds: (lower: 0, upper: 1))
-    static var pitch = ClosedRange<Float>(uncheckedBounds: (lower: 0, upper: 2))
+    static let volume = ClosedRange<Double>(uncheckedBounds: (lower: 0, upper: 1))
+    static let rate = ClosedRange<Double>(uncheckedBounds: (lower: 0, upper: 1))
+    static var pitch = ClosedRange<Double>(uncheckedBounds: (lower: 0, upper: 2))
   }
 }
 
