@@ -6,7 +6,7 @@ struct PlayerSettingSheet: View {
 
   var body: some View {
     MediumSheetLayout {
-      Text("設定")
+      Text("ダウンロード時の設定")
         .font(.headline)
     } content: {
       VStack(spacing: 0) {
@@ -22,6 +22,13 @@ struct PlayerSettingSheet: View {
           VStack(alignment: .leading, spacing: 8) {
             Text("声の高さ").font(.system(.subheadline))
             Slider(value: $player.pitch, in: Range.pitch)
+          }
+
+          Button {
+            player.test()
+          } label: {
+            Text("テスト")
+              .padding()
           }
         }
         VSpacer(20)

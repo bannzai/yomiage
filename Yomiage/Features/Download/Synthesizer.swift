@@ -19,17 +19,20 @@ final class Synthesizer: NSObject, ObservableObject {
   private var canceller: Set<AnyCancellable> = []
   private var writingAudioFile: AVAudioFile?
 
-  func writeToAudioFile(body: String, pageURL: URL) {
-    proceedPageURL = pageURL
-
-    let utterance = AVSpeechUtterance(string: body)
+  private func buildUtterance(string: String) -> AVSpeechUtterance {
+    let utterance = AVSpeechUtterance(string: string)
     utterance.volume = Float(volume)
     utterance.rate = Float(rate)
     utterance.pitchMultiplier = Float(pitch)
     utterance.voice = .init(language: "ja-JP")
+    return utterance
+  }
+
+  func writeToAudioFile(body: String, pageURL: URL) {
+    proceedPageURL = pageURL
 
     // NOTE: print(utterance.voice?.audioFileSettings) -> Optional(["AVNumberOfChannelsKey": 1, "AVLinearPCMIsFloatKey": 0, "AVLinearPCMIsNonInterleaved": 0, "AVSampleRateKey": 22050, "AVFormatIDKey": 1819304813, "AVLinearPCMIsBigEndianKey": 0, "AVLinearPCMBitDepthKey": 16])
-    synthesizer.write(utterance) { [weak self] buffer in
+    synthesizer.write(buildUtterance(string: body)) { [weak self] buffer in
       guard let pcmBuffer = buffer as? AVAudioPCMBuffer, pcmBuffer.frameLength > 0 else {
         return
       }
@@ -45,6 +48,11 @@ final class Synthesizer: NSObject, ObservableObject {
         self.error = error
       }
     }
+  }
+
+  func test() {
+    let text = "これはテストです。このくらいの速さ。高さ。ボリュームで聞こえます"
+    synthesizer.speak(buildUtterance(string: text))
   }
 }
 
