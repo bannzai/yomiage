@@ -33,3 +33,10 @@ struct DownloadButton: View {
     downloader.isLoading || synthesizer.isLoading
   }
 }
+
+func writingAudioFileURL(url: URL) -> URL {
+  let tmpDir = URL(string: NSTemporaryDirectory())!
+  return tmpDir
+    .appendingPathComponent("v1")
+    .appendingPathComponent(url.path(percentEncoded: false))
+}

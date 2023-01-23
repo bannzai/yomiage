@@ -23,12 +23,12 @@ final class Synthesizer: NSObject, ObservableObject {
     proceedPageURL = pageURL
 
     let utterance = AVSpeechUtterance(string: body)
-    // NOTE: AppStorage does not support `Float`
     utterance.volume = Float(volume)
     utterance.rate = Float(rate)
     utterance.pitchMultiplier = Float(pitch)
     utterance.voice = .init(language: "ja-JP")
 
+    // NOTE: print(utterance.voice?.audioFileSettings) -> Optional(["AVNumberOfChannelsKey": 1, "AVLinearPCMIsFloatKey": 0, "AVLinearPCMIsNonInterleaved": 0, "AVSampleRateKey": 22050, "AVFormatIDKey": 1819304813, "AVLinearPCMIsBigEndianKey": 0, "AVLinearPCMBitDepthKey": 16])
     synthesizer.write(utterance) { [weak self] buffer in
       guard let pcmBuffer = buffer as? AVAudioPCMBuffer, pcmBuffer.frameLength > 0 else {
         return
