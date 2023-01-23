@@ -3,9 +3,9 @@ import SwiftUI
 import AVFoundation
 
 final class Synthesizer: NSObject, ObservableObject {
-  @Published var volume = UserDefaults.standard.floatOrDefault(forKey: .synthesizerVolume)
-  @Published var rate = UserDefaults.standard.floatOrDefault(forKey: .synthesizerRate)
-  @Published var pitch = UserDefaults.standard.floatOrDefault(forKey: .synthesizerPitch)
+  @AppStorage(.synthesizerVolume) var volume: Double
+  @AppStorage(.synthesizerRate) var rate: Double
+  @AppStorage(.synthesizerPitch) var pitch: Double
 
   @Published var proceedPageURL: URL?
   @Published var error: Error?
@@ -18,34 +18,6 @@ final class Synthesizer: NSObject, ObservableObject {
   private var progress: Progress?
   private var canceller: Set<AnyCancellable> = []
   private var writingAudioFile: AVAudioFile?
-
-  override init() {
-    super.init()
-
-    $volume
-      .debounce(for: 0.5, scheduler: DispatchQueue.main)
-      .sink { [weak self] volume in
-        UserDefaults.standard.set(volume, forKey: .synthesizerVolume)
-
-        self?.updateSettingOnWrite()
-      }.store(in: &canceller)
-    $rate
-      .debounce(for: 0.5, scheduler: DispatchQueue.main)
-      .sink { [weak self] rate in
-        UserDefaults.standard.set(rate, forKey: .synthesizerRate)
-
-        self?.updateSettingOnWrite()
-      }.store(in: &canceller)
-    $pitch
-      .debounce(for: 0.5, scheduler: DispatchQueue.main)
-      .sink { [weak self] pitch in
-        UserDefaults.standard.set(pitch, forKey: .synthesizerPitch)
-
-        self?.updateSettingOnWrite()
-      }.store(in: &canceller)
-
-    synthesizer.delegate = self
-  }
 
   func writeToAudioFile(body: String, pageURL: URL) {
     proceedPageURL = pageURL
@@ -83,20 +55,6 @@ private extension Synthesizer {
       return
     }
     synthesizer.stopSpeaking(at: .immediate)
-  }
-
-  private func updateSettingOnWrite() {
-    // NOTE: 対象となる@Publishedなプロパティ(volume,rate,pitch)の更新はobjectWillChangeのタイミングで行われる。なので、更新後の値をプロパティアクセスからは取得できない。次のRunLoopで処理でプロパティアクセスするようにすることで更新後の値が取得できる
-    DispatchQueue.main.async { [self] in
-      // NOTE: 各関数の副作用の影響を受けないタイミングで、残りのテキストを一時変数に保持している
-      let _remainingText = progress?.remainingText
-
-      stop()
-
-      if let remainingText = _remainingText, let proceedPageURL {
-        writeToAudioFile(body: remainingText, pageURL: proceedPageURL)
-      }
-    }
   }
 
   func writingAudioFileURL(url: URL) -> URL {

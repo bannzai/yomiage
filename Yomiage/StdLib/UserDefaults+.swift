@@ -1,19 +1,18 @@
 import SwiftUI
 
-// MARK: - Float
-// NOTE: AppStorage does not support `Float`
+// MARK: - Double
 extension UserDefaults {
-  enum FloatKey: String {
+  enum DoubleKey: String {
     case synthesizerVolume
     case synthesizerRate
     case synthesizerPitch
 
-    static private let prefix = "FloatKey"
+    static private let prefix = "DoubleKey"
     var key: String {
       "\(Self.prefix).\(rawValue)"
     }
 
-    var defaultValue: Float {
+    var defaultValue: Double {
       switch self {
       case .synthesizerVolume:
         return 0.5
@@ -25,15 +24,24 @@ extension UserDefaults {
     }
   }
 
-  func set(_ value: Float, forKey key: FloatKey) {
+  func set(_ value: Double, forKey key: DoubleKey) {
     set(value, forKey: key.key)
   }
 
-  func floatOrDefault(forKey key: FloatKey) -> Float {
+  func doubleOrDefault(forKey key: DoubleKey) -> Double {
     if dictionaryRepresentation().keys.contains(key.key) {
-      return float(forKey: key.key)
+      return double(forKey: key.key)
     } else {
       return key.defaultValue
     }
+  }
+}
+
+
+extension AppStorage {
+  typealias DoubleKey = UserDefaults.DoubleKey
+
+  init(_ key: DoubleKey, store: UserDefaults? = nil) where Value == Double {
+    self.init(wrappedValue: key.defaultValue, key.key, store: store)
   }
 }
