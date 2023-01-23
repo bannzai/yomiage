@@ -23,9 +23,10 @@ final class Synthesizer: NSObject, ObservableObject {
     proceedPageURL = pageURL
 
     let utterance = AVSpeechUtterance(string: body)
-    utterance.volume = volume
-    utterance.rate = rate
-    utterance.pitchMultiplier = pitch
+    // NOTE: AppStorage does not support `Float`
+    utterance.volume = Float(volume)
+    utterance.rate = Float(rate)
+    utterance.pitchMultiplier = Float(pitch)
     utterance.voice = .init(language: "ja-JP")
 
     synthesizer.write(utterance) { [weak self] buffer in

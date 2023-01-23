@@ -1,6 +1,7 @@
 import SwiftUI
 
 // MARK: - Double
+// NOTE: AppStorage does not support `Float`
 extension UserDefaults {
   enum DoubleKey: String {
     case synthesizerVolume
