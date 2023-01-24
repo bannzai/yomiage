@@ -33,8 +33,6 @@ final class Player: NSObject, ObservableObject {
     playerNode.isPlaying
   }
 
-  override init() {}
-
   @MainActor func play(article: Article) async {
     guard let pageURL = URL(string: article.pageURL), let kind = article.kindWithValue else {
       return
