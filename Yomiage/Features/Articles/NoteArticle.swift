@@ -32,7 +32,7 @@ struct NoteArticle: View {
           },
           author: {
             Text(noteArticle.author)
-          },
+          }
         )
         .padding()
         .errorAlert(error: $player.error)
