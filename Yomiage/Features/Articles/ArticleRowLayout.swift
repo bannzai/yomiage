@@ -1,10 +1,11 @@
+import AVFoundation
 import SwiftUI
 
 struct ArticleRowLayout<
   ThumbnailImage: View
 > : View {
   @EnvironmentObject var player: Player
-  
+
   let article: Article
 
   @ViewBuilder let thumbnailImage: ThumbnailImage
@@ -30,7 +31,9 @@ struct ArticleRowLayout<
         .layoutPriority(1)
 
       HStack(spacing: 4) {
-        if player.isPlaying {
+        if let pageURL = URL(string: article.pageURL), !AVAudioFile.isExist(for: pageURL) {
+          DownloadButton(article: article)
+        } else if player.isPlaying {
           PauseButton(article: article)
         } else {
           PlayButton(article: article)
