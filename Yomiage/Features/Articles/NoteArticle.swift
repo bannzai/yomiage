@@ -48,7 +48,7 @@ struct NoteArticle: View {
               AsyncButton {
                 analytics.logEvent("note_article_start_play", parameters: ["article_id": String(describing: article.id)])
                 
-                await player.start(article: article)
+                await player.play(article: article)
               } label: {
 
                 Image(systemName: "play.fill")
