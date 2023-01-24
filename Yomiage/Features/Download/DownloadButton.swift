@@ -2,9 +2,9 @@ import SwiftUI
 
 struct DownloadButton: View {
   let article: Article
+  @ObservedObject var synthesizer: Synthesizer
 
   @StateObject private var downloader = HTMLBodyDownloader()
-  @StateObject private var synthesizer = Synthesizer()
   @State private var error: Error?
 
   var body: some View {
