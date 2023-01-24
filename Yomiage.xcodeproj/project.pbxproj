@@ -17,6 +17,7 @@
 		204B25FB297D00CF000DCAF7 /* Synthesizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 204B25FA297D00CF000DCAF7 /* Synthesizer.swift */; };
 		204B2600297D5E93000DCAF7 /* DownloadButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 204B25FF297D5E93000DCAF7 /* DownloadButton.swift */; };
 		204B2602297D626E000DCAF7 /* HTMLBodyDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 204B2601297D626E000DCAF7 /* HTMLBodyDownloader.swift */; };
+		204B2604297EBA29000DCAF7 /* AVAudioFile+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 204B2603297EBA29000DCAF7 /* AVAudioFile+.swift */; };
 		20884DFD28223419008388AE /* ArticleRowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20884DFC28223419008388AE /* ArticleRowLayout.swift */; };
 		20884DFF28223644008388AE /* MediumArticle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20884DFE28223644008388AE /* MediumArticle.swift */; };
 		20CE8F8E2840ED7B0035D4E3 /* AppOtherSettingPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20CE8F8D2840ED7B0035D4E3 /* AppOtherSettingPage.swift */; };
@@ -99,6 +100,7 @@
 		204B25FA297D00CF000DCAF7 /* Synthesizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Synthesizer.swift; sourceTree = "<group>"; };
 		204B25FF297D5E93000DCAF7 /* DownloadButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadButton.swift; sourceTree = "<group>"; };
 		204B2601297D626E000DCAF7 /* HTMLBodyDownloader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTMLBodyDownloader.swift; sourceTree = "<group>"; };
+		204B2603297EBA29000DCAF7 /* AVAudioFile+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AVAudioFile+.swift"; sourceTree = "<group>"; };
 		20884DFC28223419008388AE /* ArticleRowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleRowLayout.swift; sourceTree = "<group>"; };
 		20884DFE28223644008388AE /* MediumArticle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediumArticle.swift; sourceTree = "<group>"; };
 		20884E002822578A008388AE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -418,6 +420,7 @@
 				2037DF932826557C00F43B11 /* FirebaseAnalytics+.swift */,
 				2037DF992828A07900F43B11 /* Crashlytics+.swift */,
 				2037DF9528265C8600F43B11 /* Timeout.swift */,
+				204B2603297EBA29000DCAF7 /* AVAudioFile+.swift */,
 			);
 			path = StdLib;
 			sourceTree = "<group>";
@@ -635,6 +638,7 @@
 				20FF7919281F77CF001D062E /* ArticleDatastore.swift in Sources */,
 				20FF7934281FB7EC001D062E /* Screen.swift in Sources */,
 				20884DFF28223644008388AE /* MediumArticle.swift in Sources */,
+				204B2604297EBA29000DCAF7 /* AVAudioFile+.swift in Sources */,
 				20FF7920281F8847001D062E /* Button.swift in Sources */,
 				2037DF942826557C00F43B11 /* FirebaseAnalytics+.swift in Sources */,
 				20884DFD28223419008388AE /* ArticleRowLayout.swift in Sources */,
