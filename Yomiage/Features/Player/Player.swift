@@ -8,6 +8,8 @@ final class Player: NSObject, ObservableObject {
     static let outputAudioFormat = AVAudioFormat(commonFormat: .pcmFormatFloat32, sampleRate: 22050, channels: 1, interleaved: false)!
   }
 
+  @AppStorage(.playerRate) var rate: Double
+
   // @Published state for Player events
   // Update View for each timing
   @Published private(set) var spoken: Void = ()
@@ -33,9 +35,37 @@ final class Player: NSObject, ObservableObject {
 
   override init() {}
 
-  // TODO: Rename to play(audioFile: AVAudioFile) and implement
-  @MainActor func start(article: Article) async {
-//    if targetArticle == article {
+  @MainActor func play(article: Article) async {
+    guard let pageURL = URL(string: article.pageURL), let kind = article.kindWithValue else {
+      return
+    }
+
+    let title: String
+    switch kind {
+    case let .note(note):
+      title = note.title
+    case let .medium(medium):
+      title = medium.title
+    }
+
+    targetArticle = article
+    configurePlayingCenter(title: title)
+    stopAudioComponents()
+    resetAudioEngine()
+
+    do {
+      let readOnlyFile = try AVAudioFile(forReading: AVAudioFile.filePath(for: pageURL), commonFormat: .pcmFormatInt16, interleaved: false)
+      let buffer = AVAudioPCMBuffer(pcmFormat: readOnlyFile.processingFormat, frameCapacity: AVAudioFrameCount(readOnlyFile.length))!
+      try readOnlyFile.read(into: buffer)
+      playerNode.scheduleBuffer(buffer, at: nil, completionHandler: nil)
+      try audioEngine.start()
+      playerNode.play()
+    } catch {
+      fatalError(error.localizedDescription)
+    }
+
+
+    //    if targetArticle == article {
 //      let targetArticleIsInProgress = progress != nil
 //      if targetArticleIsInProgress {
 //        replayAudioComponent()
@@ -79,7 +109,7 @@ final class Player: NSObject, ObservableObject {
     }
 
     pauseAudioComponents()
-    await start(article: previousArticle)
+    await play(article: previousArticle)
   }
 
   func forward() async {
@@ -88,7 +118,7 @@ final class Player: NSObject, ObservableObject {
     }
 
     pauseAudioComponents()
-    await start(article: nextArticle)
+    await play(article: nextArticle)
   }
 
   func resetAudioEngine() {
@@ -144,44 +174,7 @@ final class Player: NSObject, ObservableObject {
 
 // MARK: - Private
 extension Player {
-  // TODO: implement
-  private func play(text: String) {}
-
-  // Ref: https://stackoverflow.com/questions/56999334/boost-increase-volume-of-text-to-speech-avspeechutterance-to-make-it-louder
-  private func speak(pcmBuffer: AVAudioPCMBuffer, completionHandler: (() -> Void)?) {
-    // NOTE: SpeechSynthesizer PCM format is pcmFormatInt16
-    // it must be convert to .pcmFormatFloat32
-    // ref: https://developer.apple.com/forums/thread/27674
-    let converter = AVAudioConverter(
-      from: AVAudioFormat(
-        commonFormat: .pcmFormatInt16,
-        sampleRate: 22050,
-        channels: 1,
-        interleaved: false
-      )!,
-      to: Const.outputAudioFormat
-    )
-    let convertedBuffer = AVAudioPCMBuffer(
-      pcmFormat: AVAudioFormat(
-        commonFormat: Const.outputAudioFormat.commonFormat,
-        sampleRate: pcmBuffer.format.sampleRate,
-        channels: pcmBuffer.format.channelCount,
-        interleaved: false
-      )!,
-      frameCapacity: pcmBuffer.frameCapacity
-    )!
-
-    do {
-      try converter?.convert(to: convertedBuffer, from: pcmBuffer)
-      playerNode.scheduleBuffer(convertedBuffer, at: nil, completionHandler: completionHandler)
-      try audioEngine.start()
-      playerNode.play()
-    } catch {
-      fatalError(error.localizedDescription)
-    }
-  }
-
-  private func configurePlayingCenter(title: String, rate: Float) {
+  private func configurePlayingCenter(title: String) {
     MPNowPlayingInfoCenter.default().nowPlayingInfo = [
       MPMediaItemPropertyTitle: title,
       MPNowPlayingInfoPropertyPlaybackRate: rate

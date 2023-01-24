@@ -41,7 +41,7 @@ final class Synthesizer: NSObject, ObservableObject {
       }
       do {
         if self.writingAudioFile == nil {
-          self.writingAudioFile = try AVAudioFile(forWriting: self.writingAudioFileURL(url: pageURL), settings: pcmBuffer.format.settings, commonFormat: .pcmFormatInt16, interleaved: false)
+          self.writingAudioFile = try AVAudioFile(forWriting: AVAudioFile.filePath(for: pageURL), settings: pcmBuffer.format.settings, commonFormat: .pcmFormatInt16, interleaved: false)
         }
         try self.writingAudioFile?.write(from: pcmBuffer)
       } catch {
@@ -64,13 +64,6 @@ private extension Synthesizer {
       return
     }
     synthesizer.stopSpeaking(at: .immediate)
-  }
-
-  func writingAudioFileURL(url: URL) -> URL {
-    let tmpDir = URL(string: NSTemporaryDirectory())!
-    return tmpDir
-      .appendingPathComponent("v1")
-      .appendingPathComponent(url.path(percentEncoded: false))
   }
 }
 
