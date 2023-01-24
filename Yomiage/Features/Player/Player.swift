@@ -39,6 +39,7 @@ final class Player: NSObject, ObservableObject {
     guard let pageURL = URL(string: article.pageURL), let kind = article.kindWithValue else {
       return
     }
+    targetArticle = article
 
     let title: String
     switch kind {
@@ -63,40 +64,6 @@ final class Player: NSObject, ObservableObject {
     } catch {
       fatalError(error.localizedDescription)
     }
-
-
-    //    if targetArticle == article {
-//      let targetArticleIsInProgress = progress != nil
-//      if targetArticleIsInProgress {
-//        replayAudioComponent()
-//        return
-//      }
-//    }
-//
-//    guard let pageURL = URL(string: article.pageURL), let kind = article.kindWithValue else {
-//      return
-//    }
-//
-//    do {
-//      let title: String
-//      let body: String
-//      switch kind {
-//      case let .note(note):
-//        title = note.title
-//        body = try await loadNoteBody(url: pageURL)
-//      case let .medium(medium):
-//        title = medium.title
-//        body = try await loadMediumBody(url: pageURL)
-//      }
-//
-//      targetArticle = article
-//      configurePlayingCenter(title: title, rate: UserDefaults.FloatKey.synthesizerRate.defaultValue)
-//      stopAudioComponents()
-//      resetAudioEngine()
-//      play(text: body)
-//    } catch {
-//      self.error = error
-//    }
   }
 
   func pause() {
