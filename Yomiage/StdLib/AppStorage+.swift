@@ -8,6 +8,8 @@ extension UserDefaults {
     case synthesizerRate
     case synthesizerPitch
 
+    case playerRate
+
     static private let prefix = "DoubleKey"
     var key: String {
       "\(Self.prefix).\(rawValue)"
@@ -21,6 +23,8 @@ extension UserDefaults {
         return 0.53
       case .synthesizerPitch:
         return 1.0
+      case .playerRate:
+        return 1
       }
     }
   }
