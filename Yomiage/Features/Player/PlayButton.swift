@@ -22,5 +22,6 @@ struct PlayButton: View {
         .foregroundColor(.label)
         .padding()
     }
+    .errorAlert(error: $player.error)
   }
 }
