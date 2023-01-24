@@ -19,6 +19,12 @@ final class Synthesizer: NSObject, ObservableObject {
   private var canceller: Set<AnyCancellable> = []
   private var writingAudioFile: AVAudioFile?
 
+  override init() {
+    super.init()
+
+    synthesizer.delegate = self
+  }
+
   private func buildUtterance(string: String) -> AVSpeechUtterance {
     let utterance = AVSpeechUtterance(string: string)
     utterance.volume = Float(volume)
@@ -41,7 +47,12 @@ final class Synthesizer: NSObject, ObservableObject {
       }
       do {
         if self.writingAudioFile == nil {
-          self.writingAudioFile = try AVAudioFile(forWriting: AVAudioFile.filePath(for: pageURL), settings: pcmBuffer.format.settings, commonFormat: .pcmFormatInt16, interleaved: false)
+          self.writingAudioFile = try AVAudioFile(
+            forWriting: AVAudioFile.filePath(for: pageURL),
+            settings: pcmBuffer.format.settings,
+            commonFormat: .pcmFormatInt16,
+            interleaved: false
+          )
         }
         try self.writingAudioFile?.write(from: pcmBuffer)
       } catch {
