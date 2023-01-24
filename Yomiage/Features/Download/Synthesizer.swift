@@ -46,6 +46,7 @@ final class Synthesizer: NSObject, ObservableObject {
         try self.writingAudioFile?.write(from: pcmBuffer)
       } catch {
         self.error = error
+        self.proceedPageURL = nil
       }
     }
   }

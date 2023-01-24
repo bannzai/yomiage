@@ -21,11 +21,14 @@ struct DownloadButton: View {
       } label: {
         if isLoading {
           ProgressView()
+            .padding()
         } else {
           Image(systemName: "arrow.down.circle")
             .padding()
         }
       }
+      .errorAlert(error: $error)
+      .errorAlert(error: $synthesizer.error)
     }
   }
 
