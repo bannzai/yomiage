@@ -1,15 +1,15 @@
 import SwiftUI
 
 struct ArticleRowLayout<
-  ThumbnailImage: View,
-  PlayButton: View,
-  WebViewButton: View
+  ThumbnailImage: View
 > : View {
+  @EnvironmentObject var player: Player
+  
+  let article: Article
+
   @ViewBuilder let thumbnailImage: ThumbnailImage
   @ViewBuilder let title: Text
   @ViewBuilder let author: Text
-  @ViewBuilder let playButton: PlayButton
-  @ViewBuilder let webViewButton: WebViewButton
 
   var body: some View {
     HStack {
@@ -30,8 +30,20 @@ struct ArticleRowLayout<
         .layoutPriority(1)
 
       HStack(spacing: 4) {
-        playButton
-        webViewButton
+        if player.isPlaying {
+          PauseButton(article: article)
+        } else {
+          PlayButton(article: article)
+        }
+
+        NavigationLinkButton {
+          ArticleWebViewPage(article: article)
+        } label: {
+          Image(systemName: "safari")
+            .frame(width: 14, height: 14)
+            .foregroundColor(.label)
+            .padding()
+        }
       }
     }
   }
