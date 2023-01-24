@@ -50,7 +50,7 @@ final class Synthesizer: NSObject, ObservableObject {
           self.writingAudioFile = try AVAudioFile(
             forWriting: AVAudioFile.filePath(for: pageURL),
             settings: pcmBuffer.format.settings,
-            commonFormat: .pcmFormatInt16,
+            commonFormat: pcmBuffer.format.commonFormat,
             interleaved: false
           )
         }
