@@ -38,14 +38,6 @@ final class Player: NSObject, ObservableObject {
       return
     }
 
-    let title: String
-    switch kind {
-    case let .note(note):
-      title = note.title
-    case let .medium(medium):
-      title = medium.title
-    }
-
     stopAudioComponents()
     resetAudioEngine()
 
@@ -60,8 +52,16 @@ final class Player: NSObject, ObservableObject {
     } catch {
       fatalError(error.localizedDescription)
     }
-    
+
     playingArticle = article
+
+    let title: String
+    switch kind {
+    case let .note(note):
+      title = note.title
+    case let .medium(medium):
+      title = medium.title
+    }
     configurePlayingCenter(title: title)
   }
 
