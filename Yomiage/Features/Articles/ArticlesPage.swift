@@ -1,6 +1,29 @@
+import Async
 import SwiftUI
 
 struct ArticlesPage: View {
+  @Async<StreamData<Article>> var async
+  @Environment(\.articleDatastore) var articleDatastore
+  @EnvironmentObject var player: Player
+
+  var body: some View {
+    switch async(articleDatastore.articlesStream()).state {
+    case .success(let data):
+      let articles = data.all
+
+      ArticlesBody(articles: articles)
+        .onAppear {
+          player.allArticle = articles
+        }
+    case .failure(let error):
+      UniversalErrorView(error: error, reload: async.resetState)
+    case .loading:
+      ProgressView()
+    }
+  }
+}
+
+struct ArticlesBody: View {
   @Environment(\.articleDatastore) var articleDatastore
   @EnvironmentObject var player: Player
 
@@ -8,8 +31,10 @@ struct ArticlesPage: View {
   @State private var playerSettingSheetIsPresented = false
   @State private var error: Error?
 
+  let articles: [Article]
+
   var body: some View {
-    StreamView(stream: articleDatastore.articlesStream()) { (articles, changes) in
+    Group {
       if articles.isEmpty {
         VStack(spacing: 0) {
           Text("記事を追加しましょう")
@@ -107,19 +132,13 @@ struct ArticlesPage: View {
           }
         })
       }
-    } errorContent: { error, reload in
-      UniversalErrorView(error: error, reload: reload)
-    } loading: {
-      ProgressView()
-    } onListen: { (articles, changes) in
-      player.allArticle = articles
+    }
+    .sheet(isPresented: $addArticleSheetIsPresented, detents: [.medium()]) {
+      AddArticleSheet()
     }
     .sheet(isPresented: $playerSettingSheetIsPresented, detents: [.medium()]) {
       PlayerSettingSheet()
         .environmentObject(player)
-    }
-    .sheet(isPresented: $addArticleSheetIsPresented, detents: [.medium()]) {
-      AddArticleSheet()
     }
     .errorAlert(error: $error)
   }
