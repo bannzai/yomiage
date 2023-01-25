@@ -57,6 +57,7 @@ final class Player: NSObject, ObservableObject {
       await playerNode.scheduleBuffer(try (convert(pcmBuffer: buffer)), at: nil)
       try audioEngine.start()
       playerNode.play()
+      
       playingArticle = article
     } catch {
       fatalError(error.localizedDescription)
