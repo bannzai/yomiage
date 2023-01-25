@@ -5,7 +5,6 @@ struct ArticleRowLayout<
   ThumbnailImage: View
 > : View {
   @EnvironmentObject private var player: Player
-  @StateObject private var synthesizer = Synthesizer()
   @State private var isDownloading = false
 
   let article: Article
