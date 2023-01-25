@@ -46,7 +46,6 @@ final class Player: NSObject, ObservableObject {
       title = medium.title
     }
 
-    configurePlayingCenter(title: title)
     stopAudioComponents()
     resetAudioEngine()
 
@@ -54,14 +53,16 @@ final class Player: NSObject, ObservableObject {
       let readOnlyFile = try AVAudioFile(forReading: AVAudioFile.filePath(for: pageURL), commonFormat: .pcmFormatInt16, interleaved: false)
       let buffer = AVAudioPCMBuffer(pcmFormat: readOnlyFile.processingFormat, frameCapacity: AVAudioFrameCount(readOnlyFile.length))!
       try readOnlyFile.read(into: buffer)
+
       await playerNode.scheduleBuffer(try (convert(pcmBuffer: buffer)), at: nil)
       try audioEngine.start()
       playerNode.play()
-      
-      playingArticle = article
     } catch {
       fatalError(error.localizedDescription)
     }
+    
+    playingArticle = article
+    configurePlayingCenter(title: title)
   }
 
   func pause() {
