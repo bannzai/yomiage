@@ -36,7 +36,7 @@ final class Player: NSObject, ObservableObject {
       return
     }
 
-    stopAudioComponents()
+    stop()
     resetAudioEngine()
 
     do {
@@ -71,6 +71,11 @@ final class Player: NSObject, ObservableObject {
       playerNode.pause()
     }
     paused = ()
+  }
+
+  func stop() {
+    audioEngine.stop()
+    playerNode.stop()
   }
 
   func backword() async {
@@ -183,11 +188,6 @@ extension Player {
       // Ignore error
       print(error)
     }
-  }
-
-  private func stopAudioComponents() {
-    audioEngine.stop()
-    playerNode.stop()
   }
 
   func convert(pcmBuffer: AVAudioPCMBuffer) throws -> AVAudioPCMBuffer {
