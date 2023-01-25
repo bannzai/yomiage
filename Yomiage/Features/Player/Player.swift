@@ -28,7 +28,7 @@ final class Player: NSObject, ObservableObject {
   private var writingAudioFile: AVAudioFile?
 
   var isPlaying: Bool {
-    playerNode.isPlaying
+    playingArticle != nil && playerNode.isPlaying
   }
 
   @MainActor func play(article: Article) async {
