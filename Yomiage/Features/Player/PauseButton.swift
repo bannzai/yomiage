@@ -1,8 +1,9 @@
 import SwiftUI
 
 struct PauseButton: View {
+  @EnvironmentObject var player: Player
+
   let article: Article
-  @ObservedObject var player: Player
 
   var body: some View {
     Button {

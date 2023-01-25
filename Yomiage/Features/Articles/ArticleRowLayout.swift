@@ -4,7 +4,7 @@ import SwiftUI
 struct ArticleRowLayout<
   ThumbnailImage: View
 > : View {
-  @StateObject private var player = Player()
+  @EnvironmentObject private var player: Player
   @StateObject private var synthesizer = Synthesizer()
 
   let article: Article
@@ -35,9 +35,9 @@ struct ArticleRowLayout<
         if let pageURL = URL(string: article.pageURL), !AVAudioFile.isExist(for: pageURL) {
           DownloadButton(article: article, synthesizer: synthesizer)
         } else if player.isPlaying {
-          PauseButton(article: article, player: player)
+          PauseButton(article: article)
         } else {
-          PlayButton(article: article, player: player)
+          PlayButton(article: article)
         }
 
         NavigationLinkButton {

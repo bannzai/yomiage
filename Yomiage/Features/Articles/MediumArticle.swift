@@ -1,6 +1,8 @@
 import SwiftUI
 
 struct MediumArticle: View {
+  @EnvironmentObject private var player: Player
+
   let article: Article
   let mediumArticle: Article.Medium?
 
@@ -33,6 +35,7 @@ struct MediumArticle: View {
           }
         )
         .padding()
+        .errorAlert(error: $player.error)
       }
     }
   }
