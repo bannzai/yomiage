@@ -2,17 +2,16 @@ import SwiftUI
 
 struct DownloadButton: View {
   let article: Article
-  // TODO:
-  @ObservedObject var synthesizer: Synthesizer
+  @Binding private var isDownloading: Bool
 
   @StateObject private var downloader = HTMLBodyDownloader()
-  @State private var isLoading = false
+  @StateObject private var synthesizer = Synthesizer()
   @State private var error: Error?
 
   var body: some View {
     if let pageURL = URL(string: article.pageURL), let kind = article.typedKind {
       Button {
-        isLoading = true
+        isDownloading = true
         Task { @MainActor in
           do {
             let body = try await downloader(kind: kind, pageURL: pageURL)
@@ -20,10 +19,10 @@ struct DownloadButton: View {
           } catch {
             self.error = error
           }
-          isLoading = false
+          isDownloading = false
         }
       } label: {
-        if isLoading {
+        if isDownloading {
           ProgressView()
             .padding()
         } else {
