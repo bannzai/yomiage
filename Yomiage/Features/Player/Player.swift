@@ -16,7 +16,7 @@ final class Player: NSObject, ObservableObject {
   @Published private(set) var paused: Void = ()
 
   // @Published status for presentation
-  @Published private(set) var targetArticle: Article?
+  @Published private(set) var playingArticle: Article?
   @Published var error: Error?
 
   // Non @Published statuses
@@ -37,7 +37,6 @@ final class Player: NSObject, ObservableObject {
     guard let pageURL = URL(string: article.pageURL), let kind = article.kindWithValue else {
       return
     }
-    targetArticle = article
 
     let title: String
     switch kind {
@@ -47,7 +46,6 @@ final class Player: NSObject, ObservableObject {
       title = medium.title
     }
 
-    targetArticle = article
     configurePlayingCenter(title: title)
     stopAudioComponents()
     resetAudioEngine()
@@ -59,6 +57,7 @@ final class Player: NSObject, ObservableObject {
       await playerNode.scheduleBuffer(try (convert(pcmBuffer: buffer)), at: nil)
       try audioEngine.start()
       playerNode.play()
+      playingArticle = article
     } catch {
       fatalError(error.localizedDescription)
     }
@@ -148,8 +147,8 @@ extension Player {
 
   private func previousArticle() -> Article? {
     guard
-      let targetArticle = targetArticle,
-      let index = allArticle.firstIndex(of: targetArticle),
+      let playingArticle = playingArticle,
+      let index = allArticle.firstIndex(of: playingArticle),
       index > 0
     else {
       return nil
@@ -160,8 +159,8 @@ extension Player {
 
   private func nextArticle() -> Article? {
     guard
-      let targetArticle = targetArticle,
-      let index = allArticle.firstIndex(of: targetArticle),
+      let playingArticle = playingArticle,
+      let index = allArticle.firstIndex(of: playingArticle),
       allArticle.count > index + 1
     else {
       return nil
@@ -228,8 +227,8 @@ extension Player {
 // TODO: v1 -> v2
 // MARK: - Cache
 //extension Player {
-//  func speakFromCache(targetArticleID: String) {
-//    if let readOnlyFile = try? AVAudioFile(forReading: cachedAudioFileURL(targetArticleID: targetArticleID), commonFormat: .pcmFormatInt16, interleaved: false),
+//  func speakFromCache(playingArticleID: String) {
+//    if let readOnlyFile = try? AVAudioFile(forReading: cachedAudioFileURL(playingArticleID: playingArticleID), commonFormat: .pcmFormatInt16, interleaved: false),
 //       let cachedPCMBuffer = AVAudioPCMBuffer(pcmFormat: readOnlyFile.processingFormat, frameCapacity: AVAudioFrameCount(readOnlyFile.length)),
 //       readCache(file: readOnlyFile, into: cachedPCMBuffer) {
 //      speak(pcmBuffer: cachedPCMBuffer) { [weak self] in
@@ -240,9 +239,9 @@ extension Player {
 //    }
 //  }
 //
-//  func proceedWriteCache(targetArticleID: String, into pcmBuffer: AVAudioPCMBuffer) throws {
+//  func proceedWriteCache(playingArticleID: String, into pcmBuffer: AVAudioPCMBuffer) throws {
 //    if writingAudioFile == nil {
-//      writingAudioFile = try AVAudioFile(forWriting: writingAudioFileURL(targetArticleID: targetArticleID), settings: pcmBuffer.format.settings, commonFormat: .pcmFormatInt16, interleaved: false)
+//      writingAudioFile = try AVAudioFile(forWriting: writingAudioFileURL(playingArticleID: playingArticleID), settings: pcmBuffer.format.settings, commonFormat: .pcmFormatInt16, interleaved: false)
 //    }
 //    try writingAudioFile?.write(from: pcmBuffer)
 //  }
@@ -261,12 +260,12 @@ extension Player {
 //  func migrateCache() {
 //    // Migrate temporary file to cache file when did finish speech
 //    do {
-//      if let targetArticleID = targetArticle?.id,
-//         let wroteAudioFile = try? AVAudioFile(forReading: writingAudioFileURL(targetArticleID: targetArticleID), commonFormat: .pcmFormatInt16, interleaved: false),
+//      if let playingArticleID = playingArticle?.id,
+//         let wroteAudioFile = try? AVAudioFile(forReading: writingAudioFileURL(playingArticleID: playingArticleID), commonFormat: .pcmFormatInt16, interleaved: false),
 //         let cachedPCMBuffer = AVAudioPCMBuffer(pcmFormat: wroteAudioFile.processingFormat, frameCapacity: AVAudioFrameCount(wroteAudioFile.length)) {
 //        try wroteAudioFile.read(into: cachedPCMBuffer)
 //
-//        let cachedAudioFile = try AVAudioFile(forWriting: cachedAudioFileURL(targetArticleID: targetArticleID), settings: cachedPCMBuffer.format.settings, commonFormat: .pcmFormatInt16, interleaved: false)
+//        let cachedAudioFile = try AVAudioFile(forWriting: cachedAudioFileURL(playingArticleID: playingArticleID), settings: cachedPCMBuffer.format.settings, commonFormat: .pcmFormatInt16, interleaved: false)
 //        try cachedAudioFile.write(from: cachedPCMBuffer)
 //      }
 //    } catch {
@@ -275,9 +274,9 @@ extension Player {
 //    }
 //  }
 //
-//  private func cachedAudioFileURL(targetArticleID: String) -> URL {
+//  private func cachedAudioFileURL(playingArticleID: String) -> URL {
 //    let cacheDir = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask)[0]
-//    return cacheDir.appendingPathComponent("v1-cached-\(targetArticleID)")
+//    return cacheDir.appendingPathComponent("v1-cached-\(playingArticleID)")
 //  }
 //
 //}

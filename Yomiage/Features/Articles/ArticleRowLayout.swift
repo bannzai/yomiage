@@ -34,7 +34,7 @@ struct ArticleRowLayout<
       HStack(spacing: 4) {
         if let pageURL = URL(string: article.pageURL), !AVAudioFile.isExist(for: pageURL) {
           DownloadButton(article: article, synthesizer: synthesizer)
-        } else if player.isPlaying, player.targetArticle == article {
+        } else if player.isPlaying, player.playingArticle == article {
           PauseButton(article: article)
         } else {
           PlayButton(article: article)
