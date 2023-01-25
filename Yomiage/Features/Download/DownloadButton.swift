@@ -15,7 +15,7 @@ struct DownloadButton: View {
         Task { @MainActor in
           do {
             let body = try await downloader(kind: kind, pageURL: pageURL)
-            let audioFile = try await synthesizer.writeToAudioFile(body: body, pageURL: pageURL)
+            _ = try await synthesizer.writeToAudioFile(body: body, pageURL: pageURL)
           } catch {
             self.error = error
           }
