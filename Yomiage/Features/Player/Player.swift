@@ -36,6 +36,9 @@ final class Player: NSObject, ObservableObject {
       return
     }
 
+    // NOTE: Keep publish changes before `playNode.play`
+    playingArticle = article
+
     stop()
     resetAudioEngine()
 
@@ -51,7 +54,6 @@ final class Player: NSObject, ObservableObject {
       fatalError(error.localizedDescription)
     }
 
-    playingArticle = article
 
     let title: String
     switch kind {
