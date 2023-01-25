@@ -33,7 +33,7 @@ final class Player: NSObject, ObservableObject {
   }
 
   @MainActor func play(article: Article) {
-    guard let pageURL = URL(string: article.pageURL), let kind = article.kindWithValue else {
+    guard let pageURL = URL(string: article.pageURL) else {
       return
     }
 
@@ -47,14 +47,16 @@ final class Player: NSObject, ObservableObject {
 
     playingArticle = article
 
-    let title: String
-    switch kind {
-    case let .note(note):
-      title = note.title
-    case let .medium(medium):
-      title = medium.title
+    if let kind = article.kindWithValue {
+      let title: String
+      switch kind {
+      case let .note(note):
+        title = note.title
+      case let .medium(medium):
+        title = medium.title
+      }
+      configurePlayingCenter(title: title)
     }
-    configurePlayingCenter(title: title)
   }
 
   func pause() {
