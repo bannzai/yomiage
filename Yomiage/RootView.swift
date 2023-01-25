@@ -2,6 +2,7 @@ import SwiftUI
 
 struct RootView: View {
   @StateObject var screenStateNotifier = ScreenStateNotifier()
+  @StateObject var player = Player()
 
   @State private var signInError: Error?
 
@@ -17,6 +18,7 @@ struct RootView: View {
         case .main:
           ArticlesPage()
             .onAppear(perform: player.setupRemoteTransportControls)
+            .environmentObject(player)
         }
       }
     }
