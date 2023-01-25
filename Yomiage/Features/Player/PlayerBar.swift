@@ -45,9 +45,7 @@ struct PlayerBar: View {
           Button {
             analytics.logEvent("player_bar_play_button_pressed", parameters: ["article_id": String(describing: article.id)])
 
-            Task { @MainActor in
-              await player.play(article: article)
-            }
+            player.play(article: article)
           } label: {
             Image(systemName: "play.fill")
               .padding()

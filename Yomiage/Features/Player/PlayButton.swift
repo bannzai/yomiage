@@ -9,9 +9,8 @@ struct PlayButton: View {
     AsyncButton {
       analytics.logEvent("article_start_play", parameters: ["article_id": String(describing: article.id), "kind": article.kind])
 
-      await player.play(article: article)
+      player.play(article: article)
     } label: {
-
       Image(systemName: "play.fill")
         .frame(width: 14, height: 14)
         .foregroundColor(.label)
