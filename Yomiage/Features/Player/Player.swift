@@ -40,6 +40,7 @@ final class Player: NSObject, ObservableObject {
 
     do {
       player = try AVAudioPlayer(contentsOf: AVAudioFile.filePath(for: pageURL))
+      player?.enableRate = true
       player?.delegate = self
       player?.play()
     } catch {

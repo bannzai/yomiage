@@ -74,6 +74,14 @@ struct PlayerBar: View {
       .padding()
 
       Divider()
+
+      HStack {
+        Text("読む速さ")
+        Slider(value: $player.rate, in: 0...1)
+      }
+      .padding()
+
+      Divider()
     }
     .background(Color(.systemGray6)) // FIXME: Color is not fill to top when with frame(height:)
     .frame(maxWidth: .infinity)
