@@ -20,6 +20,7 @@
 		204B2604297EBA29000DCAF7 /* AVAudioFile+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 204B2603297EBA29000DCAF7 /* AVAudioFile+.swift */; };
 		204B2607297FDD33000DCAF7 /* PlayButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 204B2606297FDD33000DCAF7 /* PlayButton.swift */; };
 		204B2609297FDEC8000DCAF7 /* PauseButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 204B2608297FDEC8000DCAF7 /* PauseButton.swift */; };
+		204B260B2980A9BE000DCAF7 /* Error+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 204B260A2980A9BE000DCAF7 /* Error+.swift */; };
 		20884DFD28223419008388AE /* ArticleRowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20884DFC28223419008388AE /* ArticleRowLayout.swift */; };
 		20884DFF28223644008388AE /* MediumArticle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20884DFE28223644008388AE /* MediumArticle.swift */; };
 		20CE8F8E2840ED7B0035D4E3 /* AppOtherSettingPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20CE8F8D2840ED7B0035D4E3 /* AppOtherSettingPage.swift */; };
@@ -105,6 +106,7 @@
 		204B2603297EBA29000DCAF7 /* AVAudioFile+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AVAudioFile+.swift"; sourceTree = "<group>"; };
 		204B2606297FDD33000DCAF7 /* PlayButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayButton.swift; sourceTree = "<group>"; };
 		204B2608297FDEC8000DCAF7 /* PauseButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PauseButton.swift; sourceTree = "<group>"; };
+		204B260A2980A9BE000DCAF7 /* Error+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Error+.swift"; sourceTree = "<group>"; };
 		20884DFC28223419008388AE /* ArticleRowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleRowLayout.swift; sourceTree = "<group>"; };
 		20884DFE28223644008388AE /* MediumArticle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediumArticle.swift; sourceTree = "<group>"; };
 		20884E002822578A008388AE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -427,6 +429,7 @@
 				2037DF992828A07900F43B11 /* Crashlytics+.swift */,
 				2037DF9528265C8600F43B11 /* Timeout.swift */,
 				204B2603297EBA29000DCAF7 /* AVAudioFile+.swift */,
+				204B260A2980A9BE000DCAF7 /* Error+.swift */,
 			);
 			path = StdLib;
 			sourceTree = "<group>";
@@ -637,6 +640,7 @@
 				20FF7938281FB869001D062E /* Auth.swift in Sources */,
 				20FF7919281F77CF001D062E /* ArticleDatastore.swift in Sources */,
 				20FF7934281FB7EC001D062E /* Screen.swift in Sources */,
+				204B260B2980A9BE000DCAF7 /* Error+.swift in Sources */,
 				20884DFF28223644008388AE /* MediumArticle.swift in Sources */,
 				204B2604297EBA29000DCAF7 /* AVAudioFile+.swift in Sources */,
 				20FF7920281F8847001D062E /* Button.swift in Sources */,

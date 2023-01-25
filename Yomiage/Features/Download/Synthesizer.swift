@@ -8,16 +8,11 @@ final class Synthesizer: NSObject, ObservableObject {
   @AppStorage(.synthesizerPitch) var pitch: Double
 
   @Published var proceedPageURL: URL?
-  @Published var error: Error?
   @Published var finished: Void = ()
-  var isLoading: Bool {
-    proceedPageURL != nil
-  }
 
   private let synthesizer = AVSpeechSynthesizer()
   private var progress: Progress?
   private var canceller: Set<AnyCancellable> = []
-  private var writingAudioFile: AVAudioFile?
 
   override init() {
     super.init()
@@ -34,31 +29,53 @@ final class Synthesizer: NSObject, ObservableObject {
     return utterance
   }
 
-  func writeToAudioFile(body: String, pageURL: URL) {
+  @MainActor func writeToAudioFile(body: String, pageURL: URL) async throws -> AVAudioFile {
     proceedPageURL = pageURL
+    defer {
+      proceedPageURL = nil
+    }
 
-    // NOTE: print(utterance.voice?.audioFileSettings) -> Optional(["AVNumberOfChannelsKey": 1, "AVLinearPCMIsFloatKey": 0, "AVLinearPCMIsNonInterleaved": 0, "AVSampleRateKey": 22050, "AVFormatIDKey": 1819304813, "AVLinearPCMIsBigEndianKey": 0, "AVLinearPCMBitDepthKey": 16])
-    synthesizer.write(buildUtterance(string: body)) { [weak self] buffer in
-      guard let pcmBuffer = buffer as? AVAudioPCMBuffer, pcmBuffer.frameLength > 0 else {
-        return
-      }
-      guard let self else {
-        return
-      }
-      do {
-        if self.writingAudioFile == nil {
-          self.writingAudioFile = try AVAudioFile(
-            forWriting: AVAudioFile.filePath(for: pageURL),
-            settings: pcmBuffer.format.settings,
-            commonFormat: pcmBuffer.format.commonFormat,
-            interleaved: false
-          )
+    var writingAudioFile: AVAudioFile?
+    do {
+      let result = try await withCheckedThrowingContinuation { continuation in
+        // NOTE: print(utterance.voice?.audioFileSettings) -> Optional(["AVNumberOfChannelsKey": 1, "AVLinearPCMIsFloatKey": 0, "AVLinearPCMIsNonInterleaved": 0, "AVSampleRateKey": 22050, "AVFormatIDKey": 1819304813, "AVLinearPCMIsBigEndianKey": 0, "AVLinearPCMBitDepthKey": 16])
+        synthesizer.write(buildUtterance(string: body)) { [weak self] buffer in
+          print(#function, "#synthesizer.write")
+          guard let pcmBuffer = buffer as? AVAudioPCMBuffer else {
+            return
+          }
+          if pcmBuffer.frameLength == 0 {
+            // Maybe did finish synthesizer.write
+            if let writingAudioFile {
+              continuation.resume(returning: writingAudioFile)
+            } else {
+              continuation.resume(throwing: NSError.synthesizerWriteFileNotFound)
+            }
+            return
+          }
+          guard let self else {
+            return
+          }
+          do {
+            if writingAudioFile == nil {
+              writingAudioFile = try AVAudioFile(
+                forWriting: AVAudioFile.filePath(for: pageURL),
+                settings: pcmBuffer.format.settings,
+                commonFormat: pcmBuffer.format.commonFormat,
+                interleaved: false
+              )
+            }
+
+            try writingAudioFile?.write(from: pcmBuffer)
+          } catch {
+            self.proceedPageURL = nil
+            continuation.resume(throwing: error)
+          }
         }
-        try self.writingAudioFile?.write(from: pcmBuffer)
-      } catch {
-        self.error = error
-        self.proceedPageURL = nil
       }
+      return result
+    } catch {
+      throw error
     }
   }
 
@@ -82,7 +99,6 @@ private extension Synthesizer {
 extension Synthesizer: AVSpeechSynthesizerDelegate {
   func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didStart utterance: AVSpeechUtterance) {
     print(#function)
-    error = nil
   }
 
   func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didFinish utterance: AVSpeechUtterance) {

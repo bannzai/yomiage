@@ -56,7 +56,7 @@ final class Player: NSObject, ObservableObject {
       let readOnlyFile = try AVAudioFile(forReading: AVAudioFile.filePath(for: pageURL), commonFormat: .pcmFormatInt16, interleaved: false)
       let buffer = AVAudioPCMBuffer(pcmFormat: readOnlyFile.processingFormat, frameCapacity: AVAudioFrameCount(readOnlyFile.length))!
       try readOnlyFile.read(into: buffer)
-      await playerNode.scheduleBuffer(buffer, at: nil)
+      await playerNode.scheduleBuffer(try (convert(pcmBuffer: buffer)), at: nil)
       try audioEngine.start()
       playerNode.play()
     } catch {
@@ -193,6 +193,33 @@ extension Player {
   private func stopAudioComponents() {
     audioEngine.stop()
     playerNode.stop()
+  }
+
+  func convert(pcmBuffer: AVAudioPCMBuffer) throws -> AVAudioPCMBuffer {
+    // NOTE: SpeechSynthesizer PCM format is pcmFormatInt16
+    // it must be convert to .pcmFormatFloat32 if use pcmFormatInt16
+    // ref: https://developer.apple.com/forums/thread/27674
+    let converter = AVAudioConverter(
+      from: AVAudioFormat(
+        commonFormat: .pcmFormatInt16,
+        sampleRate: 22050,
+        channels: 1,
+        interleaved: false
+      )!,
+      to: Const.outputAudioFormat
+    )
+    let convertedBuffer = AVAudioPCMBuffer(
+      pcmFormat: AVAudioFormat(
+        commonFormat: Const.outputAudioFormat.commonFormat,
+        sampleRate: pcmBuffer.format.sampleRate,
+        channels: pcmBuffer.format.channelCount,
+        interleaved: false
+      )!,
+      frameCapacity: pcmBuffer.frameCapacity
+    )!
+
+    try converter?.convert(to: convertedBuffer, from: pcmBuffer)
+    return convertedBuffer
   }
 }
 

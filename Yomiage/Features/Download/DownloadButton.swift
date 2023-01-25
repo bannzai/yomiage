@@ -6,18 +6,21 @@ struct DownloadButton: View {
   @ObservedObject var synthesizer: Synthesizer
 
   @StateObject private var downloader = HTMLBodyDownloader()
+  @State private var isLoading = false
   @State private var error: Error?
 
   var body: some View {
     if let pageURL = URL(string: article.pageURL), let kind = article.typedKind {
       Button {
+        isLoading = true
         Task { @MainActor in
           do {
             let body = try await downloader(kind: kind, pageURL: pageURL)
-            synthesizer.writeToAudioFile(body: body, pageURL: pageURL)
+            let audioFile = try await synthesizer.writeToAudioFile(body: body, pageURL: pageURL)
           } catch {
             self.error = error
           }
+          isLoading = false
         }
       } label: {
         if isLoading {
@@ -29,11 +32,6 @@ struct DownloadButton: View {
         }
       }
       .errorAlert(error: $error)
-      .errorAlert(error: $synthesizer.error)
     }
-  }
-
-  private var isLoading: Bool {
-    downloader.isLoading || synthesizer.isLoading
   }
 }
