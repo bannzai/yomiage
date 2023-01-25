@@ -31,13 +31,6 @@ final class Player: NSObject, ObservableObject {
     playingArticle != nil && playerNode.isPlaying
   }
 
-  override init() {
-    super.init()
-
-    // For first playback
-    audioEngine.prepare()
-  }
-
   @MainActor func play(article: Article) {
     guard let pageURL = URL(string: article.pageURL), let kind = article.kindWithValue else {
       return
