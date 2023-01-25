@@ -44,10 +44,8 @@ final class Player: NSObject, ObservableObject {
 
     do {
       let readOnlyFile = try AVAudioFile(forReading: AVAudioFile.filePath(for: pageURL), commonFormat: .pcmFormatInt16, interleaved: false)
-      let buffer = AVAudioPCMBuffer(pcmFormat: readOnlyFile.processingFormat, frameCapacity: AVAudioFrameCount(readOnlyFile.length))!
-      try readOnlyFile.read(into: buffer)
 
-      await playerNode.scheduleBuffer(try convert(pcmBuffer: buffer), at: nil)
+      await playerNode.scheduleFile(readOnlyFile, at: nil)
       try audioEngine.start()
       playerNode.play()
     } catch {
