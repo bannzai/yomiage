@@ -10,7 +10,6 @@ struct ArticlesPage: View {
     switch async(articleDatastore.articlesStream()).state {
     case .success(let data):
       let articles = data.all
-
       ArticlesBody(articles: articles)
         .onAppear {
           player.allArticle = articles
