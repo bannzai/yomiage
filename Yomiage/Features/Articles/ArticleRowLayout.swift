@@ -5,7 +5,7 @@ struct ArticleRowLayout<
   ThumbnailImage: View
 > : View {
   @EnvironmentObject private var player: Player
-  @State private var isDownloading = false
+  @StateObject private var synthesizer = Synthesizer()
 
   let article: Article
 
@@ -33,7 +33,7 @@ struct ArticleRowLayout<
 
       HStack(spacing: 4) {
         if let pageURL = URL(string: article.pageURL), !AVAudioFile.isExist(for: pageURL) {
-          DownloadButton(article: article, isDownloading: $isDownloading)
+          DownloadButton(article: article, synthesizer: synthesizer)
         } else if player.isPlaying {
           PauseButton(article: article)
         } else {

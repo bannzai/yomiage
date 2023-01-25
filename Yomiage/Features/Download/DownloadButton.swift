@@ -2,11 +2,11 @@ import SwiftUI
 
 struct DownloadButton: View {
   let article: Article
-  @Binding private var isDownloading: Bool
+  @ObservedObject var synthesizer: Synthesizer
 
   @StateObject private var downloader = HTMLBodyDownloader()
-  @StateObject private var synthesizer = Synthesizer()
   @State private var error: Error?
+  @State private var isDownloading = false
 
   var body: some View {
     if let pageURL = URL(string: article.pageURL), let kind = article.typedKind {
