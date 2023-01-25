@@ -11,6 +11,8 @@ final class Player: NSObject, ObservableObject {
   @AppStorage(.playerRate) var rate: Double
 
   // @Published state for Player events
+  @Published private(set) var finished: Void = ()
+  @Published private(set) var stopped: Void = ()
   @Published private(set) var paused: Void = ()
 
   // @Published status for View
@@ -21,14 +23,13 @@ final class Player: NSObject, ObservableObject {
   var allArticle: [Article] = []
 
   // Audio Player components
-  private let audioEngine = AVAudioEngine()
-  private let playerNode = AVAudioPlayerNode()
+  var player: AVAudioPlayer?
 
   // Temporary state on playing article
   private var writingAudioFile: AVAudioFile?
 
   var isPlaying: Bool {
-    playingArticle != nil && playerNode.isPlaying
+    player?.isPlaying == true
   }
 
   @MainActor func play(article: Article) {
@@ -36,22 +37,10 @@ final class Player: NSObject, ObservableObject {
       return
     }
 
-    stop()
-    resetAudioEngine()
-
     do {
-      try audioEngine.start()
-
-      let readOnlyFile = try AVAudioFile(forReading: AVAudioFile.filePath(for: pageURL), commonFormat: .pcmFormatInt16, interleaved: false)
-      let buffer = AVAudioPCMBuffer(pcmFormat: readOnlyFile.processingFormat, frameCapacity: AVAudioFrameCount(readOnlyFile.length))!
-      try readOnlyFile.read(into: buffer)
-
-      // NOTE: Keep order to call playerNode.scheduleBuffer after audioEngine.start
-      // NOTE: Not use playerNode.scheduleFile. because buffer should convert outputFormat.
-      // FIXME: playerNode.scheduleBuffer has async method, but it is not return result.
-      playerNode.scheduleBuffer(try convert(pcmBuffer: buffer), at: nil, completionHandler: nil)
-
-      playerNode.play()
+      player = try AVAudioPlayer(contentsOf: AVAudioFile.filePath(for: pageURL))
+      player?.delegate = self
+      player?.play()
     } catch {
       fatalError(error.localizedDescription)
     }
@@ -69,28 +58,14 @@ final class Player: NSObject, ObservableObject {
   }
 
   func pause() {
-    if audioEngine.isRunning {
-      audioEngine.pause()
-    }
-    if playerNode.isPlaying {
-      playerNode.pause()
-    }
+    player?.pause()
     paused = ()
   }
 
   func stop() {
-    audioEngine.stop()
-    playerNode.stop()
-  }
-
-  func replay() {
-    do {
-      try audioEngine.start()
-      playerNode.play()
-    } catch {
-      // Ignore error
-      print(error)
-    }
+    player?.stop()
+    playingArticle = nil
+    stopped = ()
   }
 
   func backword() async {
@@ -118,7 +93,7 @@ final class Player: NSObject, ObservableObject {
         return .commandFailed
       }
 
-      replay()
+      player?.play()
       return .success
     }
     MPRemoteCommandCenter.shared().pauseCommand.addTarget { [self] event in
@@ -153,6 +128,17 @@ final class Player: NSObject, ObservableObject {
   }
 }
 
+extension Player: AVAudioPlayerDelegate {
+  public func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
+    playingArticle = nil
+    finished = ()
+  }
+
+  public func audioPlayerDecodeErrorDidOccur(_ player: AVAudioPlayer, error: Error?) {
+
+  }
+}
+
 // MARK: - Private
 extension Player {
   private func configurePlayingCenter(title: String) {
@@ -160,15 +146,6 @@ extension Player {
       MPMediaItemPropertyTitle: title,
       MPNowPlayingInfoPropertyPlaybackRate: rate
     ]
-  }
-
-  private func resetAudioEngine() {
-    playerNode.reset()
-    audioEngine.reset()
-
-    audioEngine.attach(playerNode)
-    audioEngine.connect(playerNode, to: audioEngine.mainMixerNode, format: Const.outputAudioFormat)
-    audioEngine.prepare()
   }
 
   private func previousArticle() -> Article? {
@@ -193,33 +170,6 @@ extension Player {
     }
 
     return allArticle[index + 1]
-  }
-
-  func convert(pcmBuffer: AVAudioPCMBuffer) throws -> AVAudioPCMBuffer {
-    // NOTE: SpeechSynthesizer PCM format is pcmFormatInt16
-    // it must be convert to .pcmFormatFloat32 if use pcmFormatInt16
-    // ref: https://developer.apple.com/forums/thread/27674
-    let converter = AVAudioConverter(
-      from: AVAudioFormat(
-        commonFormat: .pcmFormatInt16,
-        sampleRate: 22050,
-        channels: 1,
-        interleaved: false
-      )!,
-      to: Const.outputAudioFormat
-    )
-    let convertedBuffer = AVAudioPCMBuffer(
-      pcmFormat: AVAudioFormat(
-        commonFormat: Const.outputAudioFormat.commonFormat,
-        sampleRate: pcmBuffer.format.sampleRate,
-        channels: pcmBuffer.format.channelCount,
-        interleaved: false
-      )!,
-      frameCapacity: pcmBuffer.frameCapacity
-    )!
-
-    try converter?.convert(to: convertedBuffer, from: pcmBuffer)
-    return convertedBuffer
   }
 }
 
