@@ -45,9 +45,7 @@ final class Player: NSObject, ObservableObject {
       let readOnlyFile = try AVAudioFile(forReading: AVAudioFile.filePath(for: pageURL), commonFormat: .pcmFormatInt16, interleaved: false)
       // NOTE: Keep order to call playerNode.scheduleFile after audioEngine.start
       // FIXME: playerNode.scheduleFile has async method, but it is not return result.
-      playerNode.scheduleFile(readOnlyFile, at: nil, completionCallbackType: .dataConsumed) { _ in
-        print("data consumed")
-      }
+      playerNode.scheduleFile(readOnlyFile, at: nil, completionHandler: nil)
       playerNode.play()
     } catch {
       fatalError(error.localizedDescription)
