@@ -14,6 +14,7 @@ final class Player: NSObject, ObservableObject {
   @Published private(set) var finished: Void = ()
   @Published private(set) var stopped: Void = ()
   @Published private(set) var paused: Void = ()
+  @Published private(set) var resumed: Void = ()
 
   // @Published status for View
   @Published private(set) var playingArticle: Article?
@@ -64,8 +65,14 @@ final class Player: NSObject, ObservableObject {
     paused = ()
   }
 
+  func resume() {
+    player?.play()
+    resumed = ()
+  }
+
   func stop() {
     player?.stop()
+    player = nil
     playingArticle = nil
     stopped = ()
   }
@@ -133,6 +140,7 @@ final class Player: NSObject, ObservableObject {
 extension Player: AVAudioPlayerDelegate {
   public func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
     playingArticle = nil
+    self.player = nil
     finished = ()
   }
 

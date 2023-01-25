@@ -45,7 +45,12 @@ struct PlayerBar: View {
           Button {
             analytics.logEvent("player_bar_play_button_pressed", parameters: ["article_id": String(describing: article.id)])
 
-            player.play(article: article)
+
+            if player.playingArticle == nil {
+              player.play(article: article)
+            } else {
+              player.resume()
+            }
           } label: {
             Image(systemName: "play.fill")
               .padding()

@@ -9,7 +9,11 @@ struct PlayButton: View {
     AsyncButton {
       analytics.logEvent("article_start_play", parameters: ["article_id": String(describing: article.id), "kind": article.kind])
 
-      player.play(article: article)
+      if player.playingArticle == nil {
+        player.play(article: article)
+      } else {
+        player.resume()
+      }
     } label: {
       Image(systemName: "play.fill")
         .frame(width: 14, height: 14)
