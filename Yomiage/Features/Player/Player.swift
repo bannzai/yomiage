@@ -8,7 +8,11 @@ final class Player: NSObject, ObservableObject {
     static let outputAudioFormat = AVAudioFormat(commonFormat: .pcmFormatFloat32, sampleRate: 22050, channels: 1, interleaved: false)!
   }
 
-  @AppStorage(.playerRate) var rate: Double
+  @AppStorage(.playerRate) var rate: Double {
+    didSet {
+      player?.rate = Float(rate)
+    }
+  }
 
   // @Published state for Player events
   @Published private(set) var finished: Void = ()
@@ -41,6 +45,7 @@ final class Player: NSObject, ObservableObject {
     do {
       player = try AVAudioPlayer(contentsOf: AVAudioFile.filePath(for: pageURL))
       player?.enableRate = true
+      player?.rate = Float(rate)
       player?.delegate = self
       player?.play()
     } catch {

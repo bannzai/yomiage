@@ -77,7 +77,7 @@ struct PlayerBar: View {
 
       HStack {
         Text("読む速さ")
-        Slider(value: $player.rate, in: 0...1)
+        Slider(value: $player.rate, in: 0...2)
       }
       .padding()
 
