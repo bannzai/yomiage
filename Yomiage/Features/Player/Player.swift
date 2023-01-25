@@ -11,11 +11,9 @@ final class Player: NSObject, ObservableObject {
   @AppStorage(.playerRate) var rate: Double
 
   // @Published state for Player events
-  // Update View for each timing
-  @Published private(set) var spoken: Void = ()
   @Published private(set) var paused: Void = ()
 
-  // @Published status for presentation
+  // @Published status for View
   @Published private(set) var playingArticle: Article?
   @Published var error: Error?
 
