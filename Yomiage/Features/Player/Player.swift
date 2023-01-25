@@ -78,6 +78,16 @@ final class Player: NSObject, ObservableObject {
     playerNode.stop()
   }
 
+  func replay() {
+    do {
+      try audioEngine.start()
+      playerNode.play()
+    } catch {
+      // Ignore error
+      print(error)
+    }
+  }
+
   func backword() async {
     guard let previousArticle = self.previousArticle() else {
       return
@@ -112,7 +122,7 @@ final class Player: NSObject, ObservableObject {
         return .commandFailed
       }
 
-      replayAudioComponent()
+      replay()
       return .success
     }
     MPRemoteCommandCenter.shared().pauseCommand.addTarget { [self] event in
@@ -178,16 +188,6 @@ extension Player {
     }
 
     return allArticle[index + 1]
-  }
-
-  private func replayAudioComponent() {
-    do {
-      try audioEngine.start()
-      playerNode.play()
-    } catch {
-      // Ignore error
-      print(error)
-    }
   }
 
   func convert(pcmBuffer: AVAudioPCMBuffer) throws -> AVAudioPCMBuffer {
