@@ -106,15 +106,6 @@ final class Player: NSObject, ObservableObject {
     await play(article: nextArticle)
   }
 
-  func resetAudioEngine() {
-    playerNode.reset()
-    audioEngine.reset()
-
-    audioEngine.attach(playerNode)
-    audioEngine.connect(playerNode, to: audioEngine.mainMixerNode, format: Const.outputAudioFormat)
-    audioEngine.prepare()
-  }
-
   func setupRemoteTransportControls() {
     MPRemoteCommandCenter.shared().playCommand.addTarget { [self] event in
       print("#playCommand", "isPlaying: \(isPlaying)")
@@ -164,6 +155,15 @@ extension Player {
       MPMediaItemPropertyTitle: title,
       MPNowPlayingInfoPropertyPlaybackRate: rate
     ]
+  }
+
+  private func resetAudioEngine() {
+    playerNode.reset()
+    audioEngine.reset()
+
+    audioEngine.attach(playerNode)
+    audioEngine.connect(playerNode, to: audioEngine.mainMixerNode, format: Const.outputAudioFormat)
+    audioEngine.prepare()
   }
 
   private func previousArticle() -> Article? {
