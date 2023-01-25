@@ -64,7 +64,13 @@ final class Player: NSObject, ObservableObject {
   }
 
   func pause() {
-    pauseAudioComponents()
+    if audioEngine.isRunning {
+      audioEngine.pause()
+    }
+    if playerNode.isPlaying {
+      playerNode.pause()
+    }
+    paused = ()
   }
 
   func backword() async {
@@ -72,7 +78,7 @@ final class Player: NSObject, ObservableObject {
       return
     }
 
-    pauseAudioComponents()
+    pause()
     await play(article: previousArticle)
   }
 
@@ -81,7 +87,7 @@ final class Player: NSObject, ObservableObject {
       return
     }
 
-    pauseAudioComponents()
+    pause()
     await play(article: nextArticle)
   }
 
@@ -110,7 +116,7 @@ final class Player: NSObject, ObservableObject {
         return .commandFailed
       }
 
-      pauseAudioComponents()
+      pause()
       return .success
     }
     MPRemoteCommandCenter.shared().nextTrackCommand.addTarget { [self] event in
@@ -179,16 +185,6 @@ extension Player {
     }
   }
 
-  private func pauseAudioComponents() {
-    if audioEngine.isRunning {
-      audioEngine.pause()
-    }
-    if playerNode.isPlaying {
-      playerNode.pause()
-    }
-    paused = ()
-  }
-
   private func stopAudioComponents() {
     audioEngine.stop()
     playerNode.stop()
@@ -233,7 +229,7 @@ extension Player {
 //       readCache(file: readOnlyFile, into: cachedPCMBuffer) {
 //      speak(pcmBuffer: cachedPCMBuffer) { [weak self] in
 //        DispatchQueue.main.async {
-//          self?.pauseAudioComponents()
+//          self?.pause()
 //        }
 //      }
 //    }
