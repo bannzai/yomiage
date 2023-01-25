@@ -31,27 +31,28 @@ final class Player: NSObject, ObservableObject {
     playingArticle != nil && playerNode.isPlaying
   }
 
-  @MainActor func play(article: Article) async {
+  @MainActor func play(article: Article) {
     guard let pageURL = URL(string: article.pageURL), let kind = article.kindWithValue else {
       return
     }
-
-    // NOTE: Keep publish changes before `playNode.play`
-    playingArticle = article
 
     stop()
     resetAudioEngine()
 
     do {
       let readOnlyFile = try AVAudioFile(forReading: AVAudioFile.filePath(for: pageURL), commonFormat: .pcmFormatInt16, interleaved: false)
-
-      await playerNode.scheduleFile(readOnlyFile, at: nil)
       try audioEngine.start()
+
+      // NOTE: Keep order to call playerNode.scheduleFile after audioEngine.start
+      playerNode.scheduleFile(readOnlyFile, at: nil, completionCallbackType: .dataConsumed) { _ in
+        print("data consumed")
+      }
       playerNode.play()
     } catch {
       fatalError(error.localizedDescription)
     }
 
+    playingArticle = article
 
     let title: String
     switch kind {
