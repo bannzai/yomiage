@@ -35,10 +35,11 @@ struct ArticleRowLayout<
         if let pageURL = URL(string: article.pageURL), !AVAudioFile.isExist(for: pageURL) {
           DownloadButton(article: article, synthesizer: synthesizer)
         } else if player.isPlaying {
-          if player.playingArticle == article {
+          if player.playingArticle?.pageURL == article.pageURL {
             PauseButton(article: article)
           } else {
-            PlayButton(article: article).disabled(true)
+            PlayButton(article: article)
+              .disabled(true)
           }
         } else {
           PlayButton(article: article)
