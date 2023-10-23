@@ -39,11 +39,9 @@
 		20FF78F6281F4D40001D062E /* Article.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FF78F5281F4D40001D062E /* Article.swift */; };
 		20FF78FD281F4F0B001D062E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FF78FC281F4F0B001D062E /* AppDelegate.swift */; };
 		20FF7901281F70A5001D062E /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 20FF7900281F70A5001D062E /* FirebaseAnalytics */; };
-		20FF7903281F70A5001D062E /* FirebaseAnalyticsSwift-Beta in Frameworks */ = {isa = PBXBuildFile; productRef = 20FF7902281F70A5001D062E /* FirebaseAnalyticsSwift-Beta */; };
 		20FF7905281F70A5001D062E /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 20FF7904281F70A5001D062E /* FirebaseAuth */; };
 		20FF7907281F70A5001D062E /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = 20FF7906281F70A5001D062E /* FirebaseCrashlytics */; };
 		20FF7909281F70A5001D062E /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 20FF7908281F70A5001D062E /* FirebaseFirestore */; };
-		20FF790C281F7472001D062E /* FirebaseFirestoreSwift-Beta in Frameworks */ = {isa = PBXBuildFile; productRef = 20FF790B281F7472001D062E /* FirebaseFirestoreSwift-Beta */; };
 		20FF7913281F7686001D062E /* UserDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FF7912281F7686001D062E /* UserDatabase.swift */; };
 		20FF7919281F77CF001D062E /* ArticleDatastore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FF7918281F77CF001D062E /* ArticleDatastore.swift */; };
 		20FF791C281F868A001D062E /* StreamView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FF791B281F868A001D062E /* StreamView.swift */; };
@@ -159,11 +157,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				20FF7903281F70A5001D062E /* FirebaseAnalyticsSwift-Beta in Frameworks */,
 				20FF7907281F70A5001D062E /* FirebaseCrashlytics in Frameworks */,
 				20FF7905281F70A5001D062E /* FirebaseAuth in Frameworks */,
 				204B25F7297BCF1E000DCAF7 /* Async in Frameworks */,
-				20FF790C281F7472001D062E /* FirebaseFirestoreSwift-Beta in Frameworks */,
 				20FF793F281FC321001D062E /* Kanna in Frameworks */,
 				20FF7909281F70A5001D062E /* FirebaseFirestore in Frameworks */,
 				20FF7901281F70A5001D062E /* FirebaseAnalytics in Frameworks */,
@@ -461,11 +457,9 @@
 			name = Yomiage;
 			packageProductDependencies = (
 				20FF7900281F70A5001D062E /* FirebaseAnalytics */,
-				20FF7902281F70A5001D062E /* FirebaseAnalyticsSwift-Beta */,
 				20FF7904281F70A5001D062E /* FirebaseAuth */,
 				20FF7906281F70A5001D062E /* FirebaseCrashlytics */,
 				20FF7908281F70A5001D062E /* FirebaseFirestore */,
-				20FF790B281F7472001D062E /* FirebaseFirestoreSwift-Beta */,
 				20FF793E281FC321001D062E /* Kanna */,
 				204B25F6297BCF1E000DCAF7 /* Async */,
 			);
@@ -1007,7 +1001,7 @@
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
 			requirement = {
 				kind = upToNextMinorVersion;
-				minimumVersion = 8.15.0;
+				minimumVersion = 10.16.0;
 			};
 		};
 		20FF793D281FC321001D062E /* XCRemoteSwiftPackageReference "Kanna" */ = {
@@ -1031,11 +1025,6 @@
 			package = 20FF78FF281F70A5001D062E /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseAnalytics;
 		};
-		20FF7902281F70A5001D062E /* FirebaseAnalyticsSwift-Beta */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 20FF78FF281F70A5001D062E /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = "FirebaseAnalyticsSwift-Beta";
-		};
 		20FF7904281F70A5001D062E /* FirebaseAuth */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 20FF78FF281F70A5001D062E /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
@@ -1050,11 +1039,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 20FF78FF281F70A5001D062E /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseFirestore;
-		};
-		20FF790B281F7472001D062E /* FirebaseFirestoreSwift-Beta */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 20FF78FF281F70A5001D062E /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = "FirebaseFirestoreSwift-Beta";
 		};
 		20FF793E281FC321001D062E /* Kanna */ = {
 			isa = XCSwiftPackageProductDependency;
