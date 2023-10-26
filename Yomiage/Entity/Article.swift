@@ -2,7 +2,7 @@ import Foundation
 import FirebaseFirestore
 import FirebaseFirestoreSwift
 
-struct Article: Codable, Hashable, Identifiable {
+struct Article: Codable, Equatable, Hashable, Identifiable {
   @DocumentID var id: String?
   let kind: String
   let pageURL: String
