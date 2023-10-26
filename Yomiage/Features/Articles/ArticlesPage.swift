@@ -1,15 +1,59 @@
+import Async
 import SwiftUI
 
 struct ArticlesPage: View {
+  @Async<StreamData<Article>> var async
+  @Environment(\.articleDatastore) var articleDatastore
+  @Environment(AddArticleHTMLLoader.self) var loader
+  @EnvironmentObject var player: Player
+  @State var error: Error?
+
+  var body: some View {
+    Group {
+      switch async(articleDatastore.articlesStream()).state {
+      case .success(let data):
+        let articles = data.all
+        ArticlesBody(articles: articles)
+          .onAppear {
+            player.allArticle = articles
+          }
+      case .failure(let error):
+        UniversalErrorView(error: error, reload: async.resetState)
+      case .loading:
+        ProgressView()
+      }
+    }
+    .onChange(of: loader.loadedArticle) { _, article in
+      if let article = article {
+        Task { @MainActor in
+          do {
+            try await articleDatastore.create(article: article)
+          } catch {
+            self.error = error
+          }
+        }
+      }
+    }
+    .onChange(of: loader.localizedError) { _, error in
+      self.error = error
+    }
+    .errorAlert(error: $error)
+  }
+}
+
+struct ArticlesBody: View {
   @Environment(\.articleDatastore) var articleDatastore
   @EnvironmentObject var player: Player
+  @Environment(AddArticleHTMLLoader.self) var loader
 
   @State private var addArticleSheetIsPresented = false
   @State private var playerSettingSheetIsPresented = false
   @State private var error: Error?
 
+  let articles: [Article]
+
   var body: some View {
-    StreamView(stream: articleDatastore.articlesStream()) { (articles, changes) in
+    Group {
       if articles.isEmpty {
         VStack(spacing: 0) {
           Text("記事を追加しましょう")
@@ -61,8 +105,8 @@ struct ArticlesPage: View {
           }
           .listStyle(.plain)
 
-          if let targetArticle = player.targetArticle {
-            PlayerBar(article: targetArticle)
+          if let playingArticle = player.playingArticle {
+            PlayerBar(article: playingArticle)
           }
         }
         .navigationBarHidden(false)
@@ -107,19 +151,14 @@ struct ArticlesPage: View {
           }
         })
       }
-    } errorContent: { error, reload in
-      UniversalErrorView(error: error, reload: reload)
-    } loading: {
-      ProgressView()
-    } onListen: { (articles, changes) in
-      player.allArticle = articles
+    }
+    .sheet(isPresented: $addArticleSheetIsPresented, detents: [.medium()]) {
+      AddArticleSheet()
+        .environment(loader)
     }
     .sheet(isPresented: $playerSettingSheetIsPresented, detents: [.medium()]) {
       PlayerSettingSheet()
         .environmentObject(player)
-    }
-    .sheet(isPresented: $addArticleSheetIsPresented, detents: [.medium()]) {
-      AddArticleSheet()
     }
     .errorAlert(error: $error)
   }

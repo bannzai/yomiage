@@ -109,14 +109,14 @@ private final class LoadWebView: WKWebView, WKNavigationDelegate {
   }
 }
 
-@MainActor private func load(url: URL, javaScript: String, evaluted: @escaping (Result<String, WebViewLoadHTMLError>) -> Void) {
+@MainActor private func load(url: URL, javaScript: String, evalute: @escaping (Result<String, WebViewLoadHTMLError>) -> Void) {
   // HACK: Keep reference to end eval javaScript task via `load(url:javaScript) async throws -> String`
   var webView: LoadWebView? = LoadWebView()
   webView?.load(
     url: url,
     javaScript: javaScript,
     evaluatedJavaScript: { result in
-      evaluted(result)
+      evalute(result)
 
       // Release reference after eval
       webView = nil
