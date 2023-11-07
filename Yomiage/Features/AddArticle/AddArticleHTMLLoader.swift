@@ -1,10 +1,12 @@
 import SwiftUI
 import Kanna
 
-@Observable final class AddArticleHTMLLoader {
-  var isLoading: Bool = false
-  var localizedError: AddArticleError?
-  var loadedArticle: Article?
+final class AddArticleHTMLLoader: ObservableObject {
+  @Environment(\.articleDatastore) private var articleDatastore
+
+  @Published private(set) var isLoading: Bool = false
+  @Published private(set) var localizedError: LocalizedError?
+  @Published private(set) var loadedArticle: Article?
 
   @MainActor func load(url: URL) async {
     analytics.logEvent("load_html_body", parameters: ["url": url.absoluteString])
@@ -23,7 +25,11 @@ import Kanna
         throw error
       }
     } catch {
-      self.localizedError = .init(error: error)
+      if let localizedError = error as? LocalizedError {
+        self.localizedError = localizedError
+      } else {
+        self.localizedError = WebViewLoadHTMLError(error: error)
+      }
     }
   }
 
@@ -69,21 +75,4 @@ import Kanna
     // No match
     throw "ページが読み込めませんでした。URLをご確認ください"
   }
-}
-
-struct AddArticleError: LocalizedError, Equatable {
-  static func == (lhs: AddArticleError, rhs: AddArticleError) -> Bool {
-    lhs._domain == rhs._domain && lhs._code == rhs._code
-  }
-  
-  let error: Error?
-
-  var errorDescription: String? {
-    "記事の登録に失敗しました"
-  }
-  var failureReason: String? {
-    error?.localizedDescription
-  }
-  var recoverySuggestion: String?
-  var helpAnchor: String?
 }

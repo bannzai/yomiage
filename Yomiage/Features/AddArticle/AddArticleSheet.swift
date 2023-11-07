@@ -4,8 +4,9 @@ struct AddArticleSheet: View {
   @Environment(\.dismiss) private var dismiss
   @Environment(\.articleDatastore) private var articleDatastore
 
-  @Environment(AddArticleHTMLLoader.self) var loader
+  @StateObject private var loader = AddArticleHTMLLoader()
   @State private var text: String = ""
+  @State private var error: Error?
 
   var body: some View {
     ZStack {
@@ -28,7 +29,6 @@ struct AddArticleSheet: View {
 
               if let url = url {
                 await loader.load(url: url)
-                dismiss()
               }
             } label: {
               Text("追加する")
@@ -36,7 +36,7 @@ struct AddArticleSheet: View {
               ProgressView()
             }
             .buttonStyle(.primary)
-            .disabled(url == nil)
+            .disabled(url == nil || loader.isLoading)
 
             Text("※ 現在はnote.com,medium.comに対応しています")
               .font(.system(.caption2))
@@ -46,7 +46,37 @@ struct AddArticleSheet: View {
         }
       )
     }
+    .onReceive(loader.$loadedArticle) { article in
+      if let article = article {
+        Task { @MainActor in
+          do {
+            try await articleDatastore.create(article: article)
+            dismiss()
+          } catch {
+            self.error = error
+          }
+        }
+      }
+    }
+    .onReceive(loader.$localizedError, perform: { error in
+      self.error = error
+    })
+    .errorAlert(error: $error)
   }
 
   private var url: URL? { .init(string: text) }
+}
+
+
+private struct AddArticleError: LocalizedError {
+  let error: Error?
+
+  var errorDescription: String? {
+    "記事の登録に失敗しました"
+  }
+  var failureReason: String? {
+    error?.localizedDescription
+  }
+  var recoverySuggestion: String?
+  var helpAnchor: String?
 }

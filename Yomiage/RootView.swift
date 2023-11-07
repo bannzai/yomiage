@@ -1,6 +1,8 @@
 import SwiftUI
 
 struct RootView: View {
+  @Environment(\.auth) private var auth
+
   @StateObject var screenStateNotifier = ScreenStateNotifier()
   @StateObject var player = Player()
 
@@ -33,7 +35,7 @@ struct RootView: View {
   private func logIn() {
     Task { @MainActor in
       do {
-        let user = try await Auth.shared.signInOrCachedUser()
+        let user = try await auth.signInOrCachedUser()
         errorLogger.setup(user: user)
       } catch {
         signInError = error

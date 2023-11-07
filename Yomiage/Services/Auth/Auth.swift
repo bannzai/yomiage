@@ -14,9 +14,6 @@ public struct Auth {
     FirebaseAuth.Auth.auth().currentUser
   }
 
-  private init() { }
-  static let shared: Auth = .init()
-
   // MARK: - Stream
   public func stateDidChange() -> AsyncStream<User?> {
     .init { continuation in
@@ -54,3 +51,19 @@ public struct Auth {
     }
   }
 }
+
+public struct AuthEnvironmentKey: SwiftUI.EnvironmentKey {
+  public static var defaultValue: Auth = .init()
+}
+
+extension EnvironmentValues {
+  public var auth: Auth {
+    get {
+      self[AuthEnvironmentKey.self]
+    }
+    set {
+      self[AuthEnvironmentKey.self] = newValue
+    }
+  }
+}
+
