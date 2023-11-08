@@ -1,10 +1,13 @@
 import SwiftUI
+import FirebaseFirestore
 
 struct AddArticleSheet: View {
   @Environment(\.dismiss) private var dismiss
   @Environment(\.articleDatastore) private var articleDatastore
 
+  @ObservedObject var synthesizer: Synthesizer
   @State private var text: String = ""
+  @State private var error: Error?
 
   var body: some View {
     ZStack {
@@ -26,8 +29,24 @@ struct AddArticleSheet: View {
               analytics.logEvent("add_article_button_on_sheet", parameters: ["url": String(describing: url?.absoluteString)])
 
               if let url = url {
-                await loader.load(url: url)
-                dismiss()
+                do {
+                  let html = try await loadHTML(url: url)
+                  let htmlToSSML = try await functions.htmlToSSML(url: url, html: html)
+
+                  let article = htmlToSSML.article
+                  try await articleDatastore.create(
+                    article: .init(
+                      pageURL: article.pageURL,
+                      title: article.title,
+                      author: article.author,
+                      eyeCatchImageURL: article.eyeCatchImageURL,
+                      createdDate: Timestamp(date: .now)
+                    )
+                  )
+                  dismiss()
+                } catch {
+                  self.error = error
+                }
               }
             } label: {
               Text("追加する")
@@ -36,6 +55,7 @@ struct AddArticleSheet: View {
             }
             .buttonStyle(.primary)
             .disabled(url == nil)
+            .errorAlert(error: $error)
 
             Text("※ 現在はnote.com,medium.comに対応しています")
               .font(.system(.caption2))
