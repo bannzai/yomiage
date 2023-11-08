@@ -45,8 +45,9 @@ final class Synthesizer: NSObject, ObservableObject {
           guard let pcmBuffer = buffer as? AVAudioPCMBuffer else {
             return
           }
+
+          // Maybe did finish synthesizer.write
           if pcmBuffer.frameLength == 0 {
-            // Maybe did finish synthesizer.write
             if let writingAudioFile {
               continuation.resume(returning: writingAudioFile)
             } else {
