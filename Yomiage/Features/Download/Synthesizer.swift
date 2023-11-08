@@ -21,7 +21,8 @@ final class Synthesizer: NSObject, ObservableObject {
   }
 
   private func buildUtterance(string: String) -> AVSpeechUtterance {
-    let utterance = AVSpeechUtterance(string: string)
+    let utterance = AVSpeechUtterance(ssmlRepresentation: string)!
+//    let utterance = AVSpeechUtterance(string: string)
     utterance.volume = Float(volume)
     utterance.rate = Float(rate)
     utterance.pitchMultiplier = Float(pitch)
