@@ -7,7 +7,7 @@ struct PauseButton: View {
 
   var body: some View {
     Button {
-      analytics.logEvent("article_pause_play", parameters: ["article_id": String(describing: article.id), "kind": article.kind])
+      analytics.logEvent("article_pause_play", parameters: ["article_id": String(describing: article.id)])
 
       player.pause()
     } label: {

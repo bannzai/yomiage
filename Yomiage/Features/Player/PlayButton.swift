@@ -7,7 +7,7 @@ struct PlayButton: View {
 
   var body: some View {
     AsyncButton {
-      analytics.logEvent("article_start_play", parameters: ["article_id": String(describing: article.id), "kind": article.kind])
+      analytics.logEvent("article_start_play", parameters: ["article_id": String(describing: article.id)])
 
       if player.playingArticle == nil {
         player.play(article: article)

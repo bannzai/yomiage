@@ -4,7 +4,6 @@ import SwiftUI
 struct ArticlesPage: View {
   @Async<StreamData<Article>> var async
   @Environment(\.articleDatastore) var articleDatastore
-  @Environment(AddArticleHTMLLoader.self) var loader
   @EnvironmentObject var player: Player
   @State var error: Error?
 
@@ -23,20 +22,6 @@ struct ArticlesPage: View {
         ProgressView()
       }
     }
-    .onChange(of: loader.loadedArticle) { _, article in
-      if let article = article {
-        Task { @MainActor in
-          do {
-            try await articleDatastore.create(article: article)
-          } catch {
-            self.error = error
-          }
-        }
-      }
-    }
-    .onChange(of: loader.localizedError) { _, error in
-      self.error = error
-    }
     .errorAlert(error: $error)
   }
 }
@@ -44,7 +29,7 @@ struct ArticlesPage: View {
 struct ArticlesBody: View {
   @Environment(\.articleDatastore) var articleDatastore
   @EnvironmentObject var player: Player
-  @Environment(AddArticleHTMLLoader.self) var loader
+  @StateObject private var synthesizer = Synthesizer()
 
   @State private var addArticleSheetIsPresented = false
   @State private var playerSettingSheetIsPresented = false
@@ -73,19 +58,33 @@ struct ArticlesBody: View {
         ZStack(alignment: .bottom) {
           List {
             ForEach(articles) { article in
-              switch article.typedKind {
-              case .note:
-                VStack(alignment: .leading, spacing: 0) {
-                  NoteArticle(article: article, noteArticle: article.note)
-                  Divider()
-                }
-              case .medium:
-                VStack(alignment: .leading, spacing: 0) {
-                  MediumArticle(article: article, mediumArticle: article.medium)
-                  Divider()
-                }
-              case nil:
-                EmptyView()
+              ZStack {
+                ArticleRowLayout(
+                  article: article,
+                  thumbnailImage: {
+                    Group {
+                      if let eyeCatchImageURL = article.eyeCatchImageURL,
+                         let url = URL(string: eyeCatchImageURL) {
+                        AsyncImage(url: url) { image in
+                          image
+                            .resizable()
+                            .scaledToFill()
+                        } placeholder: {
+                          ProgressView()
+                        }
+                      } else {
+                        Image(systemName: "photo")
+                      }
+                    }
+                  },
+                  title: {
+                    Text(article.title ?? "Unknown title")
+                  },
+                  author: {
+                    Text(article.author ?? "Unknown author")
+                  }
+                )
+                .padding()
               }
             }
             .onDelete(perform: { indexSet in
@@ -153,8 +152,7 @@ struct ArticlesBody: View {
       }
     }
     .sheet(isPresented: $addArticleSheetIsPresented, detents: [.medium()]) {
-      AddArticleSheet()
-        .environment(loader)
+      AddArticleSheet(synthesizer: synthesizer)
     }
     .sheet(isPresented: $playerSettingSheetIsPresented, detents: [.medium()]) {
       PlayerSettingSheet()

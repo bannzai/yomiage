@@ -54,16 +54,7 @@ final class Player: NSObject, ObservableObject {
 
     playingArticle = article
 
-    if let kind = article.kindWithValue {
-      let title: String
-      switch kind {
-      case let .note(note):
-        title = note.title
-      case let .medium(medium):
-        title = medium.title
-      }
-      configurePlayingCenter(title: title)
-    }
+    configurePlayingCenter(title: article.title ?? "Unknown title")
   }
 
   func pause() {
