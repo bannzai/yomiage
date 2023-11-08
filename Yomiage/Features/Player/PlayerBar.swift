@@ -13,7 +13,7 @@ struct PlayerBar: View {
     VStack {
       Divider()
 
-      if let title = title {
+      if let title = article.title {
         Text(title)
           .font(.subheadline.weight(.medium))
           .padding(.top)
@@ -88,16 +88,5 @@ struct PlayerBar: View {
     .frame(height: Const.height)
     .padding(.bottom, Const.bottomPadding)
     .background(Color(.systemGray6))
-  }
-
-  private var title: String? {
-    switch article.kindWithValue {
-    case let .note(note):
-      return note.title
-    case let .medium(medium):
-      return medium.title
-    case nil:
-      return nil
-    }
   }
 }
