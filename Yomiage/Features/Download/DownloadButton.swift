@@ -4,7 +4,6 @@ struct DownloadButton: View {
   let article: Article
   @ObservedObject var synthesizer: Synthesizer
 
-  @StateObject private var downloader = HTMLBodyDownloader()
   @State private var error: Error?
   @State private var isDownloading = false
 
@@ -14,7 +13,8 @@ struct DownloadButton: View {
         isDownloading = true
         Task { @MainActor in
           do {
-            let body = try await downloader(kind: kind, pageURL: pageURL)
+            let html = try await loadHTML(url: pageURL)
+            let htmlToSSML = try await functions.htmlToSSML(url: pageURL, html: html)
             _ = try await synthesizer.writeToAudioFile(body: body, pageURL: pageURL)
           } catch {
             self.error = error
