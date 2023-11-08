@@ -45,8 +45,11 @@ struct PlayerBar: View {
           Button {
             analytics.logEvent("player_bar_play_button_pressed", parameters: ["article_id": String(describing: article.id)])
 
-            Task { @MainActor in
-              await player.start(article: article)
+
+            if player.playingArticle == nil {
+              player.play(article: article)
+            } else {
+              player.resume()
             }
           } label: {
             Image(systemName: "play.fill")
@@ -68,6 +71,14 @@ struct PlayerBar: View {
       }
       .font(.title)
       .foregroundColor(.label)
+      .padding()
+
+      Divider()
+
+      HStack {
+        Text("読む速さ")
+        Slider(value: $player.rate, in: 0...2)
+      }
       .padding()
 
       Divider()
