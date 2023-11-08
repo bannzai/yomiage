@@ -16,7 +16,6 @@
 		204B25F7297BCF1E000DCAF7 /* Async in Frameworks */ = {isa = PBXBuildFile; productRef = 204B25F6297BCF1E000DCAF7 /* Async */; };
 		204B25FB297D00CF000DCAF7 /* Synthesizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 204B25FA297D00CF000DCAF7 /* Synthesizer.swift */; };
 		204B2600297D5E93000DCAF7 /* DownloadButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 204B25FF297D5E93000DCAF7 /* DownloadButton.swift */; };
-		204B2602297D626E000DCAF7 /* HTMLBodyDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 204B2601297D626E000DCAF7 /* HTMLBodyDownloader.swift */; };
 		204B2604297EBA29000DCAF7 /* AVAudioFile+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 204B2603297EBA29000DCAF7 /* AVAudioFile+.swift */; };
 		204B2607297FDD33000DCAF7 /* PlayButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 204B2606297FDD33000DCAF7 /* PlayButton.swift */; };
 		204B2609297FDEC8000DCAF7 /* PauseButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 204B2608297FDEC8000DCAF7 /* PauseButton.swift */; };
@@ -101,7 +100,6 @@
 		203A88C22823FF3A00B4C12C /* AsyncButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncButton.swift; sourceTree = "<group>"; };
 		204B25FA297D00CF000DCAF7 /* Synthesizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Synthesizer.swift; sourceTree = "<group>"; };
 		204B25FF297D5E93000DCAF7 /* DownloadButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadButton.swift; sourceTree = "<group>"; };
-		204B2601297D626E000DCAF7 /* HTMLBodyDownloader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTMLBodyDownloader.swift; sourceTree = "<group>"; };
 		204B2603297EBA29000DCAF7 /* AVAudioFile+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AVAudioFile+.swift"; sourceTree = "<group>"; };
 		204B2606297FDD33000DCAF7 /* PlayButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayButton.swift; sourceTree = "<group>"; };
 		204B2608297FDEC8000DCAF7 /* PauseButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PauseButton.swift; sourceTree = "<group>"; };
@@ -223,7 +221,6 @@
 				20FF7940281FC369001D062E /* LoadWebView.swift */,
 				204B25FA297D00CF000DCAF7 /* Synthesizer.swift */,
 				204B25FF297D5E93000DCAF7 /* DownloadButton.swift */,
-				204B2601297D626E000DCAF7 /* HTMLBodyDownloader.swift */,
 			);
 			path = Download;
 			sourceTree = "<group>";
@@ -633,7 +630,6 @@
 				20FF7946281FFCE1001D062E /* HUD.swift in Sources */,
 				203A88C32823FF3A00B4C12C /* AsyncButton.swift in Sources */,
 				20FF795B2821E5B3001D062E /* ArticleWebView.swift in Sources */,
-				204B2602297D626E000DCAF7 /* HTMLBodyDownloader.swift in Sources */,
 				20E7069728238CEB00DF824F /* NavigationLink.swift in Sources */,
 				2037DF9628265C8600F43B11 /* Timeout.swift in Sources */,
 				20FF795F28220344001D062E /* UINavigationBar+.swift in Sources */,
