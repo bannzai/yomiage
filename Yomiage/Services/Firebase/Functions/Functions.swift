@@ -14,8 +14,8 @@ extension FirebaseFunctions.Functions {
       let content: String
     }
   }
-  func htmlToSSML(html: String) async throws -> HTMLToSSML {
-    let result = try await httpsCallable("html_to_ssml").call(["html": html])
+  func htmlToSSML(url: String, html: String) async throws -> HTMLToSSML {
+    let result = try await httpsCallable("html_to_ssml").call(["url": url, "html": html])
     return try result.decode()
   }
 }
