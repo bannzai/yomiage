@@ -55,6 +55,7 @@ final class Synthesizer: NSObject, ObservableObject {
             }
             return
           }
+
           guard let self else {
             return
           }
