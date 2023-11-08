@@ -6,7 +6,7 @@ let functions = FirebaseFunctions.Functions.functions(region: "asia-northeast1")
 // MARK: - html_to_ssml
 extension FirebaseFunctions.Functions {
   struct Article: Codable {
-    var url: String
+    var pageURL: String
     var title: String?
     var author: String?
     var eyeCatchImageURL: String?
