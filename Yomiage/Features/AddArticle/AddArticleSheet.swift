@@ -4,7 +4,6 @@ struct AddArticleSheet: View {
   @Environment(\.dismiss) private var dismiss
   @Environment(\.articleDatastore) private var articleDatastore
 
-  @Environment(AddArticleHTMLLoader.self) var loader
   @State private var text: String = ""
 
   var body: some View {

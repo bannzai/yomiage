@@ -1,33 +1,24 @@
 import SwiftUI
 import Kanna
+import FirebaseFunctions
 
 @Observable final class AddArticleHTMLLoader {
-  var isLoading: Bool = false
-  var localizedError: AddArticleError?
-  var loadedArticle: Article?
-
-  @MainActor func load(url: URL) async {
+  @MainActor func load(url: URL) async throws -> Functions.HTMLToSSML {
     analytics.logEvent("load_html_body", parameters: ["url": url.absoluteString])
 
-    do {
-      isLoading = true
-      defer {
-        isLoading = false
-      }
-
-      let html = try await loadHTML(url: url)
-      let htmlToSSML = try await functions.htmlToSSML(url: url, html: html)
-    } catch {
-      self.localizedError = .init(error: error)
-    }
+    let html = try await loadHTML(url: url)
+    return (article, try await functions.htmlToSSML(url: url, html: html))
+  } catch {
+    self.localizedError = .init(error: error)
   }
+}
 }
 
 struct AddArticleError: LocalizedError, Equatable {
   static func == (lhs: AddArticleError, rhs: AddArticleError) -> Bool {
     lhs._domain == rhs._domain && lhs._code == rhs._code
   }
-  
+
   let error: Error?
 
   var errorDescription: String? {
