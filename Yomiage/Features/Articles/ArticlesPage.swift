@@ -23,6 +23,17 @@ struct ArticlesPage: View {
         ProgressView()
       }
     }
+    .onChange(of: loader.loadedArticle) { _, article in
+      if let article = article {
+        Task { @MainActor in
+          do {
+            try await articleDatastore.create(article: article)
+          } catch {
+            self.error = error
+          }
+        }
+      }
+    }
     .onChange(of: loader.localizedError) { _, error in
       self.error = error
     }
