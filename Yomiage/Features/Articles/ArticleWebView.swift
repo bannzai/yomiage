@@ -8,7 +8,7 @@ struct ArticleWebViewPage: View {
   var body: some View {
     if let url = URL(string: article.pageURL) {
       ArticleWebView(url: url)
-        .navigationTitle(article.title)
+        .navigationTitle(article.title ?? "Unknown title")
         .navigationBarTitleDisplayMode(.inline)
     }
   }

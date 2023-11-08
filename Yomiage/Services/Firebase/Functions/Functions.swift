@@ -1,10 +1,11 @@
 import Foundation
 import FirebaseFunctions
 
+typealias Functions = FirebaseFunctions.Functions
 let functions = FirebaseFunctions.Functions.functions(region: "asia-northeast1")
 
 // MARK: - html_to_ssml
-extension FirebaseFunctions.Functions {
+extension Functions {
   struct HTMLToSSML: Codable {
     let ssml: String
     let article: Article
@@ -19,6 +20,13 @@ extension FirebaseFunctions.Functions {
       struct Section: Codable {
         var title: String
         var content: String
+      }
+    }
+
+    func articleSectionString() -> String {
+      article.sections.reduce(into: "") { result, element in
+        result += element.title + "\n\n\n"
+        result += element.content + "\n"
       }
     }
   }
