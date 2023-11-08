@@ -8,12 +8,11 @@ final class ScreenStateNotifier: ObservableObject {
     authStreamTask?.cancel()
   }
 
-  @Environment(\.auth) private var auth
   private var authStreamTask: Task<Void, Never>?
   func launch() {
     authStreamTask?.cancel()
     authStreamTask = Task { @MainActor in
-      for await user in auth.stateDidChange() {
+      for await user in Auth.shared.stateDidChange() {
         if let user = user {
           state = .main(user: user)
         } else {
