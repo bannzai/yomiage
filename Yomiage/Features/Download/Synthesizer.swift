@@ -40,7 +40,7 @@ final class Synthesizer: NSObject, ObservableObject {
     do {
       let result = try await withCheckedThrowingContinuation { continuation in
         // NOTE: print(utterance.voice?.audioFileSettings) -> Optional(["AVNumberOfChannelsKey": 1, "AVLinearPCMIsFloatKey": 0, "AVLinearPCMIsNonInterleaved": 0, "AVSampleRateKey": 22050, "AVFormatIDKey": 1819304813, "AVLinearPCMIsBigEndianKey": 0, "AVLinearPCMBitDepthKey": 16])
-        synthesizer.write(buildUtterance(string: body)) { [weak self] buffer in
+        synthesizer.write(buildUtterance(string: body)) { buffer in
           print(#function, "#synthesizer.write")
           guard let pcmBuffer = buffer as? AVAudioPCMBuffer else {
             return
