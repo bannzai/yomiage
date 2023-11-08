@@ -16,7 +16,7 @@ import Kanna
       }
 
       let html = try await loadHTML(url: url)
-      let htmlToSSML = try await functions.htmlToSSML(html: html)
+      let htmlToSSML = try await functions.htmlToSSML(url: url, html: html)
       do {
         loadedArticle = try proceedReadArticle(html: html, loadingURL: url)
       } catch {
