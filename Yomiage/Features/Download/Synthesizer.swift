@@ -56,9 +56,6 @@ final class Synthesizer: NSObject, ObservableObject {
             return
           }
 
-          guard let self else {
-            return
-          }
           do {
             if writingAudioFile == nil {
               writingAudioFile = try AVAudioFile(
@@ -71,7 +68,6 @@ final class Synthesizer: NSObject, ObservableObject {
 
             try writingAudioFile?.write(from: pcmBuffer)
           } catch {
-            self.proceedPageURL = nil
             continuation.resume(throwing: error)
           }
         }
