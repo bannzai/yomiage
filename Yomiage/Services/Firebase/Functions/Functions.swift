@@ -5,16 +5,19 @@ let functions = FirebaseFunctions.Functions.functions(region: "asia-northeast1")
 
 // MARK: - html_to_ssml
 extension FirebaseFunctions.Functions {
-  struct HTMLToSSML: Codable {
-    let ssml: String
-    let contentBlocks: [ContentBlock]
-
-    struct ContentBlock: Codable {
-      let title: String
-      let content: String
+  struct Article: Codable {
+    var url: String
+    var title: String?
+    var author: String?
+    var eyeCatchImageURL: String?
+    var sections: [Section]
+    
+    struct Section: Codable {
+      var title: String
+      var content: String
     }
   }
-  func htmlToSSML(url: String, html: String) async throws -> HTMLToSSML {
+  func htmlToSSML(url: String, html: String) async throws -> Article {
     let result = try await httpsCallable("html_to_ssml").call(["url": url, "html": html])
     return try result.decode()
   }
