@@ -54,7 +54,6 @@
 		20FF7929281FAB02001D062E /* Sheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FF7928281FAB02001D062E /* Sheet.swift */; };
 		20FF792C281FAD25001D062E /* SheetPresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FF792B281FAD25001D062E /* SheetPresentation.swift */; };
 		20FF7930281FAF2F001D062E /* AddArticleSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FF792F281FAF2F001D062E /* AddArticleSheet.swift */; };
-		20FF7932281FB4CB001D062E /* AddArticleHTMLLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FF7931281FB4CB001D062E /* AddArticleHTMLLoader.swift */; };
 		20FF7934281FB7EC001D062E /* Screen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FF7933281FB7EC001D062E /* Screen.swift */; };
 		20FF7938281FB869001D062E /* Auth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FF7937281FB869001D062E /* Auth.swift */; };
 		20FF793F281FC321001D062E /* Kanna in Frameworks */ = {isa = PBXBuildFile; productRef = 20FF793E281FC321001D062E /* Kanna */; };
@@ -137,7 +136,6 @@
 		20FF7928281FAB02001D062E /* Sheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sheet.swift; sourceTree = "<group>"; };
 		20FF792B281FAD25001D062E /* SheetPresentation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetPresentation.swift; sourceTree = "<group>"; };
 		20FF792F281FAF2F001D062E /* AddArticleSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddArticleSheet.swift; sourceTree = "<group>"; };
-		20FF7931281FB4CB001D062E /* AddArticleHTMLLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddArticleHTMLLoader.swift; sourceTree = "<group>"; };
 		20FF7933281FB7EC001D062E /* Screen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Screen.swift; sourceTree = "<group>"; };
 		20FF7937281FB869001D062E /* Auth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Auth.swift; sourceTree = "<group>"; };
 		20FF7940281FC369001D062E /* LoadWebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadWebView.swift; sourceTree = "<group>"; };
@@ -412,7 +410,6 @@
 			isa = PBXGroup;
 			children = (
 				20FF792F281FAF2F001D062E /* AddArticleSheet.swift */,
-				20FF7931281FB4CB001D062E /* AddArticleHTMLLoader.swift */,
 			);
 			path = AddArticle;
 			sourceTree = "<group>";
@@ -667,7 +664,6 @@
 				20FF79532820DCD7001D062E /* Player.swift in Sources */,
 				204B25FB297D00CF000DCAF7 /* Synthesizer.swift in Sources */,
 				20FF7913281F7686001D062E /* UserDatabase.swift in Sources */,
-				20FF7932281FB4CB001D062E /* AddArticleHTMLLoader.swift in Sources */,
 				20FF7941281FC369001D062E /* LoadWebView.swift in Sources */,
 				20FF791E281F878A001D062E /* UniversalErrorView.swift in Sources */,
 				20FF78C8281F4C53001D062E /* YomiageApp.swift in Sources */,
