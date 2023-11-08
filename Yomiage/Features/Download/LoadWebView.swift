@@ -14,48 +14,6 @@ window.document.getElementsByTagName('html')[0].outerHTML;
   )
 }
 
-@MainActor func loadNoteBody(url: URL) async throws -> String {
-  let javaScript = """
-const bodyDocument = document.getElementsByClassName('note-common-styles__textnote-body')[0];
-const body = Array.from(bodyDocument.children).reduce((previousValue, element) => {
-  if (['h1', 'h2', 'h3', 'h4'].includes(element.localName)) {
-    return previousValue + '\\n' + element.textContent + '\\n' + '\\n';
-  } else if (['p', 'ul'].includes(element.localName)) {
-    return previousValue + '\\n' + element.textContent + '\\n';
-  } else {
-    return previousValue + element.textContent;
-  }
-},'');
-body;
-"""
-
-  return try await load(
-    url: url,
-    javaScript: javaScript
-  )
-}
-
-@MainActor func loadMediumBody(url: URL) async throws -> String {
-  let javaScript = """
-const bodyDocument = document.querySelector("article").querySelector("section");
-const body = Array.from(bodyDocument.children).reduce((previousValue, element) => {
-  if (['h1', 'h2', 'h3', 'h4'].includes(element.localName)) {
-    return previousValue + '\\n' + element.textContent + '\\n' + '\\n';
-  } else if (['p', 'ul'].includes(element.localName)) {
-    return previousValue + '\\n' + element.textContent + '\\n';
-  } else {
-    return previousValue + element.textContent;
-  }
-},'');
-body;
-"""
-
-  return try await load(
-    url: url,
-    javaScript: javaScript
-  )
-}
-
 struct WebViewLoadHTMLError: LocalizedError {
   let error: Error?
 
