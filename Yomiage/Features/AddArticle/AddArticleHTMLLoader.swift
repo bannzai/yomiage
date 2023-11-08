@@ -1,10 +1,11 @@
 import SwiftUI
 import Kanna
+import FirebaseFunctions
 
 @Observable final class AddArticleHTMLLoader {
   var isLoading: Bool = false
   var localizedError: AddArticleError?
-  var loadedArticle: Article?
+  var loadedHTMLToSSML: Functions.HTMLToSSML?
 
   @MainActor func load(url: URL) async {
     analytics.logEvent("load_html_body", parameters: ["url": url.absoluteString])
@@ -16,13 +17,7 @@ import Kanna
       }
 
       let html = try await loadHTML(url: url)
-      let htmlToSSML = try await functions.htmlToSSML(html: html)
-      do {
-        loadedArticle = try proceedReadArticle(html: html, loadingURL: url)
-      } catch {
-        errorLogger.record(error: error)
-        throw error
-      }
+      loadedHTMLToSSML = try await functions.htmlToSSML(html: html)
     } catch {
       self.localizedError = .init(error: error)
     }
