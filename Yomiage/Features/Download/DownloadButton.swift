@@ -14,7 +14,7 @@ struct DownloadButton: View {
         Task { @MainActor in
           do {
             let html = try await loadHTML(url: pageURL)
-            let htmlToSSML = try await functions.htmlToSSML(url: pageURL, html: html.text!)
+            let htmlToSSML = try await functions.htmlToSSML(url: pageURL, html: html.toXML!)
             _ = try await synthesizer.writeToAudioFile(htmlToSSML: htmlToSSML, pageURL: pageURL)
           } catch {
             self.error = error
