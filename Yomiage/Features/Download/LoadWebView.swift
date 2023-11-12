@@ -1,19 +1,17 @@
 import SwiftUI
 import WebKit
 import Combine
-import Kanna
 
-@MainActor func loadHTML(url: URL) async throws -> Kanna.HTMLDocument {
+@MainActor func loadHTML(url: URL) async throws -> String {
   let javaScript =
 """
 window.document.getElementsByTagName('html')[0].outerHTML;
 """
 
-  let htmlString = try await load(
+  return try await load(
     url: url,
     javaScript: javaScript
   )
-  return try HTML(html: htmlString, encoding: .utf8)
 }
 
 struct WebViewLoadHTMLError: LocalizedError {
