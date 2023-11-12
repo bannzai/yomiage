@@ -5,7 +5,7 @@ import Combine
 @MainActor func loadHTML(url: URL) async throws -> String {
   let javaScript =
 """
-window.document.getElementsByTagName('body')[0].outerHTML;
+window.document.getElementsByTagName('html')[0].outerHTML;
 """
 
   return try await load(
