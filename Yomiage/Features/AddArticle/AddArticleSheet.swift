@@ -31,7 +31,7 @@ struct AddArticleSheet: View {
               if let url = url {
                 do {
                   let html = try await loadHTML(url: url)
-                  let htmlToSSML = try await functions.htmlToSSML(url: url, html: html)
+                  let htmlToSSML = try await functions.htmlToSSML(url: url, html: html.text!)
 
                   let article = htmlToSSML.article
                   try await articleDatastore.create(
