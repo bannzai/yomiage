@@ -8,6 +8,7 @@ struct NavigationLinkButton<Destination: View, Label: View>: View {
   @State private var isActive = false
 
   var body: some View {
+let _ = Self._printChanges()
     Button {
       tapped()
 

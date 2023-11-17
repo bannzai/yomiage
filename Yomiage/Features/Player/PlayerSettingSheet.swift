@@ -5,6 +5,7 @@ struct PlayerSettingSheet: View {
   @EnvironmentObject var synthesizer: Synthesizer
 
   var body: some View {
+let _ = Self._printChanges()
     MediumSheetLayout {
       Text("ダウンロード時の設定")
         .font(.headline)

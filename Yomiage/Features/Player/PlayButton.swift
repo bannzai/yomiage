@@ -6,6 +6,7 @@ struct PlayButton: View {
   let article: Article
 
   var body: some View {
+let _ = Self._printChanges()
     AsyncButton {
       analytics.logEvent("article_start_play", parameters: ["article_id": String(describing: article.id)])
 

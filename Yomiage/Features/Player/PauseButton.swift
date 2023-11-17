@@ -6,6 +6,7 @@ struct PauseButton: View {
   let article: Article
 
   var body: some View {
+let _ = Self._printChanges()
     Button {
       analytics.logEvent("article_pause_play", parameters: ["article_id": String(describing: article.id)])
 

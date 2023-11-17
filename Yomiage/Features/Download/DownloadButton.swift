@@ -8,6 +8,7 @@ struct DownloadButton: View {
   @State private var isDownloading = false
 
   var body: some View {
+let _ = Self._printChanges()
     if let pageURL = URL(string: article.pageURL) {
       Button {
         isDownloading = true

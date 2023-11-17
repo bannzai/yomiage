@@ -8,6 +8,7 @@ struct ArticlesPage: View {
   @State var error: Error?
 
   var body: some View {
+let _ = Self._printChanges()
 
     Group {
       switch async(articleDatastore.articlesStream()).state {
@@ -39,6 +40,7 @@ struct ArticlesBody: View {
   let articles: [Article]
 
   var body: some View {
+let _ = Self._printChanges()
     Group {
       if articles.isEmpty {
         VStack(spacing: 0) {

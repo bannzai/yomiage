@@ -5,6 +5,7 @@ struct UniversalErrorView: View {
   let reload: () -> Void
 
   var body: some View {
+let _ = Self._printChanges()
     // TODO: Switch view for each error
     ReloadOnErrorButton(error: error, reload: reload)
   }
@@ -15,6 +16,7 @@ struct ReloadOnErrorButton: View {
   let reload: () -> Void
 
   var body: some View {
+let _ = Self._printChanges()
     VStack {
       Text("問題が発生しました")
       Button("再読み込みをする", action: reload)

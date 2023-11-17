@@ -7,6 +7,7 @@ struct RootView: View {
   @State private var signInError: Error?
 
   var body: some View {
+let _ = Self._printChanges()
     NavigationView {
       if let signInError = signInError {
         UniversalErrorView(error: signInError, reload: logIn)

@@ -8,6 +8,7 @@ struct VSpacer: View {
   }
 
   var body: some View {
+let _ = Self._printChanges()
     Spacer()
       .frame(height: height)
   }
@@ -21,6 +22,7 @@ struct HSpacer: View {
   }
 
   var body: some View {
+let _ = Self._printChanges()
     Spacer()
       .frame(width: width)
   }

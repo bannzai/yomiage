@@ -10,6 +10,7 @@ struct PlayerBar: View {
   let article: Article
 
   var body: some View {
+let _ = Self._printChanges()
     VStack {
       Divider()
 

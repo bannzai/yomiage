@@ -8,6 +8,7 @@ struct AsyncButton<Label: View, Progress: View>: View {
   @ViewBuilder let progress: Progress
 
   var body: some View {
+let _ = Self._printChanges()
     Button {
       Task { @MainActor in
         isLoading = true

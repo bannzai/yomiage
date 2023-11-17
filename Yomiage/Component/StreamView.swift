@@ -15,6 +15,7 @@ struct StreamView<Data, Loading: View, Error: View, Content: View>: View {
   var onListen: ((Data) -> Void)?
 
   var body: some View {
+let _ = Self._printChanges()
     Group {
       if isLoading {
         loading()
