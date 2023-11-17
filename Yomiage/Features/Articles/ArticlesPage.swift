@@ -154,12 +154,14 @@ let _ = Self._printChanges()
         })
       }
     }
-    .sheet(isPresented: $addArticleSheetIsPresented, detents: [.medium()]) {
+    .sheet(isPresented: $addArticleSheetIsPresented) {
       AddArticleSheet()
+        .presentationDetents([.medium])
     }
-    .sheet(isPresented: $playerSettingSheetIsPresented, detents: [.medium()]) {
+    .sheet(isPresented: $playerSettingSheetIsPresented) {
       PlayerSettingSheet()
         .environmentObject(player)
+        .presentationDetents([.medium])
     }
     .errorAlert(error: $error)
   }
