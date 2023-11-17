@@ -5,7 +5,6 @@ struct AddArticleSheet: View {
   @Environment(\.dismiss) private var dismiss
   @Environment(\.articleDatastore) private var articleDatastore
 
-  @ObservedObject var synthesizer: Synthesizer
   @State private var text: String = ""
   @State private var error: Error?
 

@@ -153,7 +153,7 @@ struct ArticlesBody: View {
       }
     }
     .sheet(isPresented: $addArticleSheetIsPresented, detents: [.medium()]) {
-      AddArticleSheet(synthesizer: synthesizer)
+      AddArticleSheet()
     }
     .sheet(isPresented: $playerSettingSheetIsPresented, detents: [.medium()]) {
       PlayerSettingSheet()
